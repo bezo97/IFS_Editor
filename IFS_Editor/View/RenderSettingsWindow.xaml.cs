@@ -21,11 +21,11 @@ namespace IFS_Editor.View
     /// </summary>
     public partial class RenderSettingsWindow : Window
     {
-        RenderSettingsPresenter rsp;
+        RenderSettingsViewModel rsp;
 
         public RenderSettingsWindow(RenderSettings rs)
         {
-            rsp = new RenderSettingsPresenter(rs);
+            rsp = new RenderSettingsViewModel(rs);
             DataContext = rsp;//TODO: bindeljuk a viewmodelt a viewhoz - ezt nem lehetne xamlben megadni???
             InitializeComponent();
         }

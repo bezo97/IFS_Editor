@@ -8,16 +8,16 @@ using System.Windows.Input;
 
 namespace IFS_Editor.ViewModel
 {
-    public class RenderSettingsPresenter : ObservableObject
+    public class RenderSettingsViewModel : ObservableObject
     {
         private /*readonly*/ RenderSettings _rs;
 
-        public RenderSettingsPresenter()
+        public RenderSettingsViewModel()
         {
 
         }
 
-        public RenderSettingsPresenter(RenderSettings rs)
+        public RenderSettingsViewModel(RenderSettings rs)
         {
             _rs = rs;
         }

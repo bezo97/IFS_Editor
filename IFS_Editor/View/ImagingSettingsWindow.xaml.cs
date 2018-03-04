@@ -14,6 +14,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
+
+
 namespace IFS_Editor.View
 {
     /// <summary>
@@ -21,11 +23,11 @@ namespace IFS_Editor.View
     /// </summary>
     public partial class ImagingSettingsWindow : Window
     {
-        ImagingSettingsPresenter isp;
+        ImagingSettingsViewModel isp;
 
         public ImagingSettingsWindow(ImagingSettings s)
         {
-            isp = new ImagingSettingsPresenter(s);
+            isp = new ImagingSettingsViewModel(s);
             DataContext = isp;//bindeljuk a viewmodelt a viewhoz
             InitializeComponent();
         }
@@ -42,6 +44,8 @@ namespace IFS_Editor.View
             //http://searchwindevelopment.techtarget.com/tip/Working-with-ColorDialog-in-WPF
 
             //vagy WPF Toolkit-ből ColorPicker
+
+            
         }
 
         private void OKButton_Click(object sender, RoutedEventArgs e)

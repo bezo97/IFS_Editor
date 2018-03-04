@@ -37,6 +37,13 @@
                     <!-- ide betenni a View\Icons\*.xaml dolgokat??? -->
                 </Button>
             </ToolBar>
+            <ToolBar Band="0" BandIndex="2">
+                <Button Content="Imag"/>
+                <Button Content="Rend"/>
+                <Button Content="Camera">
+                    <!-- ide betenni a View\Icons\*.xaml dolgokat??? -->
+                </Button>
+            </ToolBar>
         </ToolBarTray>
         <ToolBarTray DockPanel.Dock="Right" Orientation="Vertical"/>
         <View:NodeMap x:Name="nodemap_main">

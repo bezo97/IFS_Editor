@@ -8,16 +8,16 @@ using System.Windows.Media;
 
 namespace IFS_Editor.ViewModel
 {
-    public class ImagingSettingsPresenter : ObservableObject
+    public class ImagingSettingsViewModel : ObservableObject
     {
         private /*readonly*/ ImagingSettings _s;
 
-        public ImagingSettingsPresenter()
+        public ImagingSettingsViewModel()
         {
 
         }
 
-        public ImagingSettingsPresenter(ImagingSettings s)
+        public ImagingSettingsViewModel(ImagingSettings s)
         {
             _s = s;
         }
@@ -27,14 +27,19 @@ namespace IFS_Editor.ViewModel
             get { return _s; }
         }
 
-        public SolidColorBrush BackColor
+        public string BackColor
         {
-            get { return new SolidColorBrush(Color.FromRgb(_s.Back_colorR,_s.Back_colorG,_s.Back_colorB)); }
+            get
+            {
+                //byteok -> hex
+                return "#FF" + _s.Back_colorR.ToString("X") + _s.Back_colorG.ToString("G") + _s.Back_colorB.ToString("X");
+            }
             set
             {
-                _s.Back_colorR = value.Color.R;
-                _s.Back_colorG = value.Color.G;
-                _s.Back_colorB = value.Color.B;
+                //hex -> byteok
+                _s.Back_colorR = byte.Parse(value.Substring(3, 2), System.Globalization.NumberStyles.HexNumber);
+                _s.Back_colorG = byte.Parse(value.Substring(5, 2), System.Globalization.NumberStyles.HexNumber);
+                _s.Back_colorB = byte.Parse(value.Substring(7, 2), System.Globalization.NumberStyles.HexNumber);
                 RaisePropertyChangedEvent("BackColor");
             }
         }

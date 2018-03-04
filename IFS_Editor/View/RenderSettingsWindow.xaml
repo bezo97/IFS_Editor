@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:IFS_Editor.View"
         xmlns:ViewModel="clr-namespace:IFS_Editor.ViewModel"
         mc:Ignorable="d"
@@ -14,17 +15,30 @@
         True="Collapsed" 
         False="Visible" />
     </Window.Resources>
-    <Grid RenderTransformOrigin="0.5,0.5">
-        <Slider x:Name="SizeXSlider" Value="{Binding SizeX, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="137,10,0,0" VerticalAlignment="Top" Width="95" TickPlacement="TopLeft" Maximum="3840" Minimum="1" SmallChange="1" TickFrequency="128" LargeChange="128" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=CustomResCheckBox}"/>
-        <TextBox x:Name="sizeXTextBox" Text="{Binding SizeX, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="23" Margin="237,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="53" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=CustomResCheckBox}"/>
-        <Slider x:Name="SlideYSlider" Value="{Binding SizeY, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="137,39,0,0" VerticalAlignment="Top" Width="95" TickPlacement="TopLeft" Maximum="3840" Minimum="1" SmallChange="1" TickFrequency="128" LargeChange="128" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=CustomResCheckBox}"/>
-        <TextBox x:Name="sizeYTextBox" Text="{Binding SizeY, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="23" Margin="237,38,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="53" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=CustomResCheckBox}"/>
-        <Button x:Name="OKButton" Content="OK" HorizontalAlignment="Left" Margin="10,239,0,0" VerticalAlignment="Top" Width="75" IsDefault="True" Click="OKButton_Click"/>
-        <Button x:Name="CancelButton" Content="Cancel" HorizontalAlignment="Left" Margin="213,241,0,0" VerticalAlignment="Top" Width="75" IsCancel="True" Click="CancelButton_Click"/>
-        <TextBox x:Name="oversampleTextBox" Text="{Binding Oversample, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="23" Margin="164,95,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="68"/>
-        <TextBox x:Name="filterTextBox" Text="{Binding Filter, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="23" Margin="164,123,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="68"/>
-        <TextBox x:Name="qualityTextBox" Text="{Binding Quality, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="23" Margin="164,151,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="68"/>
-        <ComboBox x:Name="RatioComboBox" HorizontalAlignment="Left" Margin="235,10,0,0" VerticalAlignment="Top" Width="53" SelectedIndex="3" Visibility="{Binding IsChecked, Converter={StaticResource BetterBooleanToVisibilityConverter}, ElementName=CustomResCheckBox}" SelectionChanged="RatioComboBox_SelectionChanged">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="1.5*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Slider x:Name="SizeXSlider" Value="{Binding SizeX, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Center" Width="75" TickPlacement="TopLeft" Maximum="3840" Minimum="1" SmallChange="1" TickFrequency="500" LargeChange="100" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=CustomResCheckBox}" Grid.Row="0" Grid.Column="2"/>
+        <xctk:IntegerUpDown x:Name="sizeXUpDown" AllowSpin="True" AllowTextInput="True" ClipValueToMinMax="True" Increment="100" Minimum="1" Watermark="Width" DefaultValue="1080" Value="{Binding SizeX, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Right" Height="23" Margin="0,0,10,0" VerticalAlignment="Center" Width="53" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=CustomResCheckBox}" Grid.Row="0" Grid.Column="2"/>
+        <Slider x:Name="SlideYSlider" Value="{Binding SizeY, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Center" Width="75" TickPlacement="TopLeft" Maximum="3840" Minimum="1" SmallChange="1" TickFrequency="500" LargeChange="100" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=CustomResCheckBox}" Grid.Row="1" Grid.Column="2"/>
+        <xctk:IntegerUpDown x:Name="sizeYUpDown" AllowSpin="True" AllowTextInput="True" ClipValueToMinMax="True" Increment="100" Minimum="1" Watermark="Height" DefaultValue="1920" Value="{Binding SizeY, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Right" Height="23" Margin="0,0,10,0" VerticalAlignment="Center" Width="53" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=CustomResCheckBox}" Grid.Row="1" Grid.Column="2"/>
+        <Button x:Name="OKButton" Content="OK" HorizontalAlignment="Left" Margin="20,0,0,10" VerticalAlignment="Bottom" Width="75" IsDefault="True" Click="OKButton_Click" Grid.Row="5" Grid.Column="0"/>
+        <Button x:Name="CancelButton" Content="Cancel" HorizontalAlignment="Right" Margin="0,0,20,10" VerticalAlignment="Bottom" Width="75" IsCancel="True" Click="CancelButton_Click" Grid.Row="5" Grid.Column="2"/>
+        <xctk:IntegerUpDown x:Name="oversampleUpDown" AllowSpin="True" AllowTextInput="True" ClipValueToMinMax="True" Increment="1" Minimum="1" Watermark="1" DefaultValue="1" Value="{Binding Oversample, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" Height="23" Margin="0" VerticalAlignment="Center" Width="68" Grid.Row="2" Grid.Column="2"/>
+        <xctk:DoubleUpDown x:Name="filterUpDown" AllowSpin="True" AllowTextInput="True" ClipValueToMinMax="True" Increment="0.1" Minimum="0" Watermark="0.4" DefaultValue="0.4" Value="{Binding Filter, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" Height="23" Margin="0" VerticalAlignment="Center" Width="68" Grid.Row="3" Grid.Column="2"/>
+        <xctk:IntegerUpDown x:Name="qualityUpDown" AllowSpin="True" AllowTextInput="True" ClipValueToMinMax="True" Increment="1000" Minimum="100" Watermark="4000" DefaultValue="4000" Value="{Binding Quality, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" Height="23" Margin="-2,0,0,0" VerticalAlignment="Center" Width="68" Grid.Row="4" Grid.Column="2"/>
+        <ComboBox x:Name="RatioComboBox" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" SelectedIndex="3" Visibility="{Binding IsChecked, Converter={StaticResource BetterBooleanToVisibilityConverter}, ElementName=CustomResCheckBox}" SelectionChanged="RatioComboBox_SelectionChanged" Grid.Row="0" Grid.Column="2" Width="63">
             <ComboBoxItem Content="1:1"/>
             <Separator/>
             <ComboBoxItem Content="21:9"/>
@@ -37,24 +51,24 @@
             <ComboBoxItem Content="3:4"/>
             <ComboBoxItem Content="2:3"/>
         </ComboBox>
-        <ComboBox x:Name="ResolutionComboBox" Margin="194,39,0,0" VerticalAlignment="Top" SelectedIndex="2" Visibility="{Binding IsChecked, Converter={StaticResource BetterBooleanToVisibilityConverter}, ElementName=CustomResCheckBox}" HorizontalAlignment="Left" Width="94" SelectionChanged="ResolutionComboBox_SelectionChanged">
+        <ComboBox x:Name="ResolutionComboBox" Margin="0" VerticalAlignment="Center" SelectedIndex="2" Visibility="{Binding IsChecked, Converter={StaticResource BetterBooleanToVisibilityConverter}, ElementName=CustomResCheckBox}" HorizontalAlignment="Center" SelectionChanged="ResolutionComboBox_SelectionChanged" Grid.Row="1" Grid.Column="2">
             <ComboBoxItem Content="Preview"/>
             <ComboBoxItem Content="HDReady"/>
             <ComboBoxItem Content="FullHD"/>
             <ComboBoxItem Content="4K"/>
             <ComboBoxItem Content="Printsized"/>
         </ComboBox>
-        <Label Content="Resolution" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-        <CheckBox x:Name="CustomResCheckBox" Content="Custom" HorizontalAlignment="Left" Margin="10,46,0,0" VerticalAlignment="Top" Width="66"/>
-        <Label Content="Ratio:" HorizontalAlignment="Left" Margin="89,10,0,0" VerticalAlignment="Top" Visibility="{Binding IsChecked, Converter={StaticResource BetterBooleanToVisibilityConverter}, ElementName=CustomResCheckBox}"/>
-        <Label Content="Size:" HorizontalAlignment="Left" Margin="89,39,0,0" VerticalAlignment="Top" Visibility="{Binding IsChecked, Converter={StaticResource BetterBooleanToVisibilityConverter}, ElementName=CustomResCheckBox}"/>
-        <Label Content="Width:" HorizontalAlignment="Left" Margin="84,10,0,0" VerticalAlignment="Top" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=CustomResCheckBox}"/>
-        <Label Content="Height:" HorizontalAlignment="Left" Margin="84,41,0,0" VerticalAlignment="Top" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=CustomResCheckBox}"/>
-        <local:NumberSlider x:Name="MyTextBox" Margin="237,95,27,166" />
-        <Separator HorizontalAlignment="Left" Height="20" Margin="10,70,0,0" VerticalAlignment="Top" Width="278"/>
-        <Label Content="Sampling" HorizontalAlignment="Left" Margin="10,90,0,0" VerticalAlignment="Top"/>
-        <Label Content="Oversample:" HorizontalAlignment="Left" Margin="84,92,0,0" VerticalAlignment="Top"/>
-        <Label Content="Filter:" HorizontalAlignment="Left" Margin="84,120,0,0" VerticalAlignment="Top"/>
-        <Label Content="Quality:" HorizontalAlignment="Left" Margin="84,148,0,0" VerticalAlignment="Top"/>
+        <Label Content="Resolution" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0"/>
+        <CheckBox x:Name="CustomResCheckBox" Content="Custom" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Width="66" Grid.Row="1" Grid.Column="0" IsChecked="True"/>
+        <Label Content="Ratio:" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Center" Visibility="{Binding IsChecked, Converter={StaticResource BetterBooleanToVisibilityConverter}, ElementName=CustomResCheckBox}" Grid.Row="0" Grid.Column="1"/>
+        <Label Content="Size:" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Center" Visibility="{Binding IsChecked, Converter={StaticResource BetterBooleanToVisibilityConverter}, ElementName=CustomResCheckBox}" Grid.Row="1" Grid.Column="1"/>
+        <Label Content="Width:" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Center" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=CustomResCheckBox}" Grid.Row="0" Grid.Column="1"/>
+        <Label Content="Height:" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Center" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=CustomResCheckBox}" Grid.Row="1" Grid.Column="1"/>
+        <local:NumberSlider x:Name="MyTextBox" Margin="2,0,5,0" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right" Width="10" Height="20"/>
+        <Separator HorizontalAlignment="Left" Height="20" Margin="10,32,0,0" VerticalAlignment="Top" Width="295" Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="2"/>
+        <Label Content="Sampling" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0"/>
+        <Label Content="Oversample:" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Center" Grid.Row="2" Grid.Column="1"/>
+        <Label Content="Filter:" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Center" Grid.Row="3" Grid.Column="1"/>
+        <Label Content="Quality:" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Center" Grid.Row="4" Grid.Column="1"/>
     </Grid>
 </Window>
