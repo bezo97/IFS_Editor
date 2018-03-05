@@ -24,6 +24,9 @@ namespace IFS_Editor.View
         private Flame flame = new Flame();
         List<Path> curves = new List<Path>();
 
+        public double dx;//node mozgataskor mennyivel kattintottunk felre
+        public double dy;
+
         public NodeMap()
         {
             InitializeComponent();
@@ -33,7 +36,9 @@ namespace IFS_Editor.View
         {
             Node node = new Node(flame.AddXForm(true));
             Children.Add(node);
-            InvalidateVisual();
+            node.Map = this;
+            
+            updateConnections();
         }
 
         public List<Node> GetNodeList()
@@ -47,10 +52,8 @@ namespace IFS_Editor.View
             return l;
         }
 
-        protected override void OnRender(DrawingContext dc)
+        public void updateConnections()
         {
-            base.OnRender(dc);
-
             //remove old curves
             foreach (Path p in curves)
             {
@@ -62,13 +65,13 @@ namespace IFS_Editor.View
             List<Node> nodes = GetNodeList();
             foreach (Node n in nodes)
             {
-                foreach(Conn c in n.xf.Conns) //nem szep, valami mast kene kitalalni
+                foreach (Conn c in n.xf.Conns) //nem szep, valami mast kene kitalalni
                 {
                     foreach (Node To in nodes)
                     {
-                        if(To.xf == c.ConnTo)
+                        if (To.xf == c.ConnTo)
                         {
-                            curves.Add(CalcCurvePath(n,To));
+                            curves.Add(CalcCurvePath(n, To));
                             //nem tudjuk egybol itt hozzaadni a Childrenhez, mert a foreachekkel osszeakad
                             break;
                         }
@@ -82,11 +85,23 @@ namespace IFS_Editor.View
                 Children.Insert(0, p);//elejere, hogy a Nodeok mogott legyen
             }
 
+            InvalidateVisual();
+        }
+
+        public void BringNodeToFront(Node node)
+        {
+            List<Node> nl = GetNodeList();
+            foreach (Node n in nl)
+            {
+                int prev = (int)n.GetValue(Canvas.ZIndexProperty);
+                if (prev > (int)node.GetValue(Canvas.ZIndexProperty))
+                    n.SetValue(Canvas.ZIndexProperty, prev - 1);
+            }
+            node.SetValue(Canvas.ZIndexProperty, nl.Count);
         }
 
         public Path CalcCurvePath(Node e1, Node e2)
         {
-            
             Path curve = new Path();
             curve.Stroke = Brushes.Black;
             curve.StrokeThickness = 3;

@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:IFS_Editor"
         xmlns:System="clr-namespace:System;assembly=mscorlib" xmlns:View="clr-namespace:IFS_Editor.View" x:Class="IFS_Editor.MainWindow"
         mc:Ignorable="d"
@@ -46,10 +47,11 @@
             </ToolBar>
         </ToolBarTray>
         <ToolBarTray DockPanel.Dock="Right" Orientation="Vertical"/>
-        <View:NodeMap x:Name="nodemap_main">
-            <View:Node Height="100" Canvas.Left="116" Canvas.Top="70" Width="100"/>
-            <View:Node Height="200" Canvas.Left="255" Canvas.Top="39" Width="200"/>
-
-        </View:NodeMap>
+        <xctk:Zoombox x:Name="zoombox" IsAnimated="True" KeepContentInBounds="False" DragModifiers="None" RelativeZoomModifiers="None" Background="#FF1D1D1D" DragOnPreview="False" ZoomOnPreview="False" NavigateOnPreview="False" Cursor="SizeAll">
+            <View:NodeMap x:Name="nodemap_main" Width="{Binding ActualWidth, ElementName=zoombox, Mode=OneWay}" Height="{Binding ActualHeight, ElementName=zoombox, Mode=OneWay}" Background="#FF969696" >
+                <View:Node Height="100" Canvas.Left="116" Canvas.Top="70" Width="100"/>
+                <View:Node Height="200" Canvas.Left="255" Canvas.Top="39" Width="200"/>
+            </View:NodeMap>
+        </xctk:Zoombox>
     </DockPanel>
 </Window>

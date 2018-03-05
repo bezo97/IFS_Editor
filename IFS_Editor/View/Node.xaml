@@ -7,13 +7,19 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <Ellipse Fill="#FFF4F4F5" Stretch="Fill" StrokeThickness="2">
+        <Ellipse Stretch="Fill" StrokeThickness="2" Cursor="Hand">
+            <Ellipse.Fill>
+                <RadialGradientBrush>
+                    <GradientStop Color="White" Offset="0.544"/>
+                    <GradientStop Color="#FFDFE6EE" Offset="1"/>
+                </RadialGradientBrush>
+            </Ellipse.Fill>
             <!-- UniformToFill is lehet ^ -->
             <Ellipse.Effect>
                 <DropShadowEffect BlurRadius="20" Opacity="0.5"/>
             </Ellipse.Effect>
         </Ellipse>
-        <Label Content="Linear" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" FontSize="22"/>
+        <Label Content="Linear" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" FontSize="22" Cursor="Hand"/>
 
     </Grid>
 </UserControl>
