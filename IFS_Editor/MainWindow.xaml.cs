@@ -25,6 +25,8 @@ namespace IFS_Editor
         public MainWindow()
         {
             InitializeComponent();
+            nodemap_main.Sidebar = sidebar_main;
+            sidebar_main.Map = nodemap_main;
         }
 
         private void ShowRenderSettingsWindow(object sender, RoutedEventArgs e)

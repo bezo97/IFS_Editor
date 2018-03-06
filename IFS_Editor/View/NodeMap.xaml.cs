@@ -24,12 +24,43 @@ namespace IFS_Editor.View
         private Flame flame = new Flame();
         List<Path> curves = new List<Path>();
 
+        private XFormSideBar sidebar;
+
+
+
         public double dx;//node mozgataskor mennyivel kattintottunk felre
         public double dy;
+
+        private Node sn = null;
+        public Node SelectedNode { get => sn; set {
+                sn = value;
+                if (sn != null)
+                {
+                    BringNodeToFront(sn);
+                    sidebar.Show(sn.xf);
+                }
+                updateConnections();
+            } }
+
+        public XFormSideBar Sidebar { get => sidebar; set => sidebar = value; }
 
         public NodeMap()
         {
             InitializeComponent();
+            flame = new Flame();
+        }
+
+        public NodeMap(Flame f)
+        {
+            InitializeComponent();
+            flame = f;
+            foreach(XForm xf in flame.XForms)
+            {//osszes xformhoz View-t rendelunk
+                Node node = new Node(xf);
+                Children.Add(node);
+                node.Map = this;
+            }
+            updateConnections();
         }
 
         public void AddXForm()
@@ -37,8 +68,7 @@ namespace IFS_Editor.View
             Node node = new Node(flame.AddXForm(true));
             Children.Add(node);
             node.Map = this;
-            
-            updateConnections();
+            SelectedNode = node;
         }
 
         public List<Node> GetNodeList()
@@ -71,7 +101,12 @@ namespace IFS_Editor.View
                     {
                         if (To.xf == c.ConnTo)
                         {
-                            curves.Add(CalcCurvePath(n, To));
+                            Path p = CalcCurvePath(n, To);
+                            if (SelectedNode!=n)
+                            {//legyen mas, ha a selectedet nezzuk eppen
+                                p.StrokeThickness *= 0.25;
+                            }
+                            curves.Add(p);
                             //nem tudjuk egybol itt hozzaadni a Childrenhez, mert a foreachekkel osszeakad
                             break;
                         }

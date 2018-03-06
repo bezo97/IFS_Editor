@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:IFS_Editor"
         xmlns:System="clr-namespace:System;assembly=mscorlib" xmlns:View="clr-namespace:IFS_Editor.View" x:Class="IFS_Editor.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="350" Width="525" WindowState="Maximized">
     <DockPanel LastChildFill="true">
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
@@ -26,32 +26,33 @@
         <StatusBar DockPanel.Dock="Bottom">
             <System:String>status</System:String>
         </StatusBar>
-        <ToolBarTray DockPanel.Dock="Left" Orientation="Vertical">
+        <ToolBarTray DockPanel.Dock="Top" Orientation="Horizontal">
             <ToolBar Band="0" BandIndex="0">
-                <Button Content="Add" Click="AddXForm_Click"/>
-                <Button Content="jajaj"/>
+                <Button Content="[+]" Click="AddXForm_Click"/>
+                <Button Content="[+linked]"/>
             </ToolBar>
             <ToolBar Band="0" BandIndex="1">
-                <Button Content="New"/>
-                <Button Content="Open"/>
-                <Button Content="Save">
+                <Button Content="[New]"/>
+                <Button Content="[Open]"/>
+                <Button Content="[Save]">
                     <!-- ide betenni a View\Icons\*.xaml dolgokat??? -->
                 </Button>
             </ToolBar>
             <ToolBar Band="0" BandIndex="2">
-                <Button Content="Imag"/>
-                <Button Content="Rend"/>
-                <Button Content="Camera">
+                <Button Content="[Imag]"/>
+                <Button Content="[Rend]"/>
+                <Button Content="[Camera]">
                     <!-- ide betenni a View\Icons\*.xaml dolgokat??? -->
                 </Button>
             </ToolBar>
         </ToolBarTray>
         <ToolBarTray DockPanel.Dock="Right" Orientation="Vertical"/>
-        <xctk:Zoombox x:Name="zoombox" IsAnimated="True" KeepContentInBounds="False" DragModifiers="None" RelativeZoomModifiers="None" Background="#FF1D1D1D" DragOnPreview="False" ZoomOnPreview="False" NavigateOnPreview="False" Cursor="SizeAll">
-            <View:NodeMap x:Name="nodemap_main" Width="{Binding ActualWidth, ElementName=zoombox, Mode=OneWay}" Height="{Binding ActualHeight, ElementName=zoombox, Mode=OneWay}" Background="#FF969696" >
-                <View:Node Height="100" Canvas.Left="116" Canvas.Top="70" Width="100"/>
-                <View:Node Height="200" Canvas.Left="255" Canvas.Top="39" Width="200"/>
-            </View:NodeMap>
-        </xctk:Zoombox>
+        <!--ezt egy TabControlba -> tobb flame egyszerre megnyitva -->
+        <Grid><!--ide nem kellenek cellak, mert az xform panel lebeg, ez csak a lastchildfill miatt kell-->
+            <xctk:Zoombox x:Name="zoombox" IsAnimated="True" KeepContentInBounds="False" DragModifiers="None" RelativeZoomModifiers="None" Background="#FF1D1D1D" DragOnPreview="False" ZoomOnPreview="False" NavigateOnPreview="False" Cursor="SizeAll">
+                <View:NodeMap x:Name="nodemap_main" Width="{Binding ActualWidth, ElementName=zoombox, Mode=OneWay}" Height="{Binding ActualHeight, ElementName=zoombox, Mode=OneWay}" Background="#FF969696" />
+            </xctk:Zoombox>
+            <View:XFormSideBar x:Name="sidebar_main"/>
+        </Grid>
     </DockPanel>
 </Window>

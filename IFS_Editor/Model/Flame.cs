@@ -12,8 +12,10 @@ namespace IFS_Editor.Model
         CameraSettings cameraSettings;
         RenderSettings renderSettings;
         ImagingSettings imagingSettings;
-        List<XForm> XForms = new List<XForm>();
+        List<XForm> xforms = new List<XForm>();
         string palette;
+
+        public List<XForm> XForms { get => xforms; /*set: csak egyenkent, AddXForm()*/ }
 
         public XForm AddXForm(bool osszekot)
         {
@@ -27,6 +29,8 @@ namespace IFS_Editor.Model
             XForms.Add(ujxf);
             return ujxf;
         }
+
+        
 
     }
 }

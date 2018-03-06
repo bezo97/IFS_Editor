@@ -66,6 +66,8 @@ namespace IFS_Editor.View
         {
             base.OnMouseLeftButtonDown(e);
 
+            map.SelectedNode = this;
+
         }
 
         protected override void OnMouseRightButtonDown(MouseButtonEventArgs e)
