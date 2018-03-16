@@ -37,16 +37,20 @@ namespace IFS_Editor.View
             xf = new XForm();
         }
 
+        //kor sugarat figyelembe veve a kozeppont
         public double PosX
         {
-            get { return (Double) GetValue(Canvas.LeftProperty); }
-            set { SetValue(Canvas.LeftProperty, value); }
+            get { return (Double) GetValue(Canvas.LeftProperty) + WeightedR; }
+            set { SetValue(Canvas.LeftProperty, value - WeightedR); }
         }
         public double PosY
         {
-            get { return (Double)GetValue(Canvas.TopProperty); }
-            set { SetValue(Canvas.TopProperty, value); }
+            get { return (Double)GetValue(Canvas.TopProperty) + WeightedR; }
+            set { SetValue(Canvas.TopProperty, value - WeightedR); }
         }
+
+        //public float WeightedR { get { return (float)(((map.weightedRs) ? (0.5f + Math.Sqrt(xf.baseWeight < 10 ? xf.baseWeight : 10)) : 1.0f) * this.Width); } }
+        public double WeightedR { get { return 100 / 2.0; } }//TODO weightedR megold
 
         public NodeMap Map { get => map?? (NodeMap)this.Parent; set => map = value; }
 
@@ -65,6 +69,7 @@ namespace IFS_Editor.View
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonDown(e);
+            e.Handled = true;//zoombox ne kapja meg
 
             map.SelectedNode = this;
 
@@ -73,6 +78,7 @@ namespace IFS_Editor.View
         protected override void OnMouseRightButtonDown(MouseButtonEventArgs e)
         {
             base.OnMouseRightButtonDown(e);
+            e.Handled = true;//zoombox ne kapja meg
 
             Map.BringNodeToFront(this);
             
@@ -84,7 +90,8 @@ namespace IFS_Editor.View
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
-
+            e.Handled = true;//zoombox ne kapja meg
+            
             if (e.RightButton == MouseButtonState.Pressed)
             {
                 PosX = e.GetPosition(Map).X + Map.dx;

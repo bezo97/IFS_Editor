@@ -15,19 +15,24 @@ namespace IFS_Editor.Model
         List<XForm> xforms = new List<XForm>();
         string palette;
 
-        public List<XForm> XForms { get => xforms; /*set: csak egyenkent, AddXForm()*/ }
+        private List<XForm> XForms { get => xforms; /*set: csak egyenkent, AddXForm()*/ }
 
         public XForm AddXForm(bool osszekot)
         {
             XForm ujxf = new XForm();
+            XForms.Add(ujxf);
             if (osszekot)
                 foreach (XForm f in XForms)
                 {
-                    ujxf.Conns.Add(new Conn(f, 0.5));
-                    f.Conns.Add(new Conn(ujxf, 0.5));
+                    ujxf.SetConn(new Conn(f, 0.5));
+                    f.SetConn(new Conn(ujxf, 0.5));
                 }
-            XForms.Add(ujxf);
             return ujxf;
+        }
+
+        public List<XForm> GetXForms()
+        {
+            return XForms;
         }
 
         

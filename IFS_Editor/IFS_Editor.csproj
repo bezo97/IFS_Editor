@@ -79,6 +79,7 @@
     <Compile Include="ViewModel\RenderSettingsViewModel.cs" />
     <Compile Include="ViewModel\BetterBooleanToVisibilityConverter.cs" />
     <Compile Include="ViewModel\BooleanConverter.cs" />
+    <Compile Include="View\ConnectionArrow.cs" />
     <Compile Include="View\ImagingSettingsWindow.xaml.cs">
       <DependentUpon>ImagingSettingsWindow.xaml</DependentUpon>
     </Compile>
