@@ -21,22 +21,49 @@ namespace IFS_Editor.View
     /// </summary>
     public partial class NodeMap : Canvas
     {
-        private Flame flame = new Flame();
+        public Flame flame = new Flame();
         List<ConnectionArrow> arrows = new List<ConnectionArrow>();
         public bool weightedRs = true;//
 
         private XFormSideBar sidebar;
 
+        private Node connectingStart;
+        private List<Path> ArrowToMouse;
+        public void beginConnecting(Node n)
+        {
+            if (connectingStart == null)
+            {//csak akkor kezdunk ujba, ha eppen meg nem kotunk ossze
+                connectingStart = n;
+            }
 
+        }
+        public void endConnecting(Node n)
+        {
+            if(connectingStart!=null)
+            {//eppen osszekotessel vegzunk
+                if(n!=null)//nodehoz kotottuk, nem a semmibe
+                    connectingStart.xf.SetConn(new Conn(n.xf, 0.5));
+                connectingStart = null;//vege az osszekotesnek
+                if (ArrowToMouse != null)
+                    foreach (Path p in ArrowToMouse)
+                        Children.Remove(p);//remove old arrow
+                updateConnections();
+            }
+        }
 
         public double dx;//node mozgataskor mennyivel kattintottunk felre
         public double dy;
 
         private Node sn = null;
         public Node SelectedNode { get => sn; set {
+                if (sn == value)
+                    return;//mar ez van kijelolve, nem kell csinalni semmit
+                if (sn != null)//nem onmaga, akkor eltunik az effekt
+                    sn.EnableEffects(false);
                 sn = value;
                 if (sn != null)
                 {
+                    sn.EnableEffects(true);
                     BringNodeToFront(sn);
                     sidebar.Show(sn.xf);
                 }
@@ -158,6 +185,26 @@ namespace IFS_Editor.View
                     n.SetValue(Canvas.ZIndexProperty, prev - 1);
             }
             node.SetValue(Canvas.ZIndexProperty, nl.Count);
+        }
+
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            base.OnMouseMove(e);
+            e.Handled = true;
+            if (connectingStart != null)
+            {
+                if (e.LeftButton == MouseButtonState.Pressed)
+                {
+                    if (ArrowToMouse != null)
+                        foreach (Path p in ArrowToMouse)
+                            Children.Remove(p);//remove old arrow
+                    ArrowToMouse = ConnectionArrow.CalcByPoints(connectingStart.Pos, e.GetPosition(this), true);
+                    foreach (Path p in ArrowToMouse)
+                        Children.Insert(0, p);
+                }
+                else
+                    endConnecting(null);
+            }
         }
 
     }

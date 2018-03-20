@@ -9,9 +9,9 @@ namespace IFS_Editor.Model
     public class Flame
     {
         string name;
-        CameraSettings cameraSettings;
-        RenderSettings renderSettings;
-        ImagingSettings imagingSettings;
+        public CameraSettings cameraSettings = new CameraSettings();
+        public RenderSettings renderSettings = new RenderSettings();
+        public ImagingSettings imagingSettings = new ImagingSettings();
         List<XForm> xforms = new List<XForm>();
         string palette;
 

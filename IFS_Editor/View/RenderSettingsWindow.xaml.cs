@@ -47,6 +47,9 @@ namespace IFS_Editor.View
 
         private void RatioComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (!RatioComboBox.IsLoaded)
+                return;//konstruktor meghivja, azt ignoraljuk
+
             string[] ratioValues = ((ComboBoxItem)RatioComboBox.SelectedItem).Content.ToString().Split(':');
             int r1 = Convert.ToInt32((string)ratioValues[0]);
             int r2 = Convert.ToInt32((string)ratioValues[1]);
@@ -61,7 +64,10 @@ namespace IFS_Editor.View
 
         private void ResolutionComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            switch(((ComboBoxItem)ResolutionComboBox.SelectedItem).Content.ToString())
+            if (!ResolutionComboBox.IsLoaded)
+                return;//konstruktor meghivja, azt ignoraljuk
+
+            switch (((ComboBoxItem)ResolutionComboBox.SelectedItem).Content.ToString())
             {
                 case "Preview":
                     rsp.SizeY = 340;

@@ -31,42 +31,25 @@ namespace IFS_Editor
 
         private void ShowRenderSettingsWindow(object sender, RoutedEventArgs e)
         {
-            RenderSettings rs1 = new RenderSettings
-            {
-                SizeX = 2,
-                SizeY = 3,
-                Filter = 0.4,
-                Oversample = 1,
-                Quality = 4000
-            };
-            RenderSettingsWindow rsw = new RenderSettingsWindow(rs1)
+            RenderSettingsWindow rsw = new RenderSettingsWindow(nodemap_main.flame.renderSettings)
             {
                 Owner = this
             };
             if (rsw.ShowDialog()==true)
             {
-                rs1 = rsw.GetResult();
+                nodemap_main.flame.renderSettings = rsw.GetResult();
             }
         }
 
         private void ShowImagingSettingsWindow(object sender, RoutedEventArgs e)
         {
-            ImagingSettings s1 = new ImagingSettings
-            {
-                Back_colorR = 255,
-                Back_colorG = 0,
-                Back_colorB = 0,
-                Brightness = 4,
-                Gamma = 1,
-                G_threshold = 0.025
-            };
-            ImagingSettingsWindow isw = new ImagingSettingsWindow(s1)
+            ImagingSettingsWindow isw = new ImagingSettingsWindow(nodemap_main.flame.imagingSettings)
             {
                 Owner = this
             };
             if (isw.ShowDialog() == true)
             {
-                s1 = isw.GetResult();
+                nodemap_main.flame.imagingSettings = isw.GetResult();
             }
         }
 

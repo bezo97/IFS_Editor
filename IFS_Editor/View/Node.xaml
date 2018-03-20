@@ -16,7 +16,7 @@
             </Ellipse.Fill>
             <!-- UniformToFill is lehet ^ -->
             <Ellipse.Effect>
-                <DropShadowEffect BlurRadius="20" Opacity="0.5"/>
+                <DropShadowEffect x:Name="MyDropShadowEffect" BlurRadius="20" Opacity="0.5"/>
             </Ellipse.Effect>
         </Ellipse>
         <Label Content="Linear" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" FontSize="22" Cursor="Hand"/>

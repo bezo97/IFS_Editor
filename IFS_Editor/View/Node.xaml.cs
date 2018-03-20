@@ -10,6 +10,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -40,7 +41,7 @@ namespace IFS_Editor.View
         //kor sugarat figyelembe veve a kozeppont
         public double PosX
         {
-            get { return (Double) GetValue(Canvas.LeftProperty) + WeightedR; }
+            get { return (Double)GetValue(Canvas.LeftProperty) + WeightedR; }
             set { SetValue(Canvas.LeftProperty, value - WeightedR); }
         }
         public double PosY
@@ -48,6 +49,8 @@ namespace IFS_Editor.View
             get { return (Double)GetValue(Canvas.TopProperty) + WeightedR; }
             set { SetValue(Canvas.TopProperty, value - WeightedR); }
         }
+
+        public Point Pos { get { return new Point(PosX,PosY); } }
 
         //public float WeightedR { get { return (float)(((map.weightedRs) ? (0.5f + Math.Sqrt(xf.baseWeight < 10 ? xf.baseWeight : 10)) : 1.0f) * this.Width); } }
         public double WeightedR { get { return 100 / 2.0; } }//TODO weightedR megold
@@ -66,13 +69,31 @@ namespace IFS_Editor.View
             xf = _xform;
         }
 
+        public void EnableEffects(bool b)
+        {//nodemap hivja, amikor ki van valasztva vagy nem
+            DoubleAnimation appearAnimation;
+            if (b) //appear
+                appearAnimation = new DoubleAnimation(0.0, 0.5, TimeSpan.FromSeconds(0.2));
+            else //disappear
+                appearAnimation = new DoubleAnimation(0.5, 0.0, TimeSpan.FromSeconds(0.2));
+            this.MyDropShadowEffect.BeginAnimation(System.Windows.Media.Effects.DropShadowEffect.OpacityProperty, appearAnimation);
+        }
+
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonDown(e);
             e.Handled = true;//zoombox ne kapja meg
 
             map.SelectedNode = this;
+            //map.beginConnecting(this);
+        }
 
+        protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonUp(e);
+            e.Handled = true;//zoombox ne kapja meg
+
+            map.endConnecting(this);
         }
 
         protected override void OnMouseRightButtonDown(MouseButtonEventArgs e)
@@ -90,14 +111,22 @@ namespace IFS_Editor.View
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
-            e.Handled = true;//zoombox ne kapja meg
             
             if (e.RightButton == MouseButtonState.Pressed)
             {
+                e.Handled = true;//zoombox ne kapja meg
                 PosX = e.GetPosition(Map).X + Map.dx;
                 PosY = e.GetPosition(Map).Y + Map.dy;
                 Map.updateConnections();
             }
+        }
+
+        protected override void OnMouseLeave(MouseEventArgs e)
+        {
+            base.OnMouseLeave(e);
+            e.Handled = true;//zoombox ne kapja meg
+            if(e.LeftButton == MouseButtonState.Pressed)
+                map.beginConnecting(this);
         }
 
     }
