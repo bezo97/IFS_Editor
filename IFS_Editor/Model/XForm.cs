@@ -8,12 +8,13 @@ namespace IFS_Editor.Model
 {
     public class XForm
     {
-        string name = "linear";
-        double color = 0.5;
-        double opacity = 1.0;
+        public string name = "linear";
+        public double color = 0.5;
+        public double opacity = 1.0;
         public double baseWeight = 0.5;
-        double[] PreCoefs;
-        double[] PostCoefs;
+        public double symmetry = 0;//TODO: ennek mi a defaultja?
+        public List<double> PreCoefs;
+        public List<double> PostCoefs;
 
         private List<Conn> Conns = new List<Conn>();
 

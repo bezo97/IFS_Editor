@@ -31,31 +31,61 @@ namespace IFS_Editor
 
         private void ShowRenderSettingsWindow(object sender, RoutedEventArgs e)
         {
-            RenderSettingsWindow rsw = new RenderSettingsWindow(nodemap_main.flame.renderSettings)
+            RenderSettingsWindow rsw = new RenderSettingsWindow(nodemap_main.GetFlame().renderSettings)
             {
                 Owner = this
             };
             if (rsw.ShowDialog()==true)
             {
-                nodemap_main.flame.renderSettings = rsw.GetResult();
+                nodemap_main.GetFlame().renderSettings = rsw.GetResult();
             }
         }
 
         private void ShowImagingSettingsWindow(object sender, RoutedEventArgs e)
         {
-            ImagingSettingsWindow isw = new ImagingSettingsWindow(nodemap_main.flame.imagingSettings)
+            ImagingSettingsWindow isw = new ImagingSettingsWindow(nodemap_main.GetFlame().imagingSettings)
             {
                 Owner = this
             };
             if (isw.ShowDialog() == true)
             {
-                nodemap_main.flame.imagingSettings = isw.GetResult();
+                nodemap_main.GetFlame().imagingSettings = isw.GetResult();
             }
         }
 
         private void AddXForm_Click(object sender, RoutedEventArgs e)
         {
             nodemap_main.AddXForm();
+        }
+
+        private void OpenFile_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.OpenFileDialog ofd = new Microsoft.Win32.OpenFileDialog
+            {
+                DefaultExt = ".flame",
+                Filter = "Flame files (.flame)|*.flame"
+            };
+            if (ofd.ShowDialog() == true)
+            {
+                nodemap_main.SetFlame(FlameSerializer.Load(ofd.FileName));
+
+                //try catch
+            }
+        }
+
+        private void SaveFile_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.SaveFileDialog sfd = new Microsoft.Win32.SaveFileDialog
+            {
+                FileName = nodemap_main.GetFlame().name,
+                DefaultExt = ".flame",
+                Filter = "Flame files (.flame)|*.flame"
+            };
+            if (sfd.ShowDialog() == true)
+            {
+                FlameSerializer.Save(nodemap_main.GetFlame(), sfd.FileName);
+                //try catch
+            }
         }
     }
 }

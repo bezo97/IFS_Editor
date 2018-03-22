@@ -12,8 +12,8 @@
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
                 <MenuItem Header="_New"/>
-                <MenuItem Header="_Open"/>
-                <MenuItem Header="_Save"/>
+                <MenuItem Header="_Open" Click="OpenFile_Click"/>
+                <MenuItem Header="_Save" Click="SaveFile_Click"/>
                 <Separator />
                 <MenuItem Header="_Exit"/>
             </MenuItem>
@@ -33,8 +33,8 @@
             </ToolBar>
             <ToolBar Band="0" BandIndex="1">
                 <Button Content="[New Flame]"/>
-                <Button Content="[Open File]"/>
-                <Button Content="[Save File]">
+                <Button Content="[Open File]" Click="OpenFile_Click"/>
+                <Button Content="[Save File]" Click="SaveFile_Click">
                     <!-- ide betenni a View\Icons\*.xaml dolgokat??? -->
                 </Button>
             </ToolBar>

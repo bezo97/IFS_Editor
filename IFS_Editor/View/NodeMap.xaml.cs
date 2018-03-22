@@ -21,7 +21,7 @@ namespace IFS_Editor.View
     /// </summary>
     public partial class NodeMap : Canvas
     {
-        public Flame flame = new Flame();
+        Flame flame = new Flame();
         List<ConnectionArrow> arrows = new List<ConnectionArrow>();
         public bool weightedRs = true;//
 
@@ -81,14 +81,7 @@ namespace IFS_Editor.View
         public NodeMap(Flame f)
         {
             InitializeComponent();
-            flame = f;
-            foreach(XForm xf in flame.GetXForms())
-            {//osszes xformhoz View-t rendelunk
-                Node node = new Node(xf);
-                Children.Add(node);
-                node.Map = this;
-            }
-            updateConnections();
+            SetFlame(f);
         }
 
         public Node AddXForm()
@@ -133,9 +126,28 @@ namespace IFS_Editor.View
             return AddXForm(xf);//elv ilyen nincs
         }
 
-        public void updateConnections()
+        public Flame GetFlame()
         {
-            //remove old curves
+            return flame;
+        }
+
+        public void SetFlame(Flame f)
+        {
+            SelectedNode = null;
+            RemoveNodes();
+            flame = f;
+            foreach (XForm xf in flame.GetXForms())
+            {//osszes xformhoz View-t rendelunk
+                Node node = new Node(xf);
+                Children.Add(node);
+                node.Map = this;
+            }
+            //TODO: graphviz meghiv
+            updateConnections();
+        }
+
+        private void RemoveConnections()
+        {
             foreach (ConnectionArrow ca in arrows)
             {
                 List<Path> p = ca.GetPaths();
@@ -144,8 +156,22 @@ namespace IFS_Editor.View
                 Children.Remove(p[2]);
             }
             arrows.Clear();
+        }
 
-            //calculate new curves
+        private void RemoveNodes()
+        {
+            RemoveConnections();
+            foreach (Node n in GetNodeList())
+            {
+                Children.Remove(n);
+            }
+        }
+
+        public void updateConnections()
+        {
+            RemoveConnections();
+
+            //calculate new ones
             List<Node> nodes = GetNodeList();
             foreach (Node n in nodes)
             {

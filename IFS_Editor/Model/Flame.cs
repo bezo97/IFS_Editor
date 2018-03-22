@@ -8,7 +8,7 @@ namespace IFS_Editor.Model
 {
     public class Flame
     {
-        string name;
+        public string name;
         public CameraSettings cameraSettings = new CameraSettings();
         public RenderSettings renderSettings = new RenderSettings();
         public ImagingSettings imagingSettings = new ImagingSettings();
@@ -28,6 +28,12 @@ namespace IFS_Editor.Model
                     f.SetConn(new Conn(ujxf, 0.5));
                 }
             return ujxf;
+        }
+
+        public void AddXForm(XForm xf)
+        {
+            XForms.Add(xf);
+            //nem kotjuk ossze semmivel!
         }
 
         public List<XForm> GetXForms()
