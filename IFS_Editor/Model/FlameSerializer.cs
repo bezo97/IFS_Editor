@@ -12,7 +12,7 @@ namespace IFS_Editor.Model
         public static Flame Load(string path)
         {
             Flame f = new Flame();
-            List<string> chaos = new List<string>();
+            List<string> xaos = new List<string>();
             using (XmlReader r = XmlReader.Create(path))
             {
                 while (r.Read())
@@ -31,13 +31,45 @@ namespace IFS_Editor.Model
                                         color = Double.Parse(r["color"].Replace('.', ',')),
                                         opacity = Double.Parse(r["opacity"].Replace('.', ',')),
                                         baseWeight = Double.Parse(r["weight"].Replace('.', ',')),
+                                        symmetry = Double.Parse((r["symmetry"] ?? "0").Replace('.', ',')),
                                         PreCoefs = GenCoefs(r["coefs"]),
-                                        PostCoefs = GenCoefs(r["post"]),
-                                        symmetry = Double.Parse((r["symmetry"]?? "0").Replace('.', ','))
+                                        PostCoefs = GenCoefs(r["post"])
                                     };
-                                    chaos.Add(r["chaos"]);//null: mindenkivel osszekot
+                                    xaos.Add(r["chaos"]);//null: mindenkivel osszekot
 
                                     //TODO: variable es variation read: r[i]
+                                    bool vorv = false;//variation vagy variable olv.
+                                    int attrCnt = r.AttributeCount;
+                                    //r.MoveToFirstAttribute();
+                                    while (r.MoveToNextAttribute())//for (int i=0;i<attrCnt; i++)
+                                    {
+                                        switch (r.Name)
+                                        {
+                                            case "":
+                                            case "name":
+                                            case "color":
+                                            case "opacity":
+                                            case "weight":
+                                            case "symmetry":
+                                            case "post":
+                                                continue;//mar kezeltuk
+                                            case "coefs":
+                                                vorv = true;//innentol mar csak variable lesz
+                                                break;
+                                            default:
+                                                if(!vorv)
+                                                {//variation
+                                                    Variation vion = new Variation(r.Name, Double.Parse(r.Value.Replace('.',',')));
+                                                    xf.Variations.Add(vion);
+                                                }
+                                                else
+                                                {//variable
+                                                    Variable vable = new Variable(r.Name, Double.Parse(r.Value.Replace('.', ',')));
+                                                    xf.Variables.Add(vable);
+                                                }
+                                                break;
+                                        }
+                                    }
 
                                     f.AddXForm(xf);
                                     break;
@@ -61,7 +93,25 @@ namespace IFS_Editor.Model
                 }
             }
 
-            //TODO: itt osszekotesek chaos alapjan, ures name replace variation nevekkel
+            //osszekotesek chaos alapjan + nev adas ha ekll
+            List<XForm> xfs = f.GetXForms();
+            for (int i = 0; i < f.XFormCount; i++)
+            {
+                Double[] weights = null;
+                if (xaos[i]!=null)//null:mindenkivel osszekot
+                    weights = Array.ConvertAll(xaos[i].Replace('.', ',').Split(' '), Double.Parse);
+                for (int j = 0; j < f.XFormCount; j++)
+                {
+                    double w = (weights != null) ? weights[j] : 0.5;
+                    //if(w!=0.0)//ez nem kell
+                        xfs[i].SetConn(new Conn(xfs[j], w));
+                }
+
+                if (xfs[i].name == "")//otlet: elnevezzuk, ha nincs
+                    xfs[i].name = xfs[i].Variations[0].Name;//elso variation neve
+            }
+
+
 
             return f;
         }

@@ -19,7 +19,7 @@
                 <DropShadowEffect x:Name="MyDropShadowEffect" BlurRadius="20" Opacity="0.5"/>
             </Ellipse.Effect>
         </Ellipse>
-        <Label Content="Linear" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" FontSize="22" Cursor="Hand"/>
+        <Label x:Name ="NameLabel" Content="{Binding LabelText, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" FontSize="22" Cursor="Hand"/>
 
     </Grid>
 </UserControl>

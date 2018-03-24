@@ -76,6 +76,7 @@
     <Compile Include="Model\FlameSerializer.cs" />
     <Compile Include="ViewModel\DelegateCommand.cs" />
     <Compile Include="ViewModel\ImagingSettingsViewModel.cs" />
+    <Compile Include="ViewModel\NodeViewModel.cs" />
     <Compile Include="ViewModel\ObservableObject.cs" />
     <Compile Include="ViewModel\RenderSettingsViewModel.cs" />
     <Compile Include="ViewModel\BetterBooleanToVisibilityConverter.cs" />

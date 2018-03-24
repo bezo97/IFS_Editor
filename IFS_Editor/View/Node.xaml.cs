@@ -1,4 +1,5 @@
 ﻿using IFS_Editor.Model;
+using IFS_Editor.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,11 +23,15 @@ namespace IFS_Editor.View
     /// </summary>
     public partial class Node : UserControl
     {
-        public XForm xf;
+        //public XForm xf;
+        NodeViewModel nvm;
         NodeMap map;//parent
 
         public Node()
         {
+            nvm = new NodeViewModel();
+            DataContext = nvm;
+
             InitializeComponent();
 
             Random r = new Random();
@@ -35,7 +40,21 @@ namespace IFS_Editor.View
             Width = 100;
             Height = 100;
 
-            xf = new XForm();
+        }
+
+        public Node(XForm _xform)
+        {
+            nvm = new NodeViewModel(_xform);
+            DataContext = nvm;
+
+            InitializeComponent();
+
+            Random r = new Random();
+            PosX = r.NextDouble() * 600;
+            PosY = r.NextDouble() * 600;
+            Width = 100;
+            Height = 100;
+
         }
 
         //kor sugarat figyelembe veve a kozeppont
@@ -50,24 +69,14 @@ namespace IFS_Editor.View
             set { SetValue(Canvas.TopProperty, value - WeightedR); }
         }
 
-        public Point Pos { get { return new Point(PosX,PosY); } }
+        public Point Pos { get { return new Point(PosX, PosY); } }
 
         //public float WeightedR { get { return (float)(((map.weightedRs) ? (0.5f + Math.Sqrt(xf.baseWeight < 10 ? xf.baseWeight : 10)) : 1.0f) * this.Width); } }
         public double WeightedR { get { return 100 / 2.0; } }//TODO weightedR megold
 
-        public NodeMap Map { get => map?? (NodeMap)this.Parent; set => map = value; }
+        public NodeMap Map { get => map ?? (NodeMap)this.Parent; set => map = value; }
 
-        public Node(XForm _xform)
-        {
-            InitializeComponent();
-            Random r = new Random();
-            PosX = r.NextDouble()*600;
-            PosY = r.NextDouble()*600;
-            Width = 100;
-            Height = 100;
-
-            xf = _xform;
-        }
+        public XForm xf { get => nvm._XF; }
 
         public void EnableEffects(bool b)
         {//nodemap hivja, amikor ki van valasztva vagy nem

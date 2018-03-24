@@ -41,7 +41,6 @@ namespace IFS_Editor.Model
             return XForms;
         }
 
-        
-
+        public int XFormCount { get { return XForms.Count; } }
     }
 }

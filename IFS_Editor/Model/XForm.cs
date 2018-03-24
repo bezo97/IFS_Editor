@@ -12,13 +12,14 @@ namespace IFS_Editor.Model
         public double color = 0.5;
         public double opacity = 1.0;
         public double baseWeight = 0.5;
-        public double symmetry = 0;//TODO: ennek mi a defaultja?
+        public double symmetry = 0;//color speed
         public List<double> PreCoefs;
         public List<double> PostCoefs;
 
         private List<Conn> Conns = new List<Conn>();
 
-        List<Variation> Vars = new List<Variation>();
+        public List<Variation> Variations = new List<Variation>();
+        public List<Variable> Variables = new List<Variable>();
 
         public void SetConn(Conn cn)
         {

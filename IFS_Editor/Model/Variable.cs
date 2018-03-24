@@ -8,7 +8,12 @@ namespace IFS_Editor.Model
 {
     public class Variable
     {
-        string Name;
-        double Value;
+        public string Name;
+        public double Value;
+        public Variable(string name, double value)
+        {
+            Name = name;
+            Value = value;
+        }
     }
 }
