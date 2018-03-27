@@ -28,15 +28,15 @@
         </StatusBar>
         <ToolBarTray DockPanel.Dock="Top" Orientation="Horizontal">
             <ToolBar Band="0" BandIndex="0">
-                <Button Content="[Add XForm]" Click="AddXForm_Click"/>
-                <Button Content="[Add linked XForm]"/>
+                <Button Content="[Add XForm]" Click="AddXForm_Click" ToolTip="Add XForm"/>
+                <Button Content="[Add linked XForm?]"/>
+                <Button Content="[Delete XForm]"/>
             </ToolBar>
             <ToolBar Band="0" BandIndex="1">
                 <Button Content="[New Flame]"/>
-                <Button Content="[Open File]" Click="OpenFile_Click"/>
-                <Button Content="[Save File]" Click="SaveFile_Click">
-                    <!-- ide betenni a View\Icons\*.xaml dolgokat??? -->
-                </Button>
+                <Button Content="[Open Flame]" Click="OpenFile_Click"/>
+                <Button Content="[Save Flame]" Click="SaveFile_Click"/>
+                <!-- ide betenni a View\Icons\*.xaml dolgokat??? -->
             </ToolBar>
             <ToolBar Band="0" BandIndex="2">
                 <Button Content="[Load From Clipboard]"/>
@@ -51,9 +51,29 @@
                     <!-- ide betenni a View\Icons\*.xaml dolgokat??? -->
                 </Button>
             </ToolBar>
+            <ToolBar Band="1" BandIndex="0">
+                <!--<Label>Connections:</Label>-->
+                <Button Content="[mindenkire rakot]"/>
+                <Button Content="[mindenkit rakot]"/>
+                <Button Content="[mindenkrol torol]"/>
+                <Button Content="[mindenkre torol]"/>
+                <Separator />
+                <Button Content="[sulyok normalizalasa]"/>
+                <!-- ide betenni a View\Icons\*.xaml dolgokat??? -->
+            </ToolBar>
+            <ToolBar Band="1" BandIndex="1">
+                <Label>Node size:</Label>
+                <ComboBox><!--TODO: auto select on load-->
+                    <ComboBoxItem>Tiny</ComboBoxItem>
+                    <ComboBoxItem>Small</ComboBoxItem>
+                    <ComboBoxItem IsSelected="True">Medium</ComboBoxItem>
+                    <ComboBoxItem>Big</ComboBoxItem>
+                </ComboBox>
+                <!-- ide betenni a View\Icons\*.xaml dolgokat??? -->
+            </ToolBar>
         </ToolBarTray>
         <ToolBarTray DockPanel.Dock="Right" Orientation="Vertical"/>
-        <!--ezt egy TabControlba -> tobb flame egyszerre megnyitva -->
+        <View:FlameBrowser x:Name="flamebrowser_main" DockPanel.Dock="Left" Width="150"/>
         <Grid><!--ide nem kellenek cellak, mert az xform panel lebeg, ez csak a lastchildfill miatt kell-->
             <xctk:Zoombox x:Name="zoombox" IsAnimated="True" KeepContentInBounds="False" DragModifiers="None" RelativeZoomModifiers="None" Background="#FF1D1D1D" ZoomOnPreview="False" Cursor="SizeAll">
                 <View:NodeMap x:Name="nodemap_main" Width="{Binding ActualWidth, ElementName=zoombox, Mode=OneWay}" Height="{Binding ActualHeight, ElementName=zoombox, Mode=OneWay}" Background="#FF969696" />

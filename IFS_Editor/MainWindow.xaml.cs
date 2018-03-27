@@ -27,6 +27,7 @@ namespace IFS_Editor
             InitializeComponent();
             nodemap_main.Sidebar = sidebar_main;
             sidebar_main.Map = nodemap_main;
+            flamebrowser_main.Map = nodemap_main;
         }
 
         private void ShowRenderSettingsWindow(object sender, RoutedEventArgs e)
@@ -67,8 +68,8 @@ namespace IFS_Editor
             };
             if (ofd.ShowDialog() == true)
             {
-                nodemap_main.SetFlame(FlameSerializer.Load(ofd.FileName));
-
+                //nodemap_main.SetFlame(FlameSerializer.Load(ofd.FileName));
+                flamebrowser_main.Update(FlameSerializer.Load(ofd.FileName));
                 //try catch
             }
         }

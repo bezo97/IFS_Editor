@@ -9,9 +9,10 @@ namespace IFS_Editor.Model
 {
     public class FlameSerializer
     {
-        public static Flame Load(string path)
+        public static List<Flame> Load(string path)
         {
-            Flame f = new Flame();
+            Flame f = null;
+            List<Flame> flamek = new List<Flame>();
             List<string> xaos = new List<string>();
             using (XmlReader r = XmlReader.Create(path))
             {
@@ -23,6 +24,17 @@ namespace IFS_Editor.Model
                             switch(r.Name)
                             {
                                 case "flame":
+                                    if(f!=null)//tobb flame is van a fajlban
+                                    {
+                                        f = Osszerak(f, xaos);
+                                        flamek.Add(f);
+                                    }
+                                    xaos.Clear();
+                                    f = new Flame
+                                    {
+                                        name = r["name"]
+                                        //TODO tobbi
+                                    };
                                     break;
                                 case "xform":
                                     XForm xf = new XForm
@@ -93,26 +105,34 @@ namespace IFS_Editor.Model
                 }
             }
 
-            //osszekotesek chaos alapjan + nev adas ha ekll
+            f = Osszerak(f, xaos);//utolso flamet is osszerak
+            flamek.Add(f);
+
+            return flamek;
+        }
+
+        private static Flame Osszerak(Flame f, List<string> xaos)
+        {
+            //osszekotesek chaos alapjan + nev adas ha kell
             List<XForm> xfs = f.GetXForms();
             for (int i = 0; i < f.XFormCount; i++)
             {
-                Double[] weights = null;
-                if (xaos[i]!=null)//null:mindenkivel osszekot
-                    weights = Array.ConvertAll(xaos[i].Replace('.', ',').Split(' '), Double.Parse);
+                string[] tmp = new string[f.XFormCount + 1];
+                if(xaos[i]!=null)
+                    xaos[i].Replace('.', ',').Split(' ').CopyTo(tmp, 0);
                 for (int j = 0; j < f.XFormCount; j++)
                 {
-                    double w = (weights != null) ? weights[j] : 0.5;
+                    double weight = 1.0;//default
+                    if (tmp[j] != null && tmp[j] != "")
+                        weight = Double.Parse(tmp[j]);
+
                     //if(w!=0.0)//ez nem kell
-                        xfs[i].SetConn(new Conn(xfs[j], w));
+                    xfs[i].SetConn(new Conn(xfs[j], weight));
                 }
 
                 if (xfs[i].name == "")//otlet: elnevezzuk, ha nincs
                     xfs[i].name = xfs[i].Variations[0].Name;//elso variation neve
             }
-
-
-
             return f;
         }
 

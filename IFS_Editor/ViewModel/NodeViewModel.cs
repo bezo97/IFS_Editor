@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace IFS_Editor.ViewModel
 {
@@ -26,6 +27,17 @@ namespace IFS_Editor.ViewModel
             get { return _xf; }
         }
 
-        public string LabelText { get => _xf.name; set { _xf.name = value; RaisePropertyChangedEvent("LabelText"); } }
+        public string Name { get => _xf.name; set { _xf.name = value; RaisePropertyChangedEvent("Name"); } }
+        public Color Opacity {
+            get {
+                byte o = (byte)(100 + _xf.opacity*255*0.6);
+                return Color.FromRgb(o,o,o);//grayscale
+            }
+            /*set {
+                //ez elhagyhato?
+                //
+                RaisePropertyChangedEvent("Opacity");
+            }*/
+        }
     }
 }

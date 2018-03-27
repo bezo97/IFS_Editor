@@ -10,16 +10,16 @@
         <Ellipse Stretch="Fill" StrokeThickness="2" Cursor="Hand">
             <Ellipse.Fill>
                 <RadialGradientBrush>
-                    <GradientStop Color="White" Offset="0.544"/>
-                    <GradientStop Color="#FFDFE6EE" Offset="1"/>
+                    <GradientStop Color="{Binding Opacity, UpdateSourceTrigger=PropertyChanged}" Offset="0.75"/>
+                    <GradientStop Color="Gray" Offset="1"/>
                 </RadialGradientBrush>
             </Ellipse.Fill>
             <!-- UniformToFill is lehet ^ -->
             <Ellipse.Effect>
-                <DropShadowEffect x:Name="MyDropShadowEffect" BlurRadius="20" Opacity="0.5"/>
+                <DropShadowEffect x:Name="MyDropShadowEffect" BlurRadius="20" Opacity="0.0"/>
             </Ellipse.Effect>
         </Ellipse>
-        <Label x:Name ="NameLabel" Content="{Binding LabelText, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" FontSize="22" Cursor="Hand"/>
+        <Label x:Name ="NameLabel" Content="{Binding Name, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" FontSize="22" Cursor="Hand"/>
 
     </Grid>
 </UserControl>
