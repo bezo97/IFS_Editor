@@ -14,6 +14,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using GraphVizWrapper;
+
+
 namespace IFS_Editor.View
 {
     /// <summary>
@@ -144,7 +147,7 @@ namespace IFS_Editor.View
                 Children.Add(node);
                 node.Map = this;
             }
-            //TODO: graphviz meghiv
+            GenerateLayout(Enums.RenderingEngine.Sfdp);//TODO: ötlet: user pref, hogy melyik a default elrendezés algo
             updateConnections();
         }
 
@@ -234,6 +237,69 @@ namespace IFS_Editor.View
                     endConnecting(null);
             }
         }
+
+
+        public void GenerateLayout(GraphVizWrapper.Enums.RenderingEngine layoutType)
+        {
+            List<Node> Nodes = GetNodeList();
+            //Cursor = Cursors.WaitCursor;
+            double NodeR = 200.0 / Math.Sqrt(Nodes.Count);
+
+            //put all connections into digraph, read by graphviz
+            string digraph = "digraph{";
+            foreach (Node n in Nodes)
+            {
+                foreach (Conn To in n.xf.GetConns())
+                {
+                    digraph += Nodes.IndexOf(n) + " -> " + Nodes.IndexOf(GetNodeFromXF(To.ConnTo)) + ";";
+                }
+            }
+            digraph += "}";
+
+            //graphviz library to generate layout
+            var getStartProcessQuery = new GraphVizWrapper.Queries.GetStartProcessQuery();
+            var getProcessStartInfoQuery = new GraphVizWrapper.Queries.GetProcessStartInfoQuery();
+            var registerLayoutPluginCommand = new GraphVizWrapper.Commands.RegisterLayoutPluginCommand(getProcessStartInfoQuery, getStartProcessQuery);
+            var wrapper = new GraphVizWrapper.GraphGeneration(getStartProcessQuery, getProcessStartInfoQuery, registerLayoutPluginCommand);
+            wrapper.RenderingEngine = layoutType;//twopi vagy sfdp nez ki legjobban
+            string[] output = System.Text.Encoding.Default.GetString(wrapper.GenerateGraph(digraph, GraphVizWrapper.Enums.GraphReturnType.Plain)).Replace('.', ',').Split('\n');
+
+            int rowNr = 0;
+            string[] firstRow = output[rowNr].Split(' ');
+            double outWidth = Double.Parse(firstRow[2]);
+            double outHeight = Double.Parse(firstRow[3]);
+            while (++rowNr < output.Length)
+            {
+                string[] row = output[rowNr].Split(' ');
+                if (row[0] == "node")
+                {
+                    Node n = Nodes[int.Parse(row[1])];
+                    n.PosX = NodeR + (Double.Parse(row[2]) / outWidth) * (Width - 2 * NodeR);
+                    n.PosY = NodeR + (Double.Parse(row[3]) / outHeight) * (Height - 2 * NodeR);
+                }
+                else
+                    break;
+            }
+
+            updateConnections();
+            //Cursor = Cursors.Default;
+        }
+
+        public RenderTargetBitmap GenerateImage()
+        {//http://brianlagunas.com/wpf-copy-uielement-as-image-to-clipboard/
+            double width = this.ActualWidth;
+            double height = this.ActualHeight;
+            RenderTargetBitmap bmpCopied = new RenderTargetBitmap((int)Math.Round(width), (int)Math.Round(height), 96, 96, PixelFormats.Default);
+            DrawingVisual dv = new DrawingVisual();
+            using (DrawingContext dc = dv.RenderOpen())
+            {
+                VisualBrush vb = new VisualBrush(this);
+                dc.DrawRectangle(vb, null, new Rect(new Point(), new Size(width, height)));
+            }
+            bmpCopied.Render(dv);
+            return bmpCopied;
+        }
+
 
     }
 }

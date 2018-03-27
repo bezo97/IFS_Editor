@@ -5,12 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:IFS_Editor.View"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300" Width="300">
+             d:DesignHeight="300" d:DesignWidth="300" Width="250">
     <StackPanel.Background>
         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
     </StackPanel.Background>
     <StackPanel Orientation="Horizontal">
-        <Label>Flame Browser</Label>
+        <Label>Flame Browser: </Label>
+        <Label x:Name="FileNameLabel">Unnamed Flame</Label>
         <!--<Button>elrejt?</Button>-->
     </StackPanel>
     <StackPanel Orientation="Horizontal">

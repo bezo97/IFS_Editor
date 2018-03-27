@@ -12,15 +12,31 @@
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
                 <MenuItem Header="_New"/>
-                <MenuItem Header="_Open" Click="OpenFile_Click"/>
-                <MenuItem Header="_Save" Click="SaveFile_Click"/>
+                <Separator/>
+                <MenuItem Header="_Open params..." Click="OpenFile_Click" ToolTip="Open parameters from file"/>
+                <MenuItem Header="Paste params" ToolTip="Paste parameters from clipboard"/>
+                <Separator/>
+                <MenuItem Header="_Save params..." Click="SaveFile_Click" ToolTip="Save parameters to file"/>
+                <MenuItem Header="Copy params" ToolTip="Copy parameters to clipboard"/>
+                <Separator/>
+                <MenuItem Header="Save image..." Click="SaveImageToFile" ToolTip="Save image to file"/>
+                <MenuItem Header="Copy image" Click="CopyImageToClipboard" ToolTip="Copy image to clipboard"/>
+                <Separator/>
+                <MenuItem Header="_Launch in...">
+                    <MenuItem Header="Apophysis"/>
+                    <MenuItem Header="Chaotica"/>
+                    <MenuItem Header="Fractorium"/>
+                    <MenuItem Header="JWildfire"/>
+                </MenuItem>
                 <Separator />
                 <MenuItem Header="_Exit"/>
             </MenuItem>
             <MenuItem Header="_Settings">
-                <MenuItem Header="_Camera Settings"/>
-                <MenuItem Header="_Render Settings" Click="ShowRenderSettingsWindow"/>
-                <MenuItem Header="_Imaging Settings" Click="ShowImagingSettingsWindow"/>
+                <MenuItem Header="_Camera Settings..."/>
+                <MenuItem Header="_Render Settings..." Click="ShowRenderSettingsWindow"/>
+                <MenuItem Header="_Imaging Settings..." Click="ShowImagingSettingsWindow"/>
+                <Separator/>
+                <MenuItem Header="_User Preferences..." /><!--TODO: pl default layout, default sulyozott meretezes, external renderers: Apophysis helye, Chaotica helye-->
             </MenuItem>
         </Menu>
         <StatusBar DockPanel.Dock="Bottom">
@@ -28,40 +44,44 @@
         </StatusBar>
         <ToolBarTray DockPanel.Dock="Top" Orientation="Horizontal">
             <ToolBar Band="0" BandIndex="0">
+                <Button Content="[New Flame]"/>
+                <Separator/>
+                <Button Content="[Open Flame]" Click="OpenFile_Click"  ToolTip="Open flame from file"/>
+                <Button Content="[Load From Clipboard]" ToolTip="Paste parameters from clipboard"/>
+                <Separator/>
+                <Button Content="[Save Flame]" Click="SaveFile_Click" ToolTip="Save flame to file"/>
+                <Button Content="[Save To Clipboard]" ToolTip="Copy parameters to clipboard"/>
+                <!-- ide betenni a View\Icons\*.xaml dolgokat??? -->
+            </ToolBar>
+            <ToolBar Band="0" BandIndex="1">
+                <Button Content="[image To Clipboard]" Click="CopyImageToClipboard" ToolTip="Copy image to clipboard"/>
+                <Button Content="[Save Image]" Click="SaveImageToFile" ToolTip="Save image to file"/>
+                <!-- ide betenni a View\Icons\*.xaml dolgokat??? -->
+            </ToolBar>
+            <ToolBar Band="0" BandIndex="2">
+                <!--TODO csak az jelenik meg, amelyik a preferencesben be van állítva-->
+                <Button Content="[To Apophysis]" ToolTip="Launch current params in Apophysis"/>
+                <Button Content="[To Chaotica]" ToolTip="Launch current params in Chaotica"/>
+                <Button Content="[To Fractorium]" ToolTip="Launch current params in Fractorium"/>
+                <Button Content="[To JWildfire]" ToolTip="Launch current params in JWildfire"/>
+            </ToolBar>
+            <ToolBar Band="1" BandIndex="0">
                 <Button Content="[Add XForm]" Click="AddXForm_Click" ToolTip="Add XForm"/>
                 <Button Content="[Add linked XForm?]"/>
                 <Button Content="[Delete XForm]"/>
             </ToolBar>
-            <ToolBar Band="0" BandIndex="1">
-                <Button Content="[New Flame]"/>
-                <Button Content="[Open Flame]" Click="OpenFile_Click"/>
-                <Button Content="[Save Flame]" Click="SaveFile_Click"/>
-                <!-- ide betenni a View\Icons\*.xaml dolgokat??? -->
-            </ToolBar>
-            <ToolBar Band="0" BandIndex="2">
-                <Button Content="[Load From Clipboard]"/>
-                <Button Content="[Save To Clipboard]">
-                    <!-- ide betenni a View\Icons\*.xaml dolgokat??? -->
-                </Button>
-            </ToolBar>
-            <ToolBar Band="0" BandIndex="3">
-                <Button Content="[Imag]"/>
-                <Button Content="[Rend]"/>
-                <Button Content="[Camera]">
-                    <!-- ide betenni a View\Icons\*.xaml dolgokat??? -->
-                </Button>
-            </ToolBar>
-            <ToolBar Band="1" BandIndex="0">
+            <ToolBar Band="1" BandIndex="1">
                 <!--<Label>Connections:</Label>-->
                 <Button Content="[mindenkire rakot]"/>
                 <Button Content="[mindenkit rakot]"/>
                 <Button Content="[mindenkrol torol]"/>
                 <Button Content="[mindenkre torol]"/>
                 <Separator />
-                <Button Content="[sulyok normalizalasa]"/>
+                <Button Content="[sulyok normalizalasa]" ToolTip="Normalize weights"/>
+                <Button Content="[sulyozott meretek]" ToolTip="Make nodes grow by their XForm weights for more visualization"/>
                 <!-- ide betenni a View\Icons\*.xaml dolgokat??? -->
             </ToolBar>
-            <ToolBar Band="1" BandIndex="1">
+            <ToolBar Band="1" BandIndex="2">
                 <Label>Node size:</Label>
                 <ComboBox><!--TODO: auto select on load-->
                     <ComboBoxItem>Tiny</ComboBoxItem>
@@ -69,11 +89,30 @@
                     <ComboBoxItem IsSelected="True">Medium</ComboBoxItem>
                     <ComboBoxItem>Big</ComboBoxItem>
                 </ComboBox>
+                <Separator/>
+                <Label>Layout:</Label>
+                <ComboBox x:Name="LayoutComboBox" SelectionChanged="SetLayout" IsSynchronizedWithCurrentItem="True">
+                    <!--TODO: auto select on load-->
+                    <ComboBoxItem>Circo</ComboBoxItem>
+                    <ComboBoxItem>Dot</ComboBoxItem>
+                    <ComboBoxItem>Fdp</ComboBoxItem>
+                    <ComboBoxItem>Neato</ComboBoxItem>
+                    <ComboBoxItem>Osage</ComboBoxItem>
+                    <ComboBoxItem>Patchwork</ComboBoxItem>
+                    <ComboBoxItem IsSelected="True">Sfdp</ComboBoxItem>
+                    <ComboBoxItem>Twopi</ComboBoxItem>
+                </ComboBox>
+                <!-- ide betenni a View\Icons\*.xaml dolgokat??? -->
+            </ToolBar>
+            <ToolBar Band="1" BandIndex="3">
+                <Button Content="[Camera]" ToolTip="Camera settings window"/>
+                <Button Content="[Rend]" Click="ShowRenderSettingsWindow" ToolTip="Render settings window"/>
+                <Button Content="[Imag]" Click="ShowImagingSettingsWindow" ToolTip="Imaging settings window"/>
                 <!-- ide betenni a View\Icons\*.xaml dolgokat??? -->
             </ToolBar>
         </ToolBarTray>
         <ToolBarTray DockPanel.Dock="Right" Orientation="Vertical"/>
-        <View:FlameBrowser x:Name="flamebrowser_main" DockPanel.Dock="Left" Width="150"/>
+        <View:FlameBrowser x:Name="flamebrowser_main" DockPanel.Dock="Left"/>
         <Grid><!--ide nem kellenek cellak, mert az xform panel lebeg, ez csak a lastchildfill miatt kell-->
             <xctk:Zoombox x:Name="zoombox" IsAnimated="True" KeepContentInBounds="False" DragModifiers="None" RelativeZoomModifiers="None" Background="#FF1D1D1D" ZoomOnPreview="False" Cursor="SizeAll">
                 <View:NodeMap x:Name="nodemap_main" Width="{Binding ActualWidth, ElementName=zoombox, Mode=OneWay}" Height="{Binding ActualHeight, ElementName=zoombox, Mode=OneWay}" Background="#FF969696" />

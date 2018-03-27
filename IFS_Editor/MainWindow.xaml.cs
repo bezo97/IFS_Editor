@@ -2,6 +2,7 @@
 using IFS_Editor.View;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -71,8 +72,7 @@ namespace IFS_Editor
             };
             if (ofd.ShowDialog() == true)
             {
-                //nodemap_main.SetFlame(FlameSerializer.Load(ofd.FileName));
-                flamebrowser_main.Update(FlameSerializer.Load(ofd.FileName));
+                flamebrowser_main.Update(FlameSerializer.Load(ofd.FileName), ofd.FileName);
                 //try catch
             }
         }
@@ -91,5 +91,46 @@ namespace IFS_Editor
                 //try catch
             }
         }
+
+        private void SetLayout(object sender, SelectionChangedEventArgs e)
+        {
+            GraphVizWrapper.Enums.RenderingEngine sel = GraphVizWrapper.Enums.RenderingEngine.Sfdp;
+            Enum.TryParse((((ComboBoxItem)LayoutComboBox.SelectedItem).Content?? "Sfdp").ToString(), out sel);
+            try
+            {
+                nodemap_main.GenerateLayout(sel);
+            }
+            catch
+            {
+                //TODO: error status
+            }
+        }
+
+        private void CopyImageToClipboard(object sender, RoutedEventArgs e)
+        {
+            Clipboard.SetImage(nodemap_main.GenerateImage());
+            //status
+        }
+
+        private void SaveImageToFile(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.SaveFileDialog sfd = new Microsoft.Win32.SaveFileDialog
+            {
+                FileName = nodemap_main.GetFlame().name+" Graph",
+                DefaultExt = ".png",
+                Filter = "Image files (.png)|*.png"
+            };
+            if (sfd.ShowDialog() == true)
+            {
+                PngBitmapEncoder pngImage = new PngBitmapEncoder();
+                pngImage.Frames.Add(BitmapFrame.Create(nodemap_main.GenerateImage()));
+                using (Stream fileStream = File.Create(sfd.FileName))
+                {
+                    pngImage.Save(fileStream);
+                }
+                //status
+            }
+        }
+
     }
 }

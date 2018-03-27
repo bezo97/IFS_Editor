@@ -23,6 +23,8 @@ namespace IFS_Editor.View
     {
         public NodeMap Map;
         private List<Flame> flames = new List<Flame>();
+        private string filepath = "";
+
         public FlameBrowser()
         {
             InitializeComponent();
@@ -45,8 +47,11 @@ namespace IFS_Editor.View
             }
         }
 
-        public void Update(List<Flame> LoadedFlames)
+        public void Update(List<Flame> LoadedFlames, string path)
         {
+            filepath = path;
+            FileNameLabel.Content = path.Split('\\').Last();
+
             flames.Clear();
             FlameListBox.Items.Clear();
             foreach (Flame f in LoadedFlames)
