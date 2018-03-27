@@ -63,6 +63,7 @@ namespace IFS_Editor.Model
                                             case "opacity":
                                             case "weight":
                                             case "symmetry":
+                                            case "chaos":
                                             case "post":
                                                 continue;//mar kezeltuk
                                             case "coefs":
@@ -130,8 +131,8 @@ namespace IFS_Editor.Model
                     xfs[i].SetConn(new Conn(xfs[j], weight));
                 }
 
-                if (xfs[i].name == "")//otlet: elnevezzuk, ha nincs
-                    xfs[i].name = xfs[i].Variations[0].Name;//elso variation neve
+                if (xfs[i].name == "" && xfs[i].Variations.Count>0)//otlet: elnevezzuk, ha nincs neve de van benne variation
+                    xfs[i].name = xfs[i].Variations[0].Name;
             }
             return f;
         }

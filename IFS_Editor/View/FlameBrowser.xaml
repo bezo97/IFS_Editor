@@ -18,5 +18,5 @@
         <Button>[-]</Button>
         <Button>[Save all]</Button>
     </StackPanel>
-    <ListBox x:Name="FlameListBox" ScrollViewer.VerticalScrollBarVisibility="auto" />
+    <ListBox x:Name="FlameListBox" ScrollViewer.VerticalScrollBarVisibility="auto" SelectionMode="Single" SelectionChanged="Li_Selected"/>
 </StackPanel>

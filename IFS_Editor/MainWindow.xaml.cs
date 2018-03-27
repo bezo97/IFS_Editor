@@ -25,9 +25,12 @@ namespace IFS_Editor
         public MainWindow()
         {
             InitializeComponent();
+
             nodemap_main.Sidebar = sidebar_main;
             sidebar_main.Map = nodemap_main;
             flamebrowser_main.Map = nodemap_main;
+
+            flamebrowser_main.AddFlame(new Flame() { name = "Unnamed Flame" }, true);
         }
 
         private void ShowRenderSettingsWindow(object sender, RoutedEventArgs e)

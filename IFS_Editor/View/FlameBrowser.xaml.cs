@@ -22,32 +22,46 @@ namespace IFS_Editor.View
     public partial class FlameBrowser : StackPanel
     {
         public NodeMap Map;
-        private List<Flame> flames;
+        private List<Flame> flames = new List<Flame>();
         public FlameBrowser()
         {
             InitializeComponent();
         }
 
-        public void Update(List<Flame> LoadedFlames)
+        public void AddFlame(Flame f, bool select)
         {
-            flames = LoadedFlames;
-            FlameListBox.Items.Clear();
-            foreach (Flame f in flames)
+            flames.Add(f);
+            ListBoxItem li = new ListBoxItem
             {
-                ListBoxItem li = new ListBoxItem
-                {
-                    Content = f.name
-                };
-                li.Selected += Li_Selected;
-                FlameListBox.Items.Add(li);
+                Content = f.name
+            };
+            //li.MouseLeftButtonDown += Li_Selected;
+            //li.GotFocus += Li_Selected;//->nyillal is lehet valtogatni
+            FlameListBox.Items.Add(li);
+            if (select)
+            {
+                FlameListBox.SelectedIndex = FlameListBox.Items.Count - 1;//ujat kivalaszt
+                //li.Focus();
             }
-            FlameListBox.SelectedIndex = 0;//elsot kivalaszt
         }
 
-        private void Li_Selected(object sender, RoutedEventArgs e)
+        public void Update(List<Flame> LoadedFlames)
         {
-            //kell elmenteni az elozot? sztem nem
-            Map.SetFlame(flames[FlameListBox.SelectedIndex]);
+            flames.Clear();
+            FlameListBox.Items.Clear();
+            foreach (Flame f in LoadedFlames)
+            {
+                AddFlame(f,false);
+            }
+            FlameListBox.SelectedIndex = 0;//elsot kivalaszt
+            //((ListBoxItem)FlameListBox.Items.GetItemAt(0)).Focus();
+            
+        }
+
+        private void Li_Selected(object sender, SelectionChangedEventArgs e)
+        {
+            if (FlameListBox.SelectedIndex >= 0)//-1 jelentese listboxnal: nincs kivalasztva semmi
+                Map.SetFlame(flames[FlameListBox.SelectedIndex]);
         }
     }
 }

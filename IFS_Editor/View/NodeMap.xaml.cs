@@ -133,7 +133,9 @@ namespace IFS_Editor.View
 
         public void SetFlame(Flame f)
         {
-            SelectedNode = null;
+            //SelectedNode = null;
+            sidebar.Close();//TODO: ennek be kene zarodnia a SelectedNode=null;-val
+
             RemoveNodes();
             flame = f;
             foreach (XForm xf in flame.GetXForms())
