@@ -8,6 +8,11 @@ namespace IFS_Editor.Model
 {
     public class CameraSettings
     {
+        public CameraSettings()
+        {
+            Scale = 25;
+        }
+
         //2d
         public double CenterX { get; set; }
         public double CenterY { get; set; }

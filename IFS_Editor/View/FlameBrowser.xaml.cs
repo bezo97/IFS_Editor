@@ -40,17 +40,26 @@ namespace IFS_Editor.View
         public void AddFlame(Flame f, bool select)
         {
             flames.Add(f);
-            ListBoxItem li = new ListBoxItem
+            FlameListboxItem fli = new FlameListboxItem(this,f);
+            /*ListBoxItem li = new ListBoxItem
             {
-                Content = f.name
-            };
+                Content = f.name//fli
+            };*/
             //li.MouseLeftButtonDown += Li_Selected;
             //li.GotFocus += Li_Selected;//->nyillal is lehet valtogatni
-            FlameListBox.Items.Add(li);
+            FlameListBox.Items.Add(fli);
             if (select)
             {
-                FlameListBox.SelectedIndex = FlameListBox.Items.Count - 1;//ujat kivalaszt
+                FlameListBox.SelectedItem = fli;
             }
+        }
+
+        public void RemoveFlame(FlameListboxItem fli)
+        {
+            int index = FlameListBox.Items.IndexOf(fli);
+            flames.RemoveAt(index);
+            FlameListBox.Items.Remove(fli);
+            FlameListBox.SelectedIndex=(index<FlameListBox.Items.Count)?index:0;
         }
 
         public void UpdateAll(List<Flame> LoadedFlames, string path)
@@ -68,7 +77,7 @@ namespace IFS_Editor.View
             FlameListBox.SelectedIndex = 0;//elsot kivalaszt            
         }
 
-        public void UpdateCurrent(Flame f)
+        public void UpdateCurrentFlame(Flame f)
         {
             if (FlameListBox.Items.Count == 0)
             {
@@ -81,8 +90,7 @@ namespace IFS_Editor.View
                     FlameListBox.SelectedIndex = 0;
                 }
                 flames[FlameListBox.SelectedIndex] = f;
-                ((ListBoxItem)FlameListBox.SelectedItem).Content = f.name;
-                ((ListBoxItem)FlameListBox.SelectedItem).Focus();
+                ((FlameListboxItem)FlameListBox.SelectedItem).UpdateFlame(f);
                 Li_Selected(null,null);//para
             }
         }
@@ -96,7 +104,20 @@ namespace IFS_Editor.View
         private void Li_Selected(object sender, SelectionChangedEventArgs e)
         {
             if (FlameListBox.SelectedIndex >= 0)//-1 jelentese listboxnal: nincs kivalasztva semmi
+            {
+                ((FlameListboxItem)FlameListBox.SelectedItem).Focus();
                 Map.SetFlame(flames[FlameListBox.SelectedIndex]);
+            }
+        }
+
+        private void AddFlameButton_Click(object sender, RoutedEventArgs e)
+        {
+            AddFlame(new Flame(), true);
+        }
+
+        private void RemoveFlameButton_Click(object sender, RoutedEventArgs e)
+        {
+            //RemoveFlame(FlameListBox.SelectedItem);
         }
     }
 }

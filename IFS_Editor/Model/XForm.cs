@@ -9,13 +9,13 @@ namespace IFS_Editor.Model
     public class XForm
     {
         public string name = "linear";
-        public double color = 0.5;
+        public double color = 0.0;
         public double opacity = 1.0;
         public double baseWeight = 0.5;
         public double symmetry = 0;//color speed
         public double var_color = 1;//direct color feature in apophysis
-        public List<double> PreCoefs;
-        public List<double> PostCoefs;
+        public List<double> PreCoefs = new List<double> { 1, 0, 0, 1, 0, 0 };
+        public List<double> PostCoefs = new List<double> { 1, 0, 0, 1, 0, 0 };
 
         private List<Conn> Conns = new List<Conn>();
 

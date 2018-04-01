@@ -50,6 +50,7 @@ namespace IFS_Editor.View
                 if (ArrowToMouse != null)
                     foreach (Path p in ArrowToMouse)
                         Children.Remove(p);//remove old arrow
+                SelectedNode = n;
                 updateConnections();
             }
         }
@@ -70,6 +71,8 @@ namespace IFS_Editor.View
                     BringNodeToFront(sn);
                     sidebar.Show(sn.xf);
                 }
+                else
+                    sidebar.Close(false);
                 updateConnections();
             } }
 
@@ -136,8 +139,7 @@ namespace IFS_Editor.View
 
         public void SetFlame(Flame f)
         {
-            //SelectedNode = null;
-            sidebar.Close();//TODO: ennek be kene zarodnia a SelectedNode=null;-val
+            sidebar.Close(true);
 
             RemoveNodes();
             flame = f;

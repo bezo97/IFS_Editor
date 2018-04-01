@@ -10,13 +10,12 @@
         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
     </StackPanel.Background>
     <StackPanel Orientation="Horizontal">
-        <Label>Flame Browser: </Label>
-        <Label x:Name="FileNameLabel">Unnamed Flame</Label>
-        <!--<Button>elrejt?</Button>-->
-    </StackPanel>
-    <StackPanel Orientation="Horizontal">
-        <Button>[+]</Button>
-        <Button>[-]</Button>
+        <Frame Source="Icons/KPIBrowserView_16x.xaml" Margin="10,0,0,0"/>
+        <!--<Label>Flame Browser:</Label>-->
+        <Label x:Name="FileNameLabel">Unnamed Flame Collection</Label>
     </StackPanel>
     <ListBox x:Name="FlameListBox" ScrollViewer.VerticalScrollBarVisibility="auto" SelectionMode="Single" SelectionChanged="Li_Selected"/>
+    <Button Click="AddFlameButton_Click" Margin="5" ToolTip="Add new empty flame to the collection.">
+        <Frame Source="Icons/Add_grey_16x.xaml"/>
+    </Button>
 </StackPanel>

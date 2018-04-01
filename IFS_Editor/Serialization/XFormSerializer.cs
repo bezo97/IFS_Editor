@@ -58,7 +58,7 @@ namespace IFS_Editor.Serialization
                 w.WriteAttributeString("opacity", xf.opacity.ToString());
                 w.WriteAttributeString("name", xf.name);
             }
-            w.WriteAttributeString("var_color", xf.var_color.ToString());//TODO: itt neha elszall???
+            //w.WriteAttributeString("var_color", xf.var_color.ToString());//TODO: itt neha elszall???
             w.WriteEndElement();//xform
         }
 

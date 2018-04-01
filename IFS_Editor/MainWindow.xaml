@@ -7,36 +7,130 @@
         xmlns:local="clr-namespace:IFS_Editor"
         xmlns:System="clr-namespace:System;assembly=mscorlib" xmlns:View="clr-namespace:IFS_Editor.View" x:Class="IFS_Editor.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525" WindowState="Maximized">
+        Title="Flame Node Editor" Height="350" Width="525" WindowState="Maximized">
+    <Window.InputBindings>
+        <KeyBinding Key="N" Modifiers="Control" Command="New"></KeyBinding>
+        <KeyBinding Key="O" Modifiers="Control" Command="Open"></KeyBinding>
+        <KeyBinding Key="S" Modifiers="Control" Command="Save"></KeyBinding>
+        <KeyBinding Key="C" Modifiers="Control" Command="Copy"></KeyBinding>
+        <KeyBinding Key="V" Modifiers="Control" Command="Paste"></KeyBinding>
+        <KeyBinding Key="F4" Modifiers="Alt" Command="Close"></KeyBinding>
+    </Window.InputBindings>
+    <Window.CommandBindings>
+        <CommandBinding Command="New" Executed="NewFlame_Click"></CommandBinding>
+        <CommandBinding Command="Open" Executed="OpenFile_Click"></CommandBinding>
+        <CommandBinding Command="Save" Executed="SaveFile_Click"></CommandBinding>
+        <CommandBinding Command="Copy" Executed="CopyClipboard_Click"></CommandBinding>
+        <CommandBinding Command="Paste" Executed="PasteClipboard_Click"></CommandBinding>
+        <!--<CommandBinding Command="SaveAs" Executed="SaveAsCommandBinding_Executed"></CommandBinding>
+        <CommandBinding Command="SaveAll" Executed="SaveAsCommandBinding_Executed"></CommandBinding>-->
+        <CommandBinding Command="Close" Executed="Close_Click"></CommandBinding>
+    </Window.CommandBindings>
     <DockPanel LastChildFill="true">
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
-                <MenuItem Header="_New"/>
+                <MenuItem Header="_New" ToolTip="Add new empty flame" InputGestureText="Ctrl+N">
+                    <MenuItem.Icon>
+                        <Frame Source="View/Icons/NewFile_16x.xaml"/>
+                    </MenuItem.Icon>
+                </MenuItem>
                 <Separator/>
-                <MenuItem Header="_Open params..." Click="OpenFile_Click" ToolTip="Open parameters from file"/>
-                <MenuItem Header="Paste params" Click="PasteClipboard_Click" ToolTip="Paste parameters from clipboard"/>
+                <MenuItem Header="_Open params..." Command="Open" ToolTip="Open flames from file" InputGestureText="Ctrl+O">
+                    <MenuItem.Icon>
+                        <Frame Source="View/Icons/OpenFolder_16x.xaml"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Save params..." Command="Save" ToolTip="Save flames to file" InputGestureText="Ctrl+S">
+                    <MenuItem.Icon>
+                        <Frame Source="View/Icons/SaveAll_16x.xaml"/>
+                    </MenuItem.Icon>
+                </MenuItem>
                 <Separator/>
-                <MenuItem Header="_Save params..." Click="SaveFile_Click" ToolTip="Save parameters to file"/>
-                <MenuItem Header="Copy params" Click="CopyClipboard_Click" ToolTip="Copy parameters to clipboard"/>
+                <MenuItem Header="Paste params" Command="Paste" ToolTip="Paste flame from clipboard" InputGestureText="Ctrl+V">
+                    <MenuItem.Icon>
+                        <Frame Source="View/Icons/Paste_16x.xaml"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Copy params" Command="Copy" ToolTip="Copy flame to clipboard" InputGestureText="Ctrl+C">
+                    <MenuItem.Icon>
+                        <Frame Source="View/Icons/CopyToClipboard_16x.xaml"/>
+                    </MenuItem.Icon>
+                </MenuItem>
                 <Separator/>
-                <MenuItem Header="Save image..." Click="SaveImageToFile" ToolTip="Save image to file"/>
-                <MenuItem Header="Copy image" Click="CopyImageToClipboard" ToolTip="Copy image to clipboard"/>
+                <MenuItem Header="Save image..." Click="SaveImageToFile" ToolTip="Save image to file" >
+                    <!--InputGestureText="Ctrl+Shift+S"-->
+                    <MenuItem.Icon>
+                        <Frame Source="View/Icons/WindowScreenshot_16x.xaml"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Copy image" Click="CopyImageToClipboard" ToolTip="Copy image to clipboard">
+                    <!--InputGestureText="Ctrl+Shift+C"-->
+                    <MenuItem.Icon>
+                        <Frame Source="View/Icons/RectangularScreenshot_16x.xaml"/>
+                    </MenuItem.Icon>
+                </MenuItem>
                 <Separator/>
                 <MenuItem Header="_Launch in...">
-                    <MenuItem Header="Apophysis"/>
-                    <MenuItem Header="Chaotica"/>
-                    <MenuItem Header="Fractorium"/>
-                    <MenuItem Header="JWildfire"/>
+                    <MenuItem.Icon>
+                        <Frame Source="View/Icons/RunQuery_16x.xaml"/>
+                    </MenuItem.Icon>
+                    <MenuItem Header="Apophysis">
+                        <MenuItem.Icon>
+                            <Image Source="View/Icons/apophysis.jpg"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Chaotica">
+                        <MenuItem.Icon>
+                            <Image Source="View/Icons/chaotica.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Fractorium">
+                        <MenuItem.Icon>
+                            <Image Source="View/Icons/fractorium.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="JWildfire">
+                        <MenuItem.Icon>
+                            <Image Source="View/Icons/jwf.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
                 </MenuItem>
                 <Separator />
-                <MenuItem Header="_Exit"/>
+                <MenuItem Header="_Exit" InputGestureText="Alt+F4" Command="Close">
+                    <MenuItem.Icon>
+                        <Frame Source="View/Icons/CloseSolution_16x.xaml"/>
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
             <MenuItem Header="_Settings">
-                <MenuItem Header="_Camera Settings..."/>
-                <MenuItem Header="_Render Settings..." Click="ShowRenderSettingsWindow"/>
-                <MenuItem Header="_Imaging Settings..." Click="ShowImagingSettingsWindow"/>
+                <MenuItem Header="_Camera Settings...">
+                    <MenuItem.Icon>
+                        <Frame Source="View/Icons/Camera_16x.xaml"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Render Settings..." Click="ShowRenderSettingsWindow">
+                    <MenuItem.Icon>
+                        <Frame Source="View/Icons/LibrarySetting_16x.xaml"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Imaging Settings..." Click="ShowImagingSettingsWindow">
+                    <MenuItem.Icon>
+                        <Frame Source="View/Icons/ColorPalette_16x.xaml"/>
+                    </MenuItem.Icon>
+                </MenuItem>
                 <Separator/>
-                <MenuItem Header="_User Preferences..." /><!--TODO: pl default layout, default sulyozott meretezes, external renderers: Apophysis helye, Chaotica helye-->
+                <MenuItem Header="_User Preferences..." ><!--TODO: pl default layout, default sulyozott meretezes, external renderers: Apophysis helye, Chaotica helye-->
+                    <MenuItem.Icon>
+                        <Frame Source="View/Icons/Settings_16x.xaml"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="_Insert Template">
+                <MenuItem Header="Tiling 2"/>
+                <MenuItem Header="Tiling 4"/>
+                <MenuItem Header="Tiling 6"/>
+                <Separator/>
+                <MenuItem Header="Custom..." />
             </MenuItem>
         </Menu>
         <StatusBar DockPanel.Dock="Bottom">
@@ -44,31 +138,63 @@
         </StatusBar>
         <ToolBarTray DockPanel.Dock="Top" Orientation="Horizontal">
             <ToolBar Band="0" BandIndex="0">
-                <Button Content="[New Flame]"/>
+                <Button  ToolTip="New empty collection">
+                    <!--TODO: Click=""-->
+                    <Frame Source="View/Icons/NewFileCollection_16x.xaml" />
+                </Button>
+                <Button  ToolTip="New empty flame">
+                    <!--TODO: Click=""-->
+                    <Frame Source="View/Icons/NewFile_16x.xaml" />
+                </Button>
                 <Separator/>
-                <Button Content="[Open Flame]" Click="OpenFile_Click"  ToolTip="Open flame from file"/>
-                <Button Content="[Paste params]" Click="PasteClipboard_Click" ToolTip="Paste parameters from clipboard"/>
+                <Button Click="OpenFile_Click"  ToolTip="Open flame from file">
+                    <Frame Source="View/Icons/OpenFolder_16x.xaml"/>
+                </Button>
+                <Button Click="SaveFile_Click" ToolTip="Save flame to file">
+                    <Frame Source="View/Icons/SaveAll_16x.xaml"/>
+                </Button>
                 <Separator/>
-                <Button Content="[Save Flame]" Click="SaveFile_Click" ToolTip="Save flame to file"/>
-                <Button Content="[Copy params]" Click="CopyClipboard_Click" ToolTip="Copy parameters to clipboard"/>
-                <!-- ide betenni a View\Icons\*.xaml dolgokat??? -->
+                <Button Click="PasteClipboard_Click" ToolTip="Paste parameters from clipboard">
+                    <Frame Source="View/Icons/Paste_16x.xaml"/>
+                </Button>
+                <Button Click="CopyClipboard_Click" ToolTip="Copy parameters to clipboard">
+                    <Frame Source="View/Icons/CopyToClipboard_16x.xaml"/>
+                </Button>
             </ToolBar>
             <ToolBar Band="0" BandIndex="1">
-                <Button Content="[image To Clipboard]" Click="CopyImageToClipboard" ToolTip="Copy image to clipboard"/>
-                <Button Content="[Save Image]" Click="SaveImageToFile" ToolTip="Save image to file"/>
-                <!-- ide betenni a View\Icons\*.xaml dolgokat??? -->
+                <Button Click="SaveImageToFile" ToolTip="Save image to file">
+                    <Frame Source="View/Icons/WindowScreenshot_16x.xaml"/>
+                </Button>
+                <Button Click="CopyImageToClipboard" ToolTip="Copy image to clipboard">
+                    <Frame Source="View/Icons/RectangularScreenshot_16x.xaml"/>
+                </Button>
             </ToolBar>
             <ToolBar Band="0" BandIndex="2">
                 <!--TODO csak az jelenik meg, amelyik a preferencesben be van állítva-->
-                <Button Content="[To Apophysis]" ToolTip="Launch current params in Apophysis"/>
-                <Button Content="[To Chaotica]" ToolTip="Launch current params in Chaotica"/>
-                <Button Content="[To Fractorium]" ToolTip="Launch current params in Fractorium"/>
-                <Button Content="[To JWildfire]" ToolTip="Launch current params in JWildfire"/>
+                <Button ToolTip="Launch current params in Apophysis">
+                    <Image Source="View/Icons/apophysis.jpg" Width="16" Height="16"/>
+                </Button>
+                <Button ToolTip="Launch current params in Chaotica">
+                    <Image Source="View/Icons/chaotica.png" Width="16" Height="16"/>
+                </Button>
+                <Button ToolTip="Launch current params in Fractorium">
+                    <Image Source="View/Icons/fractorium.png" Width="16" Height="16"/>
+                </Button>
+                <Button ToolTip="Launch current params in JWildfire">
+                    <Image Source="View/Icons/jwf.png" Width="16" Height="16"/>
+                </Button>
             </ToolBar>
             <ToolBar Band="1" BandIndex="0">
-                <Button Content="[Add XForm]" Click="AddXForm_Click" ToolTip="Add XForm"/>
-                <Button Content="[Add linked XForm?]"/>
-                <Button Content="[Delete XForm]"/>
+                <Button Click="AddXForm_Click" ToolTip="Add XForm">
+                    <Frame Source="View/Icons/AddMemberFormula_16x.xaml"/>
+                </Button>
+                <Button ToolTip="Add linked XForm">
+                    <!--TODO: Click=""-->
+                    <Frame Source="View/Icons/AddLink_16x.xaml"/>
+                </Button>
+                <Button ToolTip="Delete selected XForms"><!--TODO: Click=""-->
+                    <Frame Source="View/Icons/SubtractMemberFormula_16x.xaml"/>
+                </Button>
             </ToolBar>
             <ToolBar Band="1" BandIndex="1">
                 <!--<Label>Connections:</Label>-->
@@ -79,7 +205,6 @@
                 <Separator />
                 <Button Content="[sulyok normalizalasa]" ToolTip="Normalize weights"/>
                 <Button Content="[sulyozott meretek]" ToolTip="Make nodes grow by their XForm weights for more visualization"/>
-                <!-- ide betenni a View\Icons\*.xaml dolgokat??? -->
             </ToolBar>
             <ToolBar Band="1" BandIndex="2">
                 <Label>Node size:</Label>
@@ -102,13 +227,17 @@
                     <ComboBoxItem IsSelected="True">Sfdp</ComboBoxItem>
                     <ComboBoxItem>Twopi</ComboBoxItem>
                 </ComboBox>
-                <!-- ide betenni a View\Icons\*.xaml dolgokat??? -->
             </ToolBar>
             <ToolBar Band="1" BandIndex="3">
-                <Button Content="[Camera]" ToolTip="Camera settings window"/>
-                <Button Content="[Rend]" Click="ShowRenderSettingsWindow" ToolTip="Render settings window"/>
-                <Button Content="[Imag]" Click="ShowImagingSettingsWindow" ToolTip="Imaging settings window"/>
-                <!-- ide betenni a View\Icons\*.xaml dolgokat??? -->
+                <Button ToolTip="Camera settings window">
+                    <Frame Source="View/Icons/Camera_16x.xaml"/>
+                </Button>
+                <Button Click="ShowRenderSettingsWindow" ToolTip="Render settings window">
+                    <Frame Source="View/Icons/LibrarySetting_16x.xaml"/>
+                </Button>
+                <Button Click="ShowImagingSettingsWindow" ToolTip="Imaging settings window">
+                    <Frame Source="View/Icons/ColorPalette_16x.xaml"/>
+                </Button>
             </ToolBar>
         </ToolBarTray>
         <ToolBarTray DockPanel.Dock="Right" Orientation="Vertical"/>

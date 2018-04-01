@@ -8,11 +8,11 @@ namespace IFS_Editor.Model
 {
     public class RenderSettings
     {
-        int sizeX;//resolution
-        int sizeY;
-        int oversample;
-        double filter;
-        int quality;
+        int sizeX=1920;//resolution
+        int sizeY=1080;
+        int oversample=1;
+        double filter=0.4;
+        int quality=4000;
 
         public int SizeX
         {

@@ -32,14 +32,14 @@ namespace IFS_Editor.ViewModel
             get
             {
                 //byteok -> hex
-                return "#FF" + _s.Back_colorR.ToString("X") + _s.Back_colorG.ToString("G") + _s.Back_colorB.ToString("X");
+                return "#FF" + ((byte)(_s.Back_colorR*255)).ToString("X") + ((byte)(_s.Back_colorG * 255)).ToString("G") + ((byte)(_s.Back_colorB * 255)).ToString("X");
             }
             set
             {
                 //hex -> byteok
-                _s.Back_colorR = byte.Parse(value.Substring(3, 2), System.Globalization.NumberStyles.HexNumber);
-                _s.Back_colorG = byte.Parse(value.Substring(5, 2), System.Globalization.NumberStyles.HexNumber);
-                _s.Back_colorB = byte.Parse(value.Substring(7, 2), System.Globalization.NumberStyles.HexNumber);
+                _s.Back_colorR = byte.Parse(value.Substring(3, 2), System.Globalization.NumberStyles.HexNumber)/255.0;
+                _s.Back_colorG = byte.Parse(value.Substring(5, 2), System.Globalization.NumberStyles.HexNumber)/255.0;
+                _s.Back_colorB = byte.Parse(value.Substring(7, 2), System.Globalization.NumberStyles.HexNumber)/255.0;
                 RaisePropertyChangedEvent("BackColor");
             }
         }

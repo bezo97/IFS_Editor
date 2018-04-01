@@ -9,20 +9,19 @@ namespace IFS_Editor.Model
 {
     public class ImagingSettings
     {
-        double back_colorR;
-        double back_colorG;
-        double back_colorB;
-        double brightness;
-        double gamma;
-        double g_threshold;
+        public ImagingSettings()
+        {
+            Brightness = 1;
+            Gamma = 1;
+        }
 
-        public double Back_colorR { get => back_colorR; set => back_colorR = value; }
-        public double Back_colorG { get => back_colorG; set => back_colorG = value; }
-        public double Back_colorB { get => back_colorB; set => back_colorB = value; }
-        public double Brightness { get => brightness; set => brightness = value; }
-        public double Gamma { get => gamma; set => gamma = value; }
-        public double G_threshold { get => g_threshold; set => g_threshold = value; }
+        public double Back_colorR { get; set; }
+        public double Back_colorG { get; set; }
+        public double Back_colorB { get; set; }
+        public double Brightness { get; set; }
+        public double Gamma { get; set; }
+        public double G_threshold { get; set; }
 
-        public string Back_ColorString { get { return back_colorR.ToString() + " " + back_colorG.ToString() + " " + back_colorB.ToString(); } }
+        public string Back_ColorString { get { return Back_colorR.ToString() + " " + Back_colorG.ToString() + " " + Back_colorB.ToString(); } }
     }
 }

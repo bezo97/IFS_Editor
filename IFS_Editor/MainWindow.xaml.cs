@@ -135,7 +135,7 @@ namespace IFS_Editor
 
         private void PasteClipboard_Click(object sender, RoutedEventArgs e)
         {
-            flamebrowser_main.UpdateCurrent(FlameSerializer.LoadString(Clipboard.GetText()));
+            flamebrowser_main.UpdateCurrentFlame(FlameSerializer.LoadString(Clipboard.GetText()));
             //try catch
         }
 
@@ -143,6 +143,17 @@ namespace IFS_Editor
         {
             Clipboard.SetText(FlameSerializer.SerializeFlame(nodemap_main.GetFlame()).ToString());
             //try catch
+        }
+
+        private void NewFlame_Click(object sender, RoutedEventArgs e)
+        {
+            //TODO
+        }
+
+        private void Close_Click(object sender, RoutedEventArgs e)
+        {
+            //TODO: save before quit?
+            Application.Current.Shutdown();
         }
     }
 }

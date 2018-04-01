@@ -32,11 +32,12 @@ namespace IFS_Editor.View
             Visibility = Visibility.Collapsed;
         }
 
-        public XForm Close()
+        public XForm Close(bool deselectNode)
         {
             xf = null;
             Visibility = Visibility.Collapsed;
-            Map.SelectedNode = null;
+            if(deselectNode)
+                Map.SelectedNode = null;
             return xf;
         }
         public void Show(XForm _xf)
@@ -47,7 +48,7 @@ namespace IFS_Editor.View
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-            Close();
+            Close(true);
         }
     }
 }

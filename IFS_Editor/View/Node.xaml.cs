@@ -93,14 +93,18 @@ namespace IFS_Editor.View
             base.OnMouseLeftButtonDown(e);
             e.Handled = true;//zoombox ne kapja meg
 
-            map.SelectedNode = this;
-            //map.beginConnecting(this);
+            //map.SelectedNode = this;
         }
 
         protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonUp(e);
             e.Handled = true;//zoombox ne kapja meg
+
+            if (map.SelectedNode != this)
+                map.SelectedNode = this;
+            else
+                map.SelectedNode = null;
 
             map.endConnecting(this);
         }
