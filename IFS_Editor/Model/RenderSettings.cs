@@ -26,6 +26,8 @@ namespace IFS_Editor.Model
             set { sizeY = value > 0 ? value : 0; }
         }
 
+        public string SizeString { get { return sizeX.ToString() + " " + SizeY.ToString(); } }
+
         public int Oversample
         {
             get { return oversample; }

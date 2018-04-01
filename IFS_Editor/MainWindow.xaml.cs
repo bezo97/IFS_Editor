@@ -1,4 +1,5 @@
 ﻿using IFS_Editor.Model;
+using IFS_Editor.Serialization;
 using IFS_Editor.View;
 using System;
 using System.Collections.Generic;
@@ -72,7 +73,7 @@ namespace IFS_Editor
             };
             if (ofd.ShowDialog() == true)
             {
-                flamebrowser_main.Update(FlameSerializer.Load(ofd.FileName), ofd.FileName);
+                flamebrowser_main.UpdateAll(FlameCollectionSerializer.LoadFile(ofd.FileName), ofd.FileName);
                 //try catch
             }
         }
@@ -81,13 +82,13 @@ namespace IFS_Editor
         {
             Microsoft.Win32.SaveFileDialog sfd = new Microsoft.Win32.SaveFileDialog
             {
-                FileName = nodemap_main.GetFlame().name,
+                FileName = flamebrowser_main.FlameCollectionName,
                 DefaultExt = ".flame",
                 Filter = "Flame files (.flame)|*.flame"
             };
             if (sfd.ShowDialog() == true)
             {
-                FlameSerializer.Save(nodemap_main.GetFlame(), sfd.FileName);
+                FlameCollectionSerializer.SaveFile(flamebrowser_main.FlameCollectionName, flamebrowser_main.GetFlames(), sfd.FileName);
                 //try catch
             }
         }
@@ -132,5 +133,16 @@ namespace IFS_Editor
             }
         }
 
+        private void PasteClipboard_Click(object sender, RoutedEventArgs e)
+        {
+            flamebrowser_main.UpdateCurrent(FlameSerializer.LoadString(Clipboard.GetText()));
+            //try catch
+        }
+
+        private void CopyClipboard_Click(object sender, RoutedEventArgs e)
+        {
+            Clipboard.SetText(FlameSerializer.SerializeFlame(nodemap_main.GetFlame()).ToString());
+            //try catch
+        }
     }
 }

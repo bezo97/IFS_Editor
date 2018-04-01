@@ -8,12 +8,14 @@ namespace IFS_Editor.Model
 {
     public class Flame
     {
-        public string name;
+        public string name = "";
+        public string version = "Node Editor";
         public CameraSettings cameraSettings = new CameraSettings();
         public RenderSettings renderSettings = new RenderSettings();
         public ImagingSettings imagingSettings = new ImagingSettings();
         List<XForm> xforms = new List<XForm>();
-        string palette;
+        public XForm finalxf;
+        public string palette;
 
         private List<XForm> XForms { get => xforms; /*set: csak egyenkent, AddXForm()*/ }
 

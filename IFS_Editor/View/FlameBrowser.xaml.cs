@@ -18,16 +18,23 @@ namespace IFS_Editor.View
 {
     /// <summary>
     /// Interaction logic for FlameBrowser.xaml
+    /// SelectedIndex valtozasanal a nodemapet automatikusan frissiti
     /// </summary>
     public partial class FlameBrowser : StackPanel
     {
         public NodeMap Map;
         private List<Flame> flames = new List<Flame>();
         private string filepath = "";
+        public string FlameCollectionName { set; get; }
 
         public FlameBrowser()
         {
             InitializeComponent();
+        }
+
+        public List<Flame> GetFlames()
+        {
+            return flames;
         }
 
         public void AddFlame(Flame f, bool select)
@@ -43,14 +50,14 @@ namespace IFS_Editor.View
             if (select)
             {
                 FlameListBox.SelectedIndex = FlameListBox.Items.Count - 1;//ujat kivalaszt
-                //li.Focus();
             }
         }
 
-        public void Update(List<Flame> LoadedFlames, string path)
+        public void UpdateAll(List<Flame> LoadedFlames, string path)
         {
             filepath = path;
-            FileNameLabel.Content = path.Split('\\').Last();
+            FlameCollectionName = path.Split('\\').Last().Split('.')[0];
+            FileNameLabel.Content = FlameCollectionName;
 
             flames.Clear();
             FlameListBox.Items.Clear();
@@ -58,11 +65,34 @@ namespace IFS_Editor.View
             {
                 AddFlame(f,false);
             }
-            FlameListBox.SelectedIndex = 0;//elsot kivalaszt
-            //((ListBoxItem)FlameListBox.Items.GetItemAt(0)).Focus();
-            
+            FlameListBox.SelectedIndex = 0;//elsot kivalaszt            
         }
 
+        public void UpdateCurrent(Flame f)
+        {
+            if (FlameListBox.Items.Count == 0)
+            {
+                AddFlame(f, true);
+            }
+            else
+            {
+                if (FlameListBox.SelectedIndex == -1)
+                {
+                    FlameListBox.SelectedIndex = 0;
+                }
+                flames[FlameListBox.SelectedIndex] = f;
+                ((ListBoxItem)FlameListBox.SelectedItem).Content = f.name;
+                ((ListBoxItem)FlameListBox.SelectedItem).Focus();
+                Li_Selected(null,null);//para
+            }
+        }
+
+        /// <summary>
+        /// Nodemapet frissiti az aktualisan kivalasztott flammel.
+        /// Automatikusan meghivodik a SelectedIndex valtozasakor
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Li_Selected(object sender, SelectionChangedEventArgs e)
         {
             if (FlameListBox.SelectedIndex >= 0)//-1 jelentese listboxnal: nincs kivalasztva semmi

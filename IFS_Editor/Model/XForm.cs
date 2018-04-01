@@ -13,6 +13,7 @@ namespace IFS_Editor.Model
         public double opacity = 1.0;
         public double baseWeight = 0.5;
         public double symmetry = 0;//color speed
+        public double var_color = 1;//direct color feature in apophysis
         public List<double> PreCoefs;
         public List<double> PostCoefs;
 

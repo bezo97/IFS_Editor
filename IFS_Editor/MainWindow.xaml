@@ -14,10 +14,10 @@
                 <MenuItem Header="_New"/>
                 <Separator/>
                 <MenuItem Header="_Open params..." Click="OpenFile_Click" ToolTip="Open parameters from file"/>
-                <MenuItem Header="Paste params" ToolTip="Paste parameters from clipboard"/>
+                <MenuItem Header="Paste params" Click="PasteClipboard_Click" ToolTip="Paste parameters from clipboard"/>
                 <Separator/>
                 <MenuItem Header="_Save params..." Click="SaveFile_Click" ToolTip="Save parameters to file"/>
-                <MenuItem Header="Copy params" ToolTip="Copy parameters to clipboard"/>
+                <MenuItem Header="Copy params" Click="CopyClipboard_Click" ToolTip="Copy parameters to clipboard"/>
                 <Separator/>
                 <MenuItem Header="Save image..." Click="SaveImageToFile" ToolTip="Save image to file"/>
                 <MenuItem Header="Copy image" Click="CopyImageToClipboard" ToolTip="Copy image to clipboard"/>
@@ -47,10 +47,10 @@
                 <Button Content="[New Flame]"/>
                 <Separator/>
                 <Button Content="[Open Flame]" Click="OpenFile_Click"  ToolTip="Open flame from file"/>
-                <Button Content="[Load From Clipboard]" ToolTip="Paste parameters from clipboard"/>
+                <Button Content="[Paste params]" Click="PasteClipboard_Click" ToolTip="Paste parameters from clipboard"/>
                 <Separator/>
                 <Button Content="[Save Flame]" Click="SaveFile_Click" ToolTip="Save flame to file"/>
-                <Button Content="[Save To Clipboard]" ToolTip="Copy parameters to clipboard"/>
+                <Button Content="[Copy params]" Click="CopyClipboard_Click" ToolTip="Copy parameters to clipboard"/>
                 <!-- ide betenni a View\Icons\*.xaml dolgokat??? -->
             </ToolBar>
             <ToolBar Band="0" BandIndex="1">

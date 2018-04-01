@@ -76,7 +76,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Model\FlameSerializer.cs" />
+    <Compile Include="Serialization\FlameCollectionSerializer.cs" />
+    <Compile Include="Serialization\FlameSerializer.cs" />
+    <Compile Include="Serialization\SerializationUtils.cs" />
+    <Compile Include="Serialization\XFormSerializer.cs" />
     <Compile Include="ViewModel\DelegateCommand.cs" />
     <Compile Include="ViewModel\ImagingSettingsViewModel.cs" />
     <Compile Include="ViewModel\NodeViewModel.cs" />
