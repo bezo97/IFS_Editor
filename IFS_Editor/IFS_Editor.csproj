@@ -80,9 +80,11 @@
     <Compile Include="Serialization\FlameSerializer.cs" />
     <Compile Include="Serialization\SerializationUtils.cs" />
     <Compile Include="Serialization\XFormSerializer.cs" />
+    <Compile Include="ViewModel\ConnVM.cs" />
     <Compile Include="ViewModel\DelegateCommand.cs" />
+    <Compile Include="ViewModel\FLVM.cs" />
     <Compile Include="ViewModel\ImagingSettingsViewModel.cs" />
-    <Compile Include="ViewModel\NodeViewModel.cs" />
+    <Compile Include="ViewModel\XFVM.cs" />
     <Compile Include="ViewModel\ObservableObject.cs" />
     <Compile Include="ViewModel\RenderSettingsViewModel.cs" />
     <Compile Include="ViewModel\BetterBooleanToVisibilityConverter.cs" />

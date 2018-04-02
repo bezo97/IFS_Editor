@@ -138,12 +138,10 @@
         </StatusBar>
         <ToolBarTray DockPanel.Dock="Top" Orientation="Horizontal">
             <ToolBar Band="0" BandIndex="0">
-                <Button  ToolTip="New empty collection">
-                    <!--TODO: Click=""-->
+                <Button Click="EmptyCollection_Click" ToolTip="New empty collection">
                     <Frame Source="View/Icons/NewFileCollection_16x.xaml" />
                 </Button>
-                <Button  ToolTip="New empty flame">
-                    <!--TODO: Click=""-->
+                <Button Click="NewFlame_Click" ToolTip="New empty flame">
                     <Frame Source="View/Icons/NewFile_16x.xaml" />
                 </Button>
                 <Separator/>
@@ -188,11 +186,11 @@
                 <Button Click="AddXForm_Click" ToolTip="Add XForm">
                     <Frame Source="View/Icons/AddMemberFormula_16x.xaml"/>
                 </Button>
-                <Button ToolTip="Add linked XForm">
+                <Button Click="AddLinked_Click"  ToolTip="Add linked XForm">
                     <!--TODO: Click=""-->
                     <Frame Source="View/Icons/AddLink_16x.xaml"/>
                 </Button>
-                <Button ToolTip="Delete selected XForms"><!--TODO: Click=""-->
+                <Button Click="DeleteXForm_Click"  ToolTip="Delete selected XForms"><!--TODO: Click=""-->
                     <Frame Source="View/Icons/SubtractMemberFormula_16x.xaml"/>
                 </Button>
             </ToolBar>

@@ -1,6 +1,6 @@
-﻿using IFS_Editor.Model;
-using IFS_Editor.Serialization;
+﻿using IFS_Editor.Serialization;
 using IFS_Editor.View;
+using IFS_Editor.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -32,30 +32,30 @@ namespace IFS_Editor
             sidebar_main.Map = nodemap_main;
             flamebrowser_main.Map = nodemap_main;
 
-            flamebrowser_main.AddFlame(new Flame() { name = "Unnamed Flame" }, true);
+            flamebrowser_main.AddFlame(new FLVM() { Name = "Unnamed Flame" }, true);
         }
 
         private void ShowRenderSettingsWindow(object sender, RoutedEventArgs e)
         {
-            RenderSettingsWindow rsw = new RenderSettingsWindow(nodemap_main.GetFlame().renderSettings)
+            RenderSettingsWindow rsw = new RenderSettingsWindow(nodemap_main.Flame.Render)
             {
                 Owner = this
             };
             if (rsw.ShowDialog()==true)
             {
-                nodemap_main.GetFlame().renderSettings = rsw.GetResult();
+                nodemap_main.Flame.Render = rsw.GetResult();
             }
         }
 
         private void ShowImagingSettingsWindow(object sender, RoutedEventArgs e)
         {
-            ImagingSettingsWindow isw = new ImagingSettingsWindow(nodemap_main.GetFlame().imagingSettings)
+            ImagingSettingsWindow isw = new ImagingSettingsWindow(nodemap_main.Flame.Imaging)
             {
                 Owner = this
             };
             if (isw.ShowDialog() == true)
             {
-                nodemap_main.GetFlame().imagingSettings = isw.GetResult();
+                nodemap_main.Flame.Imaging = isw.GetResult();
             }
         }
 
@@ -73,7 +73,7 @@ namespace IFS_Editor
             };
             if (ofd.ShowDialog() == true)
             {
-                flamebrowser_main.UpdateAll(FlameCollectionSerializer.LoadFile(ofd.FileName), ofd.FileName);
+                flamebrowser_main.UpdateAll(FLVM.FromFlameModels(FlameCollectionSerializer.LoadFile(ofd.FileName)), ofd.FileName.Split('\\').Last().Split('.')[0]);
                 //try catch
             }
         }
@@ -88,7 +88,7 @@ namespace IFS_Editor
             };
             if (sfd.ShowDialog() == true)
             {
-                FlameCollectionSerializer.SaveFile(flamebrowser_main.FlameCollectionName, flamebrowser_main.GetFlames(), sfd.FileName);
+                FlameCollectionSerializer.SaveFile(flamebrowser_main.FlameCollectionName, FLVM.ToFlameModels(flamebrowser_main.GetFlames()), sfd.FileName);
                 //try catch
             }
         }
@@ -117,7 +117,7 @@ namespace IFS_Editor
         {
             Microsoft.Win32.SaveFileDialog sfd = new Microsoft.Win32.SaveFileDialog
             {
-                FileName = nodemap_main.GetFlame().name+" Graph",
+                FileName = nodemap_main.Flame.Name+" Graph",
                 DefaultExt = ".png",
                 Filter = "Image files (.png)|*.png"
             };
@@ -135,25 +135,42 @@ namespace IFS_Editor
 
         private void PasteClipboard_Click(object sender, RoutedEventArgs e)
         {
-            flamebrowser_main.UpdateCurrentFlame(FlameSerializer.LoadString(Clipboard.GetText()));
+            flamebrowser_main.UpdateCurrentFlame(new FLVM(FlameSerializer.LoadString(Clipboard.GetText())));
             //try catch
         }
 
         private void CopyClipboard_Click(object sender, RoutedEventArgs e)
         {
-            Clipboard.SetText(FlameSerializer.SerializeFlame(nodemap_main.GetFlame()).ToString());
+            Clipboard.SetText(FlameSerializer.SerializeFlame(FLVM.ToFlameModels(new List<FLVM>() { flamebrowser_main.GetCurrentFlame() })[0]).ToString());
             //try catch
         }
 
         private void NewFlame_Click(object sender, RoutedEventArgs e)
         {
-            //TODO
+            flamebrowser_main.AddFlame(new FLVM(), true);
         }
 
         private void Close_Click(object sender, RoutedEventArgs e)
         {
             //TODO: save before quit?
             Application.Current.Shutdown();
+        }
+
+        private void EmptyCollection_Click(object sender, RoutedEventArgs e)
+        {
+            List<FLVM> fl = new List<FLVM>();
+            fl.Add(new FLVM());//1db uj ures flame lesz benne
+            flamebrowser_main.UpdateAll(fl, "Unnamed Flame Collection");
+        }
+
+        private void DeleteXForm_Click(object sender, RoutedEventArgs e)
+        {
+            nodemap_main.RemoveSelected();
+        }
+
+        private void AddLinked_Click(object sender, RoutedEventArgs e)
+        {
+            nodemap_main.AddLinkedXForm();
         }
     }
 }

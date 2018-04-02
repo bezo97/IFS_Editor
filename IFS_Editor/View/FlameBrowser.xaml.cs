@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using IFS_Editor.Model;
+using IFS_Editor.ViewModel;
 
 namespace IFS_Editor.View
 {
@@ -23,8 +23,8 @@ namespace IFS_Editor.View
     public partial class FlameBrowser : StackPanel
     {
         public NodeMap Map;
-        private List<Flame> flames = new List<Flame>();
-        private string filepath = "";
+        private List<FLVM> flames = new List<FLVM>();
+        //private string filepath = "";
         public string FlameCollectionName { set; get; }
 
         public FlameBrowser()
@@ -32,12 +32,19 @@ namespace IFS_Editor.View
             InitializeComponent();
         }
 
-        public List<Flame> GetFlames()
+        public List<FLVM> GetFlames()
         {
             return flames;
         }
 
-        public void AddFlame(Flame f, bool select)
+        public FLVM GetCurrentFlame()
+        {
+            if (FlameListBox.SelectedIndex < 0)
+                FlameListBox.SelectedIndex = 0;
+            return flames[FlameListBox.SelectedIndex];
+        }
+
+        public void AddFlame(FLVM f, bool select)
         {
             flames.Add(f);
             FlameListboxItem fli = new FlameListboxItem(this,f);
@@ -62,22 +69,21 @@ namespace IFS_Editor.View
             FlameListBox.SelectedIndex=(index<FlameListBox.Items.Count)?index:0;
         }
 
-        public void UpdateAll(List<Flame> LoadedFlames, string path)
+        public void UpdateAll(List<FLVM> LoadedFlames, string name)
         {
-            filepath = path;
-            FlameCollectionName = path.Split('\\').Last().Split('.')[0];
+            FlameCollectionName = name;
             FileNameLabel.Content = FlameCollectionName;
 
             flames.Clear();
             FlameListBox.Items.Clear();
-            foreach (Flame f in LoadedFlames)
+            foreach (FLVM f in LoadedFlames)
             {
                 AddFlame(f,false);
             }
             FlameListBox.SelectedIndex = 0;//elsot kivalaszt            
         }
 
-        public void UpdateCurrentFlame(Flame f)
+        public void UpdateCurrentFlame(FLVM f)
         {
             if (FlameListBox.Items.Count == 0)
             {
@@ -106,18 +112,13 @@ namespace IFS_Editor.View
             if (FlameListBox.SelectedIndex >= 0)//-1 jelentese listboxnal: nincs kivalasztva semmi
             {
                 ((FlameListboxItem)FlameListBox.SelectedItem).Focus();
-                Map.SetFlame(flames[FlameListBox.SelectedIndex]);
+                Map.Flame = flames[FlameListBox.SelectedIndex];
             }
         }
 
         private void AddFlameButton_Click(object sender, RoutedEventArgs e)
         {
-            AddFlame(new Flame(), true);
-        }
-
-        private void RemoveFlameButton_Click(object sender, RoutedEventArgs e)
-        {
-            //RemoveFlame(FlameListBox.SelectedItem);
+            AddFlame(new FLVM(), true);
         }
     }
 }

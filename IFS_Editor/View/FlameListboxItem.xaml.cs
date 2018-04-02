@@ -1,4 +1,4 @@
-﻿using IFS_Editor.Model;
+﻿using IFS_Editor.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,25 +22,25 @@ namespace IFS_Editor.View
     public partial class FlameListboxItem : ListBoxItem
     {
         private FlameBrowser _fb;
-        private Flame _f;
+        private FLVM _f;
 
         public FlameListboxItem()
         {//?
             InitializeComponent();
         }
 
-        public FlameListboxItem(FlameBrowser fb, Flame f)
+        public FlameListboxItem(FlameBrowser fb, FLVM f)
         {
             InitializeComponent();
             _fb = fb;
             _f = f;
-            DisplayText.Content = f.name;
+            DisplayText.Content = f.Name;
         }
 
-        public void UpdateFlame(Flame f)
+        public void UpdateFlame(FLVM f)
         {
             _f = f;
-            DisplayText.Content = f.name;
+            DisplayText.Content = f.Name;
             this.Focus();
         }
 

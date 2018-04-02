@@ -65,6 +65,15 @@ namespace IFS_Editor.Model
             return ujxf;
         }
 
+        public void RemoveXForm(XForm xf)
+        {
+            foreach (XForm f in XForms)
+            {//lekapcsoljuk az osszesrol
+                f.SetConn(new Conn(xf, 0.0));
+            }
+            XForms.Remove(xf);
+        }
+
         public void AddXForm(XForm xf)
         {
             XForms.Add(xf);

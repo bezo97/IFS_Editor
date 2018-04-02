@@ -1,4 +1,4 @@
-﻿using IFS_Editor.Model;
+﻿using IFS_Editor.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -103,10 +103,10 @@ namespace IFS_Editor.View
                 //calc loopback angle
                 double dirx = 0;
                 double diry = 0;
-                foreach (Conn c in e1.xf.GetConns())
+                foreach (ConnVM c in e1.GetXF().GetConns())
                 {
                     Node Toa = e1.Map.GetNodeFromXF(c.ConnTo);
-                    if (e1.xf != c.ConnTo)
+                    if (e1.GetXF() != c.ConnTo)
                     {
                         dirx += Toa.PosX - e1.PosX;
                         diry += Toa.PosY - e1.PosY;
@@ -142,9 +142,9 @@ namespace IFS_Editor.View
 
         private void OnClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            XForm xf1 = e1.xf;
-            XForm xf2 = e2.xf;
-            xf1.SetConn(new Conn(xf2, 0));
+            XFVM xf1 = e1.GetXF();
+            XFVM xf2 = e2.GetXF();
+            xf1.SetConn(new ConnVM(xf2, 0));
             e1.Map.updateConnections();
         }
 

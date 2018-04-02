@@ -10,7 +10,7 @@
         <Ellipse Stretch="Fill" StrokeThickness="2" Cursor="Hand">
             <Ellipse.Fill>
                 <RadialGradientBrush>
-                    <GradientStop Color="{Binding Opacity, UpdateSourceTrigger=PropertyChanged}" Offset="0.75"/>
+                    <GradientStop Color="{Binding OpacityColor, UpdateSourceTrigger=PropertyChanged}" Offset="0.75"/>
                     <GradientStop Color="Gray" Offset="1"/>
                 </RadialGradientBrush>
             </Ellipse.Fill>

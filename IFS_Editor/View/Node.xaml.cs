@@ -1,4 +1,4 @@
-﻿using IFS_Editor.Model;
+﻿//using IFS_Editor.Model;
 using IFS_Editor.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -23,14 +23,39 @@ namespace IFS_Editor.View
     /// </summary>
     public partial class Node : UserControl
     {
-        //public XForm xf;
-        NodeViewModel nvm;
-        NodeMap map;//parent
+        private XFVM xf;
+        private NodeMap map;//parent
 
-        public Node()
+        /*public Node()
         {
-            nvm = new NodeViewModel();
-            DataContext = nvm;
+            xf = new XFVM();
+            DataContext = xf;
+            xf.PropertyChanged += PropertyChanged;
+
+            InitializeComponent();
+
+            Random r = new Random();
+            PosX = r.NextDouble() * 600;
+            PosY = r.NextDouble() * 600;
+            Width = 100;
+            Height = 100;
+
+        }*/
+
+        private void PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {//sender: xf
+            if(e.PropertyName=="IsSelected")
+            {
+                EnableEffects(xf.IsSelected);
+            }
+        }
+
+        public Node(XFVM _xform, NodeMap parent)
+        {
+            map = parent;
+            xf = _xform;
+            DataContext = xf;
+            xf.PropertyChanged += PropertyChanged;
 
             InitializeComponent();
 
@@ -42,19 +67,10 @@ namespace IFS_Editor.View
 
         }
 
-        public Node(XForm _xform)
+        public XFVM GetXF()
         {
-            nvm = new NodeViewModel(_xform);
-            DataContext = nvm;
-
-            InitializeComponent();
-
-            Random r = new Random();
-            PosX = r.NextDouble() * 600;
-            PosY = r.NextDouble() * 600;
-            Width = 100;
-            Height = 100;
-
+            //raise event
+            return xf;
         }
 
         //kor sugarat figyelembe veve a kozeppont
@@ -76,9 +92,11 @@ namespace IFS_Editor.View
 
         public NodeMap Map { get => map ?? (NodeMap)this.Parent; set => map = value; }
 
-        public XForm xf { get => nvm._XF; }
+        //public XForm xf { get => nvm._XF; }//
 
-        public void EnableEffects(bool b)
+        
+
+        private void EnableEffects(bool b)
         {//nodemap hivja, amikor ki van valasztva vagy nem
             DoubleAnimation appearAnimation;
             if (b) //appear
@@ -101,10 +119,12 @@ namespace IFS_Editor.View
             base.OnMouseLeftButtonUp(e);
             e.Handled = true;//zoombox ne kapja meg
 
-            if (map.SelectedNode != this)
-                map.SelectedNode = this;
+            //xfvm.select()
+
+            if (map.GetSelection() != xf)
+                map.SetSelection(xf);
             else
-                map.SelectedNode = null;
+                map.SetSelection(null);
 
             map.endConnecting(this);
         }

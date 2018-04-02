@@ -1,4 +1,4 @@
-﻿using IFS_Editor.Model;
+﻿using IFS_Editor.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +21,7 @@ namespace IFS_Editor.View
     /// </summary>
     public partial class XFormSideBar : Grid
     {
-        private XForm xf;
+        private XFVM xf;
         private NodeMap map;
         public NodeMap Map { set => map = value; get => map; }
 
@@ -32,15 +32,15 @@ namespace IFS_Editor.View
             Visibility = Visibility.Collapsed;
         }
 
-        public XForm Close(bool deselectNode)
+        public XFVM Close(bool deselectNode)
         {
             xf = null;
             Visibility = Visibility.Collapsed;
             if(deselectNode)
-                Map.SelectedNode = null;
+                Map.SetSelection(null);
             return xf;
         }
-        public void Show(XForm _xf)
+        public void Show(XFVM _xf)
         {
             xf = _xf;
             Visibility = Visibility.Visible;

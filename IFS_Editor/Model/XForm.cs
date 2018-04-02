@@ -40,6 +40,11 @@ namespace IFS_Editor.Model
                 Conns.Add(cn);
         }
 
+        internal void ClearConns()
+        {
+            Conns.Clear();
+        }
+
         public List<Conn> GetConns()
         {
             return Conns;

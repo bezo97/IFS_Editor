@@ -1,4 +1,4 @@
-﻿using IFS_Editor.Model;
+﻿//using IFS_Editor.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 using GraphVizWrapper;
-
+using IFS_Editor.ViewModel;
 
 namespace IFS_Editor.View
 {
@@ -24,7 +24,7 @@ namespace IFS_Editor.View
     /// </summary>
     public partial class NodeMap : Canvas
     {
-        Flame flame = new Flame();
+        FLVM flame;
         List<ConnectionArrow> arrows = new List<ConnectionArrow>();
         public bool weightedRs = true;//
 
@@ -45,69 +45,134 @@ namespace IFS_Editor.View
             if(connectingStart!=null)
             {//eppen osszekotessel vegzunk
                 if(n!=null)//nodehoz kotottuk, nem a semmibe
-                    connectingStart.xf.SetConn(new Conn(n.xf, 0.5));
+                    connectingStart.GetXF().SetConn(new ConnVM(n.GetXF(), 1.0));
                 connectingStart = null;//vege az osszekotesnek
                 if (ArrowToMouse != null)
                     foreach (Path p in ArrowToMouse)
                         Children.Remove(p);//remove old arrow
-                SelectedNode = n;
-                updateConnections();
+                if (n != null)
+                    Flame.Selection = n.GetXF();
+                //updateConnections();
             }
         }
 
         public double dx;//node mozgataskor mennyivel kattintottunk felre
         public double dy;
 
-        private Node sn = null;
-        public Node SelectedNode { get => sn; set {
-                if (sn == value)
-                    return;//mar ez van kijelolve, nem kell csinalni semmit
-                if (sn != null)//nem onmaga, akkor eltunik az effekt
-                    sn.EnableEffects(false);
-                sn = value;
-                if (sn != null)
-                {
-                    sn.EnableEffects(true);
-                    BringNodeToFront(sn);
-                    sidebar.Show(sn.xf);
-                }
-                else
-                    sidebar.Close(false);
-                updateConnections();
-            } }
-
         public XFormSideBar Sidebar { get => sidebar; set => sidebar = value; }
+        public FLVM Flame { get => flame; set
+            {
+                sidebar.Close(false);
+                RemoveNodes();
+                flame = value;
+                DataContext = Flame;
+                foreach (XFVM xf in Flame.GetXForms())
+                {//osszes ViewModelhez View-t rendelunk
+                    Node node = new Node(xf, this);
+                    Children.Add(node);
+                }
+                GenerateLayout(Enums.RenderingEngine.Sfdp);//TODO: ötlet: user pref, hogy melyik a default elrendezés algo
+                flame.PropertyChanged += PropertyChanged;
+                updateConnections();
+            }
+        }
 
         public NodeMap()
         {
             InitializeComponent();
-            flame = new Flame();
+            //Flame = new FLVM();
+            //Flame.PropertyChanged += PropertyChanged;
         }
 
-        public NodeMap(Flame f)
+        public NodeMap(FLVM f)
         {
             InitializeComponent();
-            SetFlame(f);
+            Flame = f;
+            //Flame.PropertyChanged += PropertyChanged;
+
+        }
+
+        private void PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {//sender: flame
+            if (e.PropertyName == "Selection")
+            {
+                if (Flame.Selection != null)
+                {
+                    BringNodeToFront(GetNodeFromXF(Flame.Selection));
+                    sidebar.Show(Flame.Selection);
+                }
+                else
+                    sidebar.Close(false);
+                updateConnections();
+            }
+        }
+
+        public XFVM GetSelection()
+        {
+            return Flame.Selection;
+        }
+
+        public void SetSelection(XFVM nxf)
+        {
+            Flame.Selection = nxf;
         }
 
         public Node AddXForm()
         {
-            Node node = new Node(flame.AddXForm(true));
+            XFVM newxf = Flame.AddXForm(true);
+            Node node = new Node(newxf, this);
             Children.Add(node);
-            node.Map = this;
-            SelectedNode = node;
+            Flame.Selection = newxf;
             updateConnections();
             return node;
         }
 
-        public Node AddXForm(XForm xf)
+        public Node AddXForm(XFVM xf)
         {
-            Node node = new Node(xf);
+            Node node = new Node(xf, this);
             Children.Add(node);
-            node.Map = this;
-            SelectedNode = node;
+            Flame.Selection = xf;
             updateConnections();
             return node;
+        }
+
+        public Node AddLinkedXForm()
+        {
+            XFVM xf = Flame.AddXForm(false);
+            Node node = new Node(xf, this);
+            xf.Name = "linked";
+            Children.Add(node);
+            //linkeles
+            Flame.Selection.Opacity = 0.0;
+            foreach (ConnVM c in Flame.Selection.GetConns())
+            {
+                xf.SetConn(c);
+            }
+            Flame.Selection.ClearConns();
+            Flame.Selection.SetConn(new ConnVM(node.GetXF(), 1));
+
+            Flame.Selection = xf;
+            updateConnections();
+            return node;
+        }
+
+        public void RemoveXForm(XFVM f)
+        {
+            Node n = GetNodeFromXF(f);
+            Flame.RemoveXForm(f);
+            if (Flame.Selection == f)
+                Flame.Selection = null;
+            Children.Remove(n);
+        }
+
+        public void RemoveSelected()
+        {
+            if (Flame.Selection == null)
+                return;
+            Flame.RemoveXForm(Flame.Selection);
+            Children.Remove(GetNodeFromXF(Flame.Selection));
+            Flame.Selection = null;
+            updateConnections();
         }
 
         public List<Node> GetNodeList()
@@ -121,36 +186,17 @@ namespace IFS_Editor.View
             return l;
         }
 
-        public Node GetNodeFromXF(XForm xf)
+        public Node GetNodeFromXF(XFVM xf)
         {
             List<Node> l = GetNodeList();
             foreach (Node n in l)
             {
-                if (n.xf == xf)
+                if (n.GetXF() == xf)
                     return n;
             }
-            return AddXForm(xf);//elv ilyen nincs
-        }
 
-        public Flame GetFlame()
-        {
-            return flame;
-        }
-
-        public void SetFlame(Flame f)
-        {
-            sidebar.Close(true);
-
-            RemoveNodes();
-            flame = f;
-            foreach (XForm xf in flame.GetXForms())
-            {//osszes xformhoz View-t rendelunk
-                Node node = new Node(xf);
-                Children.Add(node);
-                node.Map = this;
-            }
-            GenerateLayout(Enums.RenderingEngine.Sfdp);//TODO: ötlet: user pref, hogy melyik a default elrendezés algo
-            updateConnections();
+            return null;
+            //pl ha a Selectionre kerdezunk ra, az lehet null.. de elv nincs ilyen
         }
 
         private void RemoveConnections()
@@ -182,13 +228,16 @@ namespace IFS_Editor.View
             List<Node> nodes = GetNodeList();
             foreach (Node n in nodes)
             {
-                foreach (Conn c in n.xf.GetConns()) //nem szep, valami mast kene kitalalni
+                foreach (ConnVM c in n.GetXF().GetConns()) //nem szep, valami mast kene kitalalni
                 {
                     foreach (Node To in nodes)
                     {
-                        if (To.xf == c.ConnTo)
+                        if (To.GetXF() == c.ConnTo)
                         {
-                            arrows.Add(new ConnectionArrow(n, To, (n == SelectedNode)));
+                            bool isHighlighted = false;
+                            if (Flame.Selection != null)
+                                isHighlighted = (n.GetXF() == Flame.Selection);
+                            arrows.Add(new ConnectionArrow(n, To, isHighlighted));
                             //nem tudjuk egybol itt hozzaadni a Childrenhez, mert a foreachekkel osszeakad
                             break;
                         }
@@ -251,7 +300,7 @@ namespace IFS_Editor.View
             string digraph = "digraph{";
             foreach (Node n in Nodes)
             {
-                foreach (Conn To in n.xf.GetConns())
+                foreach (ConnVM To in n.GetXF().GetConns())
                 {
                     digraph += Nodes.IndexOf(n) + " -> " + Nodes.IndexOf(GetNodeFromXF(To.ConnTo)) + ";";
                 }
@@ -301,7 +350,6 @@ namespace IFS_Editor.View
             bmpCopied.Render(dv);
             return bmpCopied;
         }
-
 
     }
 }
