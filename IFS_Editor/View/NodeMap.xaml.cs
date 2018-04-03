@@ -82,18 +82,20 @@ namespace IFS_Editor.View
             InitializeComponent();
             //Flame = new FLVM();
             //Flame.PropertyChanged += PropertyChanged;
+            XFVM.StaticPropertyChanged += PropertyChanged;
         }
 
         public NodeMap(FLVM f)
         {
             InitializeComponent();
             Flame = f;
+            XFVM.StaticPropertyChanged += PropertyChanged;
             //Flame.PropertyChanged += PropertyChanged;
-
+            
         }
 
         private void PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {//sender: flame
+        {//sender: flame vagy null (static XFVM)
             if (e.PropertyName == "Selection")
             {
                 if (Flame.Selection != null)
@@ -105,6 +107,8 @@ namespace IFS_Editor.View
                     sidebar.Close(false);
                 updateConnections();
             }
+            if (e.PropertyName == "WeightedSize" || e.PropertyName == "BaseSize")
+                updateConnections();
         }
 
         public XFVM GetSelection()
@@ -115,6 +119,7 @@ namespace IFS_Editor.View
         public void SetSelection(XFVM nxf)
         {
             Flame.Selection = nxf;
+            
         }
 
         public Node AddXForm()
@@ -294,7 +299,7 @@ namespace IFS_Editor.View
         {
             List<Node> Nodes = GetNodeList();
             //Cursor = Cursors.WaitCursor;
-            double NodeR = 200.0 / Math.Sqrt(Nodes.Count);
+            double NodeR = XFVM.BaseSize/2 / Math.Sqrt(Nodes.Count);
 
             //put all connections into digraph, read by graphviz
             string digraph = "digraph{";

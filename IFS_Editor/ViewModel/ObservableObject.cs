@@ -17,5 +17,13 @@ namespace IFS_Editor.ViewModel
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+
+        public static event PropertyChangedEventHandler StaticPropertyChanged;//erre fel kell iratkozni konstruktorban
+        protected static void RaiseStaticPropertyChangedEvent(string propertyName)
+        {
+            StaticPropertyChanged?.Invoke(/*this*/null, new PropertyChangedEventArgs(propertyName));
+        }
+
     }
 }

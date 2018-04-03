@@ -74,22 +74,22 @@
                     <MenuItem.Icon>
                         <Frame Source="View/Icons/RunQuery_16x.xaml"/>
                     </MenuItem.Icon>
-                    <MenuItem Header="Apophysis">
+                    <MenuItem Click="LaunchApo" Header="Apophysis">
                         <MenuItem.Icon>
                             <Image Source="View/Icons/apophysis.jpg"/>
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem Header="Chaotica">
+                    <MenuItem Click="LaunchCha" Header="Chaotica">
                         <MenuItem.Icon>
                             <Image Source="View/Icons/chaotica.png"/>
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem Header="Fractorium">
+                    <MenuItem Click="LaunchFra" Header="Fractorium">
                         <MenuItem.Icon>
                             <Image Source="View/Icons/fractorium.png"/>
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem Header="JWildfire">
+                    <MenuItem Click="LaunchJwf" Header="JWildfire">
                         <MenuItem.Icon>
                             <Image Source="View/Icons/jwf.png"/>
                         </MenuItem.Icon>
@@ -169,16 +169,16 @@
             </ToolBar>
             <ToolBar Band="0" BandIndex="2">
                 <!--TODO csak az jelenik meg, amelyik a preferencesben be van állítva-->
-                <Button ToolTip="Launch current params in Apophysis">
+                <Button Click="LaunchApo" ToolTip="Launch current params in Apophysis">
                     <Image Source="View/Icons/apophysis.jpg" Width="16" Height="16"/>
                 </Button>
-                <Button ToolTip="Launch current params in Chaotica">
+                <Button Click="LaunchCha" ToolTip="Launch current params in Chaotica">
                     <Image Source="View/Icons/chaotica.png" Width="16" Height="16"/>
                 </Button>
-                <Button ToolTip="Launch current params in Fractorium">
+                <Button Click="LaunchFra" ToolTip="Launch current params in Fractorium">
                     <Image Source="View/Icons/fractorium.png" Width="16" Height="16"/>
                 </Button>
-                <Button ToolTip="Launch current params in JWildfire">
+                <Button Click="LaunchJwf" ToolTip="Launch current params in JWildfire">
                     <Image Source="View/Icons/jwf.png" Width="16" Height="16"/>
                 </Button>
             </ToolBar>
@@ -186,11 +186,10 @@
                 <Button Click="AddXForm_Click" ToolTip="Add XForm">
                     <Frame Source="View/Icons/AddMemberFormula_16x.xaml"/>
                 </Button>
-                <Button Click="AddLinked_Click"  ToolTip="Add linked XForm">
-                    <!--TODO: Click=""-->
+                <Button Click="AddLinked_Click" ToolTip="Add linked XForm">
                     <Frame Source="View/Icons/AddLink_16x.xaml"/>
                 </Button>
-                <Button Click="DeleteXForm_Click"  ToolTip="Delete selected XForms"><!--TODO: Click=""-->
+                <Button Click="DeleteXForm_Click"  ToolTip="Delete selected XForms">
                     <Frame Source="View/Icons/SubtractMemberFormula_16x.xaml"/>
                 </Button>
             </ToolBar>
@@ -206,12 +205,15 @@
             </ToolBar>
             <ToolBar Band="1" BandIndex="2">
                 <Label>Node size:</Label>
-                <ComboBox><!--TODO: auto select on load-->
+                <ComboBox x:Name="NodeSizeComboBox" SelectionChanged="NodeSize_SelectionChanged" IsSynchronizedWithCurrentItem="True"><!--TODO: auto select on load-->
                     <ComboBoxItem>Tiny</ComboBoxItem>
                     <ComboBoxItem>Small</ComboBoxItem>
                     <ComboBoxItem IsSelected="True">Medium</ComboBoxItem>
                     <ComboBoxItem>Big</ComboBoxItem>
                 </ComboBox>
+                <ToggleButton IsChecked="{Binding Path=WeightedRs, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" ToolTip="Scale nodes by the xform's base weight.">
+                    <Frame Source="View/Icons/WeightMember_16x.xaml"/>
+                </ToggleButton>
                 <Separator/>
                 <Label>Layout:</Label>
                 <ComboBox x:Name="LayoutComboBox" SelectionChanged="SetLayout" IsSynchronizedWithCurrentItem="True">

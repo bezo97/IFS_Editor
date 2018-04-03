@@ -3,6 +3,7 @@ using IFS_Editor.View;
 using IFS_Editor.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -41,7 +42,7 @@ namespace IFS_Editor
             {
                 Owner = this
             };
-            if (rsw.ShowDialog()==true)
+            if (rsw.ShowDialog() == true)
             {
                 nodemap_main.Flame.Render = rsw.GetResult();
             }
@@ -96,7 +97,7 @@ namespace IFS_Editor
         private void SetLayout(object sender, SelectionChangedEventArgs e)
         {
             GraphVizWrapper.Enums.RenderingEngine sel = GraphVizWrapper.Enums.RenderingEngine.Sfdp;
-            Enum.TryParse((((ComboBoxItem)LayoutComboBox.SelectedItem).Content?? "Sfdp").ToString(), out sel);
+            Enum.TryParse((((ComboBoxItem)LayoutComboBox.SelectedItem).Content ?? "Sfdp").ToString(), out sel);
             try
             {
                 nodemap_main.GenerateLayout(sel);
@@ -117,7 +118,7 @@ namespace IFS_Editor
         {
             Microsoft.Win32.SaveFileDialog sfd = new Microsoft.Win32.SaveFileDialog
             {
-                FileName = nodemap_main.Flame.Name+" Graph",
+                FileName = nodemap_main.Flame.Name + " Graph",
                 DefaultExt = ".png",
                 Filter = "Image files (.png)|*.png"
             };
@@ -172,5 +173,84 @@ namespace IFS_Editor
         {
             nodemap_main.AddLinkedXForm();
         }
+
+        public bool WeightedRs
+        {//toggle toolbar gomb kezeli
+            get { return XFVM.EnableWeightedSize; }
+            set
+            { XFVM.EnableWeightedSize = value; }
+        }
+
+        private void NodeSize_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            switch (((ComboBoxItem)NodeSizeComboBox.SelectedItem).Content)
+            {
+                case "Tiny":
+                    XFVM.BaseSize = 25;
+                    break;
+                case "Small":
+                    XFVM.BaseSize = 50;
+                    break;
+                case "Medium":
+                    XFVM.BaseSize = 100;
+                    break;
+                case "Big":
+                    XFVM.BaseSize = 200;
+                    break;
+            }
+        }
+
+        Process procApo;
+        private void LaunchApo(object sender, RoutedEventArgs e)
+        {
+            LaunchProc(ref procApo, @"D:\prog\Apo7X16\Apophysis7X.exe");
+        }
+
+        Process procCha;
+        private void LaunchCha(object sender, RoutedEventArgs e)
+        {
+            LaunchProc(ref procCha, @"D:\prog\chaotica_x64_v1.5.8\chaotica.exe");
+        }
+
+        Process procFra;
+        private void LaunchFra(object sender, RoutedEventArgs e)
+        {
+            LaunchProc(ref procFra, @"D:\prog\Apo7X16\Apophysis7X.exe");
+        }
+
+        Process procJwf;
+        private void LaunchJwf(object sender, RoutedEventArgs e)
+        {
+            LaunchProc(ref procJwf, @"D:\prog\Apo7X16\Apophysis7X.exe");
+        }
+
+        private void LaunchProc(ref Process proc, string exepath)
+        {
+            if (proc!=null)
+            {//mar fut a process -> beillesztjuk a flamet
+                if (!proc.HasExited)
+                {
+                    //procApo.Handle
+                    //win api: setforeground és sendkeys:
+                    //TODO: ctrl+v atadasnal
+                    return;
+                }
+            }
+            
+
+            //else: nem fut a process -> elinditjuk tmp fajllal
+            Directory.CreateDirectory(System.IO.Path.GetTempPath() + @"Node Editor\");
+            string path = System.IO.Path.GetTempPath() + @"Node Editor\" + "tmp.flame";//Guid.NewGuid().ToString()
+            FlameCollectionSerializer.SaveFile(flamebrowser_main.FlameCollectionName, FLVM.ToFlameModels(flamebrowser_main.GetFlames()), path);
+            proc = new Process();
+            proc.StartInfo.FileName = exepath;
+            proc.StartInfo.WorkingDirectory = System.IO.Path.GetTempPath() + @"Node Editor\";
+            proc.StartInfo.Arguments = "tmp.flame";
+            //proc.StartInfo.UseShellExecute = false;
+            //proc.StartInfo.RedirectStandardInput = true;
+            proc.Start();
+            
+        }
+
     }
 }

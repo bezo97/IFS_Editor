@@ -5,7 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:IFS_Editor.View"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300"
+             Width="{Binding WeightedSize, UpdateSourceTrigger=PropertyChanged,Mode=OneWay}"
+             Height="{Binding WeightedSize, UpdateSourceTrigger=PropertyChanged,Mode=OneWay}">
     <Grid>
         <Ellipse Stretch="Fill" StrokeThickness="2" Cursor="Hand">
             <Ellipse.Fill>
@@ -19,7 +21,7 @@
                 <DropShadowEffect x:Name="MyDropShadowEffect" BlurRadius="20" Opacity="0.0"/>
             </Ellipse.Effect>
         </Ellipse>
-        <Label x:Name ="NameLabel" Content="{Binding Name, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" FontSize="22" Cursor="Hand"/>
+        <Label x:Name ="NameLabel" Content="{Binding Name, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" FontSize="{Binding FontSize}" Cursor="Hand"/>
 
     </Grid>
 </UserControl>

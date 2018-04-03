@@ -38,6 +38,18 @@ namespace IFS_Editor.ViewModel
                 if (sxf != null)
                     sxf.IsSelected = true;
                 RaisePropertyChangedEvent("Selection");
+                RaisePropertyChangedEvent("HasSelection");
+            }
+        }
+
+        public bool HasSelection
+        {
+            get
+            {
+                if (Selection == null)
+                    return false;
+                else
+                    return true;
             }
         }
 

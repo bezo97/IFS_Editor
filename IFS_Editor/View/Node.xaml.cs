@@ -62,8 +62,8 @@ namespace IFS_Editor.View
             Random r = new Random();
             PosX = r.NextDouble() * 600;
             PosY = r.NextDouble() * 600;
-            Width = 100;
-            Height = 100;
+            /*Width = 100;
+            Height = 100;*/
 
         }
 
@@ -76,25 +76,22 @@ namespace IFS_Editor.View
         //kor sugarat figyelembe veve a kozeppont
         public double PosX
         {
-            get { return (Double)GetValue(Canvas.LeftProperty) + WeightedR; }
-            set { SetValue(Canvas.LeftProperty, value - WeightedR); }
+            get { return (Double)GetValue(Canvas.LeftProperty) + xf.WeightedSize / 2; }
+            set { SetValue(Canvas.LeftProperty, value - xf.WeightedSize / 2); }
         }
         public double PosY
         {
-            get { return (Double)GetValue(Canvas.TopProperty) + WeightedR; }
-            set { SetValue(Canvas.TopProperty, value - WeightedR); }
+            get { return (Double)GetValue(Canvas.TopProperty) + xf.WeightedSize / 2; }
+            set { SetValue(Canvas.TopProperty, value - xf.WeightedSize / 2); }
         }
 
         public Point Pos { get { return new Point(PosX, PosY); } }
-
-        //public float WeightedR { get { return (float)(((map.weightedRs) ? (0.5f + Math.Sqrt(xf.baseWeight < 10 ? xf.baseWeight : 10)) : 1.0f) * this.Width); } }
-        public double WeightedR { get { return 100 / 2.0; } }//TODO weightedR megold
 
         public NodeMap Map { get => map ?? (NodeMap)this.Parent; set => map = value; }
 
         //public XForm xf { get => nvm._XF; }//
 
-        
+        public double WeightedR { get => xf.WeightedSize/2; }
 
         private void EnableEffects(bool b)
         {//nodemap hivja, amikor ki van valasztva vagy nem
