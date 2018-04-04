@@ -298,6 +298,8 @@ namespace IFS_Editor.View
         public void GenerateLayout(GraphVizWrapper.Enums.RenderingEngine layoutType)
         {
             List<Node> Nodes = GetNodeList();
+            if (Nodes.Count < 1)
+                return;
             //Cursor = Cursors.WaitCursor;
             double NodeR = XFVM.BaseSize/2 / Math.Sqrt(Nodes.Count);
 

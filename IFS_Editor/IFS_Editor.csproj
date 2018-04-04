@@ -84,6 +84,7 @@
     <Compile Include="ViewModel\DelegateCommand.cs" />
     <Compile Include="ViewModel\FLVM.cs" />
     <Compile Include="ViewModel\ImagingSettingsViewModel.cs" />
+    <Compile Include="ViewModel\StatusMessageVM.cs" />
     <Compile Include="ViewModel\XFVM.cs" />
     <Compile Include="ViewModel\ObservableObject.cs" />
     <Compile Include="ViewModel\RenderSettingsViewModel.cs" />
@@ -197,6 +198,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Icons\SaveAll_16x.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Icons\Save_16x.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

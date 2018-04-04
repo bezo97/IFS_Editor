@@ -84,7 +84,7 @@ namespace IFS_Editor.ViewModel
             return xf;
         }
 
-        public string Name { get => xf.name; set { xf.name = value; RaisePropertyChangedEvent("Name"); } }
+        public string Name { get => xf.name; set { xf.name = value; RaisePropertyChangedEvent("Name"); AttachedFlame.Saved = false; } }
         public Color OpacityColor {
             get {
                 byte o = (byte)(100 + xf.opacity*255*0.6);
@@ -108,6 +108,7 @@ namespace IFS_Editor.ViewModel
                 RaisePropertyChangedEvent("Opacity");
                 //node szin update
                 RaisePropertyChangedEvent("OpacityColor");
+                AttachedFlame.Saved = false;
             }
         }
 
@@ -124,6 +125,7 @@ namespace IFS_Editor.ViewModel
                 //node meret update
                 if(EnableWeightedSize)
                     RaisePropertyChangedEvent("WeightedSize");
+                AttachedFlame.Saved = false;
             }
         }
 
@@ -133,6 +135,7 @@ namespace IFS_Editor.ViewModel
         {
 
             xf.SetConn(new Conn(c.ConnTo.GetXF(), c.WeightTo));
+            AttachedFlame.Saved = false;
             //raise event
         }
 
@@ -150,6 +153,7 @@ namespace IFS_Editor.ViewModel
         {
             xf.ClearConns();
             //raise event
+            AttachedFlame.Saved = false;
         }
 
     }

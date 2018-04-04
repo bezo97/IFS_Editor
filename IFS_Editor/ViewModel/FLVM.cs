@@ -53,9 +53,17 @@ namespace IFS_Editor.ViewModel
             }
         }
 
+        bool saved = true;
+        public bool Saved
+        {
+            get { return saved; }
+            set { saved = value; RaisePropertyChangedEvent("Saved"); }
+        }
+
         public FLVM()
         {
             flame = new Flame();
+            //saved = true;//ne kerdezzuk meg, hogy a semmit mentsuk-e
         }
 
         public FLVM(Flame f)
@@ -65,6 +73,7 @@ namespace IFS_Editor.ViewModel
             {
                 xfs.Add(new XFVM(xf, this));
             }
+            //saved = false;
         }
 
         public XFVM GetXFVMFromXForm(XForm xf)
@@ -103,6 +112,7 @@ namespace IFS_Editor.ViewModel
         {
             XFVM newxf = new XFVM(flame.AddXForm(osszekot), this);//modelhez hozzaad
             xfs.Add(newxf);//viewmodelhez hozzaad
+            Saved = false;
             return newxf;
         }
 
@@ -110,6 +120,7 @@ namespace IFS_Editor.ViewModel
         {
             flame.RemoveXForm(xf.GetXF());
             xfs.Remove(xf);
+            Saved = false;
         }
 
         public List<XFVM> GetXForms()
@@ -117,9 +128,9 @@ namespace IFS_Editor.ViewModel
             return xfs;
         }
 
-        public string Name { get => flame.name; set { flame.name = value; RaisePropertyChangedEvent("Name"); } }
-        public RenderSettings Render { get => flame.renderSettings; set { flame.renderSettings = value; RaisePropertyChangedEvent("Render"); } }
-        public CameraSettings Camera { get => flame.cameraSettings; set { flame.cameraSettings = value; RaisePropertyChangedEvent("Camera"); } }
-        public ImagingSettings Imaging { get => flame.imagingSettings; set { flame.imagingSettings = value; RaisePropertyChangedEvent("Imaging"); } }
+        public string Name { get => flame.name; set { flame.name = value; RaisePropertyChangedEvent("Name"); Saved = false; } }
+        public RenderSettings Render { get => flame.renderSettings; set { flame.renderSettings = value; RaisePropertyChangedEvent("Render"); Saved = false; } }
+        public CameraSettings Camera { get => flame.cameraSettings; set { flame.cameraSettings = value; RaisePropertyChangedEvent("Camera"); Saved = false; } }
+        public ImagingSettings Imaging { get => flame.imagingSettings; set { flame.imagingSettings = value; RaisePropertyChangedEvent("Imaging"); Saved = false; } }
     }
 }

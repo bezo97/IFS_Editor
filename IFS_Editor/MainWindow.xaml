@@ -11,6 +11,7 @@
     <Window.InputBindings>
         <KeyBinding Key="N" Modifiers="Control" Command="New"></KeyBinding>
         <KeyBinding Key="O" Modifiers="Control" Command="Open"></KeyBinding>
+        <KeyBinding Key="S" Modifiers="Control+Shift" Command="SelectAll"></KeyBinding>
         <KeyBinding Key="S" Modifiers="Control" Command="Save"></KeyBinding>
         <KeyBinding Key="C" Modifiers="Control" Command="Copy"></KeyBinding>
         <KeyBinding Key="V" Modifiers="Control" Command="Paste"></KeyBinding>
@@ -19,7 +20,8 @@
     <Window.CommandBindings>
         <CommandBinding Command="New" Executed="NewFlame_Click"></CommandBinding>
         <CommandBinding Command="Open" Executed="OpenFile_Click"></CommandBinding>
-        <CommandBinding Command="Save" Executed="SaveFile_Click"></CommandBinding>
+        <CommandBinding Command="SelectAll" Executed="SaveAll_Click"></CommandBinding>
+        <CommandBinding Command="Save" Executed="Save_Click"></CommandBinding>
         <CommandBinding Command="Copy" Executed="CopyClipboard_Click"></CommandBinding>
         <CommandBinding Command="Paste" Executed="PasteClipboard_Click"></CommandBinding>
         <!--<CommandBinding Command="SaveAs" Executed="SaveAsCommandBinding_Executed"></CommandBinding>
@@ -35,12 +37,17 @@
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator/>
-                <MenuItem Header="_Open params..." Command="Open" ToolTip="Open flames from file" InputGestureText="Ctrl+O">
+                <MenuItem Header="_Open..." Command="Open" ToolTip="Open flames from file" InputGestureText="Ctrl+O">
                     <MenuItem.Icon>
                         <Frame Source="View/Icons/OpenFolder_16x.xaml"/>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="_Save params..." Command="Save" ToolTip="Save flames to file" InputGestureText="Ctrl+S">
+                <MenuItem Header="_Save..." Command="Save" ToolTip="Save current flame to file" InputGestureText="Ctrl+S">
+                    <MenuItem.Icon>
+                        <Frame Source="View/Icons/Save_16x.xaml"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Save all..." Command="SelectAll" ToolTip="Save flame collection to file" InputGestureText="Ctrl+Shift+S">
                     <MenuItem.Icon>
                         <Frame Source="View/Icons/SaveAll_16x.xaml"/>
                     </MenuItem.Icon>
@@ -134,7 +141,8 @@
             </MenuItem>
         </Menu>
         <StatusBar DockPanel.Dock="Bottom">
-            <System:String>status</System:String>
+            <ProgressBar Width="50" Height="15"></ProgressBar>
+            <Label x:Name="StatusString" Content="{Binding Text}"/>
         </StatusBar>
         <ToolBarTray DockPanel.Dock="Top" Orientation="Horizontal">
             <ToolBar Band="0" BandIndex="0">
@@ -148,7 +156,10 @@
                 <Button Click="OpenFile_Click"  ToolTip="Open flame from file">
                     <Frame Source="View/Icons/OpenFolder_16x.xaml"/>
                 </Button>
-                <Button Click="SaveFile_Click" ToolTip="Save flame to file">
+                <Button Click="Save_Click" ToolTip="Save current flame to file">
+                    <Frame Source="View/Icons/Save_16x.xaml"/>
+                </Button>
+                <Button Click="SaveAll_Click" ToolTip="Save flame colleczion to file">
                     <Frame Source="View/Icons/SaveAll_16x.xaml"/>
                 </Button>
                 <Separator/>

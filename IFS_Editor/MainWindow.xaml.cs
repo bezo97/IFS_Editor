@@ -29,11 +29,12 @@ namespace IFS_Editor
         {
             InitializeComponent();
 
+            StatusString.DataContext = StatusMessageVM.Instance;
             nodemap_main.Sidebar = sidebar_main;
             sidebar_main.Map = nodemap_main;
             flamebrowser_main.Map = nodemap_main;
 
-            flamebrowser_main.AddFlame(new FLVM() { Name = "Unnamed Flame" }, true);
+            flamebrowser_main.AddFlame(new FLVM(), true);
         }
 
         private void ShowRenderSettingsWindow(object sender, RoutedEventArgs e)
@@ -69,20 +70,43 @@ namespace IFS_Editor
         {
             Microsoft.Win32.OpenFileDialog ofd = new Microsoft.Win32.OpenFileDialog
             {
+                Title = "Open flame collection",
                 DefaultExt = ".flame",
                 Filter = "Flame files (.flame)|*.flame"
             };
             if (ofd.ShowDialog() == true)
             {
                 flamebrowser_main.UpdateAll(FLVM.FromFlameModels(FlameCollectionSerializer.LoadFile(ofd.FileName)), ofd.FileName.Split('\\').Last().Split('.')[0]);
-                //try catch
+                //TODO: try catch
+                StatusMessageVM.Instance.Show("Flame opened successfully");
+                StatusMessageVM.Instance.SetPath(ofd.FileName);
             }
         }
 
-        private void SaveFile_Click(object sender, RoutedEventArgs e)
+        private void Save_Click(object sender, RoutedEventArgs e)
         {
             Microsoft.Win32.SaveFileDialog sfd = new Microsoft.Win32.SaveFileDialog
             {
+                Title="Save current flame",
+                FileName = flamebrowser_main.FlameCollectionName,
+                DefaultExt = ".flame",
+                Filter = "Flame files (.flame)|*.flame"
+            };
+            if (sfd.ShowDialog() == true)
+            {
+                FlameCollectionSerializer.SaveFile(flamebrowser_main.FlameCollectionName, FLVM.ToFlameModels(new List<FLVM>() { nodemap_main.Flame }), sfd.FileName);
+                //ezt ide tettem, mert szerializálóba nem lehetett a temporary fájl írások miatt
+                nodemap_main.Flame.Saved = true;
+                StatusMessageVM.Instance.Show("Flame saved successfully");
+                //StatusMessageVM.Instance.SetPath(sfd.FileName);
+            }
+        }
+
+        private void SaveAll_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.SaveFileDialog sfd = new Microsoft.Win32.SaveFileDialog
+            {
+                Title = "Save flame collection",
                 FileName = flamebrowser_main.FlameCollectionName,
                 DefaultExt = ".flame",
                 Filter = "Flame files (.flame)|*.flame"
@@ -90,7 +114,13 @@ namespace IFS_Editor
             if (sfd.ShowDialog() == true)
             {
                 FlameCollectionSerializer.SaveFile(flamebrowser_main.FlameCollectionName, FLVM.ToFlameModels(flamebrowser_main.GetFlames()), sfd.FileName);
-                //try catch
+                foreach (FLVM f in flamebrowser_main.GetFlames())
+                {//ezt ide tettem, mert szerializálóba nem lehetett a temporary fájl írások miatt
+                    f.Saved = true;
+                }
+                StatusMessageVM.Instance.Show("Flame collection saved successfully");
+                StatusMessageVM.Instance.SetPath(sfd.FileName);
+                //TODO: try catch
             }
         }
 
@@ -101,17 +131,18 @@ namespace IFS_Editor
             try
             {
                 nodemap_main.GenerateLayout(sel);
+                StatusMessageVM.Instance.Show("Graph layout generated");
             }
             catch
             {
-                //TODO: error status
+                StatusMessageVM.Instance.Show("Error while generating layout");
             }
         }
 
         private void CopyImageToClipboard(object sender, RoutedEventArgs e)
         {
             Clipboard.SetImage(nodemap_main.GenerateImage());
-            //status
+            StatusMessageVM.Instance.Show("Image copied to clipboard");
         }
 
         private void SaveImageToFile(object sender, RoutedEventArgs e)
@@ -130,7 +161,7 @@ namespace IFS_Editor
                 {
                     pngImage.Save(fileStream);
                 }
-                //status
+                StatusMessageVM.Instance.Show("Image saved");
             }
         }
 
@@ -138,23 +169,42 @@ namespace IFS_Editor
         {
             flamebrowser_main.UpdateCurrentFlame(new FLVM(FlameSerializer.LoadString(Clipboard.GetText())));
             //try catch
+            StatusMessageVM.Instance.Show("Flame pasted from clipboard");
+            StatusMessageVM.Instance.SetPath("");
         }
 
         private void CopyClipboard_Click(object sender, RoutedEventArgs e)
         {
             Clipboard.SetText(FlameSerializer.SerializeFlame(FLVM.ToFlameModels(new List<FLVM>() { flamebrowser_main.GetCurrentFlame() })[0]).ToString());
             //try catch
+            StatusMessageVM.Instance.Show("Flame copied to clipboard");
         }
 
         private void NewFlame_Click(object sender, RoutedEventArgs e)
         {
             flamebrowser_main.AddFlame(new FLVM(), true);
+            StatusMessageVM.Instance.Show("New empty flame added");
         }
 
         private void Close_Click(object sender, RoutedEventArgs e)
         {
-            //TODO: save before quit?
-            Application.Current.Shutdown();
+            bool needSave = false;
+            foreach (FLVM f in flamebrowser_main.GetFlames())
+            {
+                if (!f.Saved)
+                {
+                    needSave = true;
+                    break;
+                }
+            }
+
+            if (needSave)//csak akkor kerdezunk ra, ha van valtozas legalabb egy flameben
+            {
+                if (MessageBox.Show(this, "Are you sure you want to quit before saving your work?", "Exit", MessageBoxButton.OKCancel, MessageBoxImage.Question, MessageBoxResult.OK, MessageBoxOptions.None) == MessageBoxResult.OK)
+                    Application.Current.Shutdown();
+            }
+            else
+                Application.Current.Shutdown();
         }
 
         private void EmptyCollection_Click(object sender, RoutedEventArgs e)
@@ -162,6 +212,8 @@ namespace IFS_Editor
             List<FLVM> fl = new List<FLVM>();
             fl.Add(new FLVM());//1db uj ures flame lesz benne
             flamebrowser_main.UpdateAll(fl, "Unnamed Flame Collection");
+            StatusMessageVM.Instance.Show("New empty collection generated");
+            StatusMessageVM.Instance.SetPath("");
         }
 
         private void DeleteXForm_Click(object sender, RoutedEventArgs e)
@@ -204,24 +256,28 @@ namespace IFS_Editor
         private void LaunchApo(object sender, RoutedEventArgs e)
         {
             LaunchProc(ref procApo, @"D:\prog\Apo7X16\Apophysis7X.exe");
+            StatusMessageVM.Instance.Show("Flame loaded to Apophysis7X");
         }
 
         Process procCha;
         private void LaunchCha(object sender, RoutedEventArgs e)
         {
             LaunchProc(ref procCha, @"D:\prog\chaotica_x64_v1.5.8\chaotica.exe");
+            StatusMessageVM.Instance.Show("Flame loaded to Chaotica");
         }
 
         Process procFra;
         private void LaunchFra(object sender, RoutedEventArgs e)
         {
             LaunchProc(ref procFra, @"D:\prog\Apo7X16\Apophysis7X.exe");
+            StatusMessageVM.Instance.Show("Flame loaded to Fractorium");
         }
 
         Process procJwf;
         private void LaunchJwf(object sender, RoutedEventArgs e)
         {
             LaunchProc(ref procJwf, @"D:\prog\Apo7X16\Apophysis7X.exe");
+            StatusMessageVM.Instance.Show("Flame loaded to JWildfire");
         }
 
         private void LaunchProc(ref Process proc, string exepath)

@@ -24,23 +24,25 @@ namespace IFS_Editor.View
         private FlameBrowser _fb;
         private FLVM _f;
 
-        public FlameListboxItem()
-        {//?
+        /*public FlameListboxItem()
+        {
             InitializeComponent();
-        }
+        }*/
 
         public FlameListboxItem(FlameBrowser fb, FLVM f)
         {
             InitializeComponent();
             _fb = fb;
             _f = f;
-            DisplayText.Content = f.Name;
+            //DisplayText.Content = f.Name;
+            DataContext = _f;
         }
 
         public void UpdateFlame(FLVM f)
         {
             _f = f;
-            DisplayText.Content = f.Name;
+            //DisplayText.Content = f.Name;
+            DataContext = _f;
             this.Focus();
         }
 
