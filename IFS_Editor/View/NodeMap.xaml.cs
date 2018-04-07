@@ -71,7 +71,7 @@ namespace IFS_Editor.View
                     Node node = new Node(xf, this);
                     Children.Add(node);
                 }
-                GenerateLayout(Enums.RenderingEngine.Sfdp);//TODO: ötlet: user pref, hogy melyik a default elrendezés algo
+                GenerateLayout(Enums.RenderingEngine.Sfdp);//TODO: Prefs - melyik a default elrendezés algo
                 flame.PropertyChanged += PropertyChanged;
                 updateConnections();
             }
@@ -225,6 +225,9 @@ namespace IFS_Editor.View
             }
         }
 
+        /// <summary>
+        /// nyilak újraszámolása
+        /// </summary>
         public void updateConnections()
         {
             RemoveConnections();
@@ -294,7 +297,10 @@ namespace IFS_Editor.View
             }
         }
 
-
+        /// <summary>
+        /// GraphViz library használata layout generálásra
+        /// </summary>
+        /// <param name="layoutType">SFDP a legjobb</param>
         public void GenerateLayout(GraphVizWrapper.Enums.RenderingEngine layoutType)
         {
             List<Node> Nodes = GetNodeList();
@@ -343,6 +349,10 @@ namespace IFS_Editor.View
             //Cursor = Cursors.Default;
         }
 
+        /// <summary>
+        /// képet készít a Contentjéből
+        /// </summary>
+        /// <returns></returns>
         public RenderTargetBitmap GenerateImage()
         {//http://brianlagunas.com/wpf-copy-uielement-as-image-to-clipboard/
             double width = this.ActualWidth;

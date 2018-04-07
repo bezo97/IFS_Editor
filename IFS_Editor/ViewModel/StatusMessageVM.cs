@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace IFS_Editor.ViewModel
 {
+    /// <summary>
+    /// Singleton osztály, üzenetek megjelenítésére az alsó statusbarban (idővel eltűnik)
+    /// éppen megnyitott flame collection path-ját is kiírja
+    /// </summary>
     public class StatusMessageVM : ObservableObject
     {
         private static readonly StatusMessageVM instance = new StatusMessageVM();
@@ -48,6 +52,8 @@ namespace IFS_Editor.ViewModel
             path = p;
             RaisePropertyChangedEvent("Text");
         }
+
+        //TODO: StatusMessage - ikon, hogy az adott üzenet success/error/...
 
     }
 }

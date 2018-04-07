@@ -19,7 +19,8 @@ using System.Windows.Shapes;
 namespace IFS_Editor.View
 {
     /// <summary>
-    /// Interaction logic for Node.xaml
+    /// XForm View-ja
+    /// Egér eventek kezelése
     /// </summary>
     public partial class Node : UserControl
     {
@@ -62,8 +63,7 @@ namespace IFS_Editor.View
             Random r = new Random();
             PosX = r.NextDouble() * 600;
             PosY = r.NextDouble() * 600;
-            /*Width = 100;
-            Height = 100;*/
+            //size: bindelve
 
         }
 

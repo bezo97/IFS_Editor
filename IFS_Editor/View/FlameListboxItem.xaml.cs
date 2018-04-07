@@ -17,7 +17,7 @@ using System.Windows.Shapes;
 namespace IFS_Editor.View
 {
     /// <summary>
-    /// Interaction logic for FlameListboxItem.xaml
+    /// Egy flame-t reprezentál a FlameBrowserben
     /// </summary>
     public partial class FlameListboxItem : ListBoxItem
     {

@@ -77,15 +77,5 @@ namespace IFS_Editor.ViewModel
             }
         }
 
-        /*public ICommand ValueChangedCommand
-        {
-            get { return new DelegateCommand(ValueChanged); }
-        }
-
-        private void ValueChanged()
-        {
-            
-        }*/
-
     }
 }

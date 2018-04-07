@@ -159,7 +159,7 @@
                 <Button Click="Save_Click" ToolTip="Save current flame to file">
                     <Frame Source="View/Icons/Save_16x.xaml"/>
                 </Button>
-                <Button Click="SaveAll_Click" ToolTip="Save flame colleczion to file">
+                <Button Click="SaveAll_Click" ToolTip="Save flame collection to file">
                     <Frame Source="View/Icons/SaveAll_16x.xaml"/>
                 </Button>
                 <Separator/>

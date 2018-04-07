@@ -8,6 +8,9 @@ using System.Windows.Media;
 
 namespace IFS_Editor.ViewModel
 {
+    /// <summary>
+    /// XForm ViewModelje
+    /// </summary>
     public class XFVM : ObservableObject
     {//xform view model
         private XForm xf;//model
@@ -65,7 +68,7 @@ namespace IFS_Editor.ViewModel
         {
             xf = _xf;
             AttachedFlame = _To;
-            StaticPropertyChanged += XFVM_StaticPropertyChanged;
+            StaticPropertyChanged += XFVM_StaticPropertyChanged;//az instance feliratkozik a static eventre
         }
 
         /// <summary>

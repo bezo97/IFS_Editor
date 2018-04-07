@@ -26,7 +26,7 @@ namespace IFS_Editor.View
         public RenderSettingsWindow(RenderSettings rs)
         {
             rsp = new RenderSettingsViewModel(rs);
-            DataContext = rsp;//TODO: bindeljuk a viewmodelt a viewhoz - ezt nem lehetne xamlben megadni???
+            DataContext = rsp;
             InitializeComponent();
         }
 
@@ -37,6 +37,12 @@ namespace IFS_Editor.View
 
         private void OKButton_Click(object sender, RoutedEventArgs e)
         {
+            if (CustomResCheckBox.IsChecked!=true)
+            {
+                rsp.SizeX = (int)SizeXSlider.Value;
+                rsp.SizeY = (int)SizeYSlider.Value;
+            }
+
             this.DialogResult = true;
         }
 
@@ -59,7 +65,7 @@ namespace IFS_Editor.View
             //pl. 16:9 -> 1920=1080*16/9
             //pl. 9:16 -> 1080=1920*9/16
 
-            //TODO: otlet - configolhato presetek
+            //TODO: Prefs - configulhato presetek
         }
 
         private void ResolutionComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -87,7 +93,12 @@ namespace IFS_Editor.View
             }
             RatioComboBox_SelectionChanged(sender, e);//utana a ratiot kiszamoljuk
 
-            //TODO: otlet - configolhato presetek
+            //TODO: Prefs - configulhato presetek
+        }
+
+        private void CustomResCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            ResolutionComboBox_SelectionChanged(sender, null);
         }
     }
 }

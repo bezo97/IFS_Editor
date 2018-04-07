@@ -76,10 +76,17 @@ namespace IFS_Editor
             };
             if (ofd.ShowDialog() == true)
             {
-                flamebrowser_main.UpdateAll(FLVM.FromFlameModels(FlameCollectionSerializer.LoadFile(ofd.FileName)), ofd.FileName.Split('\\').Last().Split('.')[0]);
-                //TODO: try catch
-                StatusMessageVM.Instance.Show("Flame opened successfully");
-                StatusMessageVM.Instance.SetPath(ofd.FileName);
+                try
+                {
+                    flamebrowser_main.UpdateAll(FLVM.FromFlameModels(FlameCollectionSerializer.LoadFile(ofd.FileName)), ofd.FileName.Split('\\').Last().Split('.')[0]);
+                    StatusMessageVM.Instance.Show("Flame opened successfully");
+                    StatusMessageVM.Instance.SetPath(ofd.FileName);
+                }
+                catch
+                {
+                    StatusMessageVM.Instance.Show("Error while opening flame: " + ofd.FileName);
+                    StatusMessageVM.Instance.SetPath("");
+                }
             }
         }
 
@@ -94,11 +101,17 @@ namespace IFS_Editor
             };
             if (sfd.ShowDialog() == true)
             {
-                FlameCollectionSerializer.SaveFile(flamebrowser_main.FlameCollectionName, FLVM.ToFlameModels(new List<FLVM>() { nodemap_main.Flame }), sfd.FileName);
-                //ezt ide tettem, mert szerializálóba nem lehetett a temporary fájl írások miatt
-                nodemap_main.Flame.Saved = true;
-                StatusMessageVM.Instance.Show("Flame saved successfully");
-                //StatusMessageVM.Instance.SetPath(sfd.FileName);
+                try
+                {
+                    FlameCollectionSerializer.SaveFile(flamebrowser_main.FlameCollectionName, FLVM.ToFlameModels(new List<FLVM>() { nodemap_main.Flame }), sfd.FileName);
+                    //ezt ide tettem, mert szerializálóba nem lehetett a temporary fájl írások miatt
+                    nodemap_main.Flame.Saved = true;
+                    StatusMessageVM.Instance.Show("Flame saved successfully");
+                }
+                catch
+                {
+                    StatusMessageVM.Instance.Show("Error while saving flame: " + sfd.FileName);
+                }
             }
         }
 
@@ -113,14 +126,20 @@ namespace IFS_Editor
             };
             if (sfd.ShowDialog() == true)
             {
-                FlameCollectionSerializer.SaveFile(flamebrowser_main.FlameCollectionName, FLVM.ToFlameModels(flamebrowser_main.GetFlames()), sfd.FileName);
-                foreach (FLVM f in flamebrowser_main.GetFlames())
-                {//ezt ide tettem, mert szerializálóba nem lehetett a temporary fájl írások miatt
-                    f.Saved = true;
+                try
+                {
+                    FlameCollectionSerializer.SaveFile(flamebrowser_main.FlameCollectionName, FLVM.ToFlameModels(flamebrowser_main.GetFlames()), sfd.FileName);
+                    foreach (FLVM f in flamebrowser_main.GetFlames())
+                    {//ezt ide tettem, mert szerializálóba nem lehetett a temporary fájl írások miatt
+                        f.Saved = true;
+                    }
+                    StatusMessageVM.Instance.Show("Flame collection saved successfully");
+                    StatusMessageVM.Instance.SetPath(sfd.FileName);
                 }
-                StatusMessageVM.Instance.Show("Flame collection saved successfully");
-                StatusMessageVM.Instance.SetPath(sfd.FileName);
-                //TODO: try catch
+                catch
+                {
+                    StatusMessageVM.Instance.Show("Error while saving flame: " + sfd.FileName);
+                }
             }
         }
 
@@ -155,29 +174,48 @@ namespace IFS_Editor
             };
             if (sfd.ShowDialog() == true)
             {
-                PngBitmapEncoder pngImage = new PngBitmapEncoder();
-                pngImage.Frames.Add(BitmapFrame.Create(nodemap_main.GenerateImage()));
-                using (Stream fileStream = File.Create(sfd.FileName))
+                try
                 {
-                    pngImage.Save(fileStream);
+                    PngBitmapEncoder pngImage = new PngBitmapEncoder();
+                    pngImage.Frames.Add(BitmapFrame.Create(nodemap_main.GenerateImage()));
+                    using (Stream fileStream = File.Create(sfd.FileName))
+                    {
+                        pngImage.Save(fileStream);
+                    }
+                    StatusMessageVM.Instance.Show("Image saved");
                 }
-                StatusMessageVM.Instance.Show("Image saved");
+                catch
+                {
+                    StatusMessageVM.Instance.Show("Error while saving image: " + sfd.FileName);
+                }
             }
         }
 
         private void PasteClipboard_Click(object sender, RoutedEventArgs e)
         {
-            flamebrowser_main.UpdateCurrentFlame(new FLVM(FlameSerializer.LoadString(Clipboard.GetText())));
-            //try catch
-            StatusMessageVM.Instance.Show("Flame pasted from clipboard");
-            StatusMessageVM.Instance.SetPath("");
+            try
+            {
+                flamebrowser_main.UpdateCurrentFlame(new FLVM(FlameSerializer.LoadString(Clipboard.GetText())));
+                StatusMessageVM.Instance.Show("Flame pasted from clipboard");
+                StatusMessageVM.Instance.SetPath("");
+            }
+            catch
+            {
+                StatusMessageVM.Instance.Show("Error while pasting flame");
+            }
         }
 
         private void CopyClipboard_Click(object sender, RoutedEventArgs e)
         {
-            Clipboard.SetText(FlameSerializer.SerializeFlame(FLVM.ToFlameModels(new List<FLVM>() { flamebrowser_main.GetCurrentFlame() })[0]).ToString());
-            //try catch
-            StatusMessageVM.Instance.Show("Flame copied to clipboard");
+            try
+            {
+                Clipboard.SetText(FlameSerializer.SerializeFlame(FLVM.ToFlameModels(new List<FLVM>() { flamebrowser_main.GetCurrentFlame() })[0]).ToString());
+                StatusMessageVM.Instance.Show("Flame copied to clipboard");
+            }
+            catch
+            {
+                StatusMessageVM.Instance.Show("Error while copying flame");
+            }
         }
 
         private void NewFlame_Click(object sender, RoutedEventArgs e)
@@ -209,11 +247,28 @@ namespace IFS_Editor
 
         private void EmptyCollection_Click(object sender, RoutedEventArgs e)
         {
+            bool needSave = false;
+            foreach (FLVM f in flamebrowser_main.GetFlames())
+            {
+                if (!f.Saved)
+                {
+                    needSave = true;
+                    break;
+                }
+            }
+
+            if (needSave)//csak akkor kerdezunk ra, ha van valtozas legalabb egy flameben
+            {
+                if (MessageBox.Show(this, "This will erase your unsaved work, continue?", "New Flame Collection", MessageBoxButton.OKCancel, MessageBoxImage.Question, MessageBoxResult.OK, MessageBoxOptions.None) == MessageBoxResult.Cancel)
+                    return;
+            }
+
             List<FLVM> fl = new List<FLVM>();
             fl.Add(new FLVM());//1db uj ures flame lesz benne
             flamebrowser_main.UpdateAll(fl, "Unnamed Flame Collection");
             StatusMessageVM.Instance.Show("New empty collection generated");
             StatusMessageVM.Instance.SetPath("");
+
         }
 
         private void DeleteXForm_Click(object sender, RoutedEventArgs e)

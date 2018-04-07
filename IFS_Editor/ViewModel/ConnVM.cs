@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace IFS_Editor.ViewModel
 {
+    /// <summary>
+    /// Connection ViewModelje
+    /// </summary>
     public class ConnVM : ObservableObject
     {
         private Conn c;

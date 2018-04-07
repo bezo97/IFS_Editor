@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace IFS_Editor.ViewModel
 {
+    /// <summary>
+    /// Flame ViewModel-je
+    /// </summary>
     public class FLVM : ObservableObject
     {//flame view model
         private Flame flame;
@@ -18,20 +21,6 @@ namespace IFS_Editor.ViewModel
         {
             get => sxf; set
             {
-                /*if (sxf == value)
-                    return;//mar ez van kijelolve, nem kell csinalni semmit
-                if (sxf != null)//nem onmaga, akkor eltunik az effekt
-                    sxf.EnableEffects(false);
-                sxf = value;
-                if (sxf != null)
-                {
-                    sxf.EnableEffects(true);
-                    BringNodeToFront(sn);
-                    sidebar.Show(sxf.GetXF());
-                }
-                else
-                    sidebar.Close(false);
-                updateConnections();*/
                 if(sxf!=null)
                     sxf.IsSelected = false;
                 sxf = value;
@@ -60,12 +49,18 @@ namespace IFS_Editor.ViewModel
             set { saved = value; RaisePropertyChangedEvent("Saved"); }
         }
 
+        /// <summary>
+        /// ctor: létrehoz egy üres flame-t
+        /// </summary>
         public FLVM()
         {
             flame = new Flame();
-            //saved = true;//ne kerdezzuk meg, hogy a semmit mentsuk-e
         }
 
+        /// <summary>
+        /// ctor: meglévő flame-hez kötjük
+        /// </summary>
+        /// <param name="f"></param>
         public FLVM(Flame f)
         {
             flame = f;
@@ -108,6 +103,11 @@ namespace IFS_Editor.ViewModel
             return fs;
         }
 
+        /// <summary>
+        /// Új xform hozzáadása a flamehez
+        /// </summary>
+        /// <param name="osszekot">összekössük-e a meglévő xformokkal</param>
+        /// <returns>létrehozott xform viewmodel</returns>
         public XFVM AddXForm(bool osszekot)
         {
             XFVM newxf = new XFVM(flame.AddXForm(osszekot), this);//modelhez hozzaad

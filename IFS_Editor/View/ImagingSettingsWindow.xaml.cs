@@ -30,22 +30,12 @@ namespace IFS_Editor.View
             isp = new ImagingSettingsViewModel(s);
             DataContext = isp;//bindeljuk a viewmodelt a viewhoz
             InitializeComponent();
+            //DataContext = isp;//bindeljuk a viewmodelt a viewhoz
         }
 
         public ImagingSettings GetResult()
         {
             return isp._S;
-        }
-
-        private void BackColorButton_Click(object sender, RoutedEventArgs e)
-        {
-            //TODO: eldonteni
-
-            //http://searchwindevelopment.techtarget.com/tip/Working-with-ColorDialog-in-WPF
-
-            //vagy WPF Toolkit-ből ColorPicker
-
-            
         }
 
         private void OKButton_Click(object sender, RoutedEventArgs e)

@@ -17,7 +17,7 @@ using IFS_Editor.ViewModel;
 namespace IFS_Editor.View
 {
     /// <summary>
-    /// Interaction logic for FlameBrowser.xaml
+    /// Flame kollekcio elemeinek kezelésére View
     /// SelectedIndex valtozasanal a nodemapet automatikusan frissiti
     /// </summary>
     public partial class FlameBrowser : StackPanel
@@ -48,12 +48,6 @@ namespace IFS_Editor.View
         {
             flames.Add(f);
             FlameListboxItem fli = new FlameListboxItem(this,f);
-            /*ListBoxItem li = new ListBoxItem
-            {
-                Content = f.name//fli
-            };*/
-            //li.MouseLeftButtonDown += Li_Selected;
-            //li.GotFocus += Li_Selected;//->nyillal is lehet valtogatni
             FlameListBox.Items.Add(fli);
             if (select)
             {
@@ -66,6 +60,10 @@ namespace IFS_Editor.View
             int index = FlameListBox.Items.IndexOf(fli);
             flames.RemoveAt(index);
             FlameListBox.Items.Remove(fli);
+
+            if (FlameListBox.Items.Count == 0)
+                AddFlame(new FLVM(), true);
+
             FlameListBox.SelectedIndex=(index<FlameListBox.Items.Count)?index:0;
         }
 
