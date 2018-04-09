@@ -1,6 +1,8 @@
-﻿using IFS_Editor.Model;
+﻿using GalaSoft.MvvmLight;
+using IFS_Editor.Model;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,8 +31,8 @@ namespace IFS_Editor.ViewModel
             set {
                 ews = value;
                 //RaisePropertyChangedEvent("Radius");
-                RaiseStaticPropertyChangedEvent("WeightedSize");
-                RaiseStaticPropertyChangedEvent("FontSize");
+                RaiseStaticPropertyChanged("WeightedSize");
+                RaiseStaticPropertyChanged("FontSize");
             }
         }
 
@@ -40,9 +42,9 @@ namespace IFS_Editor.ViewModel
             set
             {
                 bs = value;
-                RaiseStaticPropertyChangedEvent("BaseSize");
-                RaiseStaticPropertyChangedEvent("WeightedSize");
-                RaiseStaticPropertyChangedEvent("FontSize");
+                RaiseStaticPropertyChanged("BaseSize");
+                RaiseStaticPropertyChanged("WeightedSize");
+                RaiseStaticPropertyChanged("FontSize");
             }
         }
 
@@ -71,6 +73,13 @@ namespace IFS_Editor.ViewModel
             StaticPropertyChanged += XFVM_StaticPropertyChanged;//az instance feliratkozik a static eventre
         }
 
+        //static property kiegeszites, akar ObservableObject-be is mehetne
+        public static event PropertyChangedEventHandler StaticPropertyChanged;//erre fel kell iratkozni konstruktorban
+        protected static void RaiseStaticPropertyChanged(string propertyName)
+        {
+            StaticPropertyChanged?.Invoke(/*this*/null, new PropertyChangedEventArgs(propertyName));
+        }
+
         /// <summary>
         /// Egy static property változásánál az összes instanceban event lesz
         /// </summary>
@@ -78,7 +87,7 @@ namespace IFS_Editor.ViewModel
         /// <param name="e"></param>
         private void XFVM_StaticPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {//sender: null
-                RaisePropertyChangedEvent(e.PropertyName);//pl WeightedR-nél
+                RaisePropertyChanged(e.PropertyName);//pl WeightedR-nél
         }
 
         public XForm GetXF()
@@ -87,7 +96,7 @@ namespace IFS_Editor.ViewModel
             return xf;
         }
 
-        public string Name { get => xf.name; set { xf.name = value; RaisePropertyChangedEvent("Name"); AttachedFlame.Saved = false; } }
+        public string Name { get => xf.name; set { xf.name = value; RaisePropertyChanged("Name"); AttachedFlame.Saved = false; } }
         public Color OpacityColor {
             get {
                 byte o = (byte)(100 + xf.opacity*255*0.6);
@@ -108,9 +117,9 @@ namespace IFS_Editor.ViewModel
             }
             set {
                 xf.opacity = value;
-                RaisePropertyChangedEvent("Opacity");
+                RaisePropertyChanged("Opacity");
                 //node szin update
-                RaisePropertyChangedEvent("OpacityColor");
+                RaisePropertyChanged("OpacityColor");
                 AttachedFlame.Saved = false;
             }
         }
@@ -124,15 +133,15 @@ namespace IFS_Editor.ViewModel
             set
             {
                 xf.baseWeight = value;
-                RaisePropertyChangedEvent("BaseWeight");
+                RaisePropertyChanged("BaseWeight");
                 //node meret update
                 if(EnableWeightedSize)
-                    RaisePropertyChangedEvent("WeightedSize");
+                    RaisePropertyChanged("WeightedSize");
                 AttachedFlame.Saved = false;
             }
         }
 
-        public bool IsSelected { get => isselected; set { isselected = value; RaisePropertyChangedEvent("IsSelected"); } }
+        public bool IsSelected { get => isselected; set { isselected = value; RaisePropertyChanged("IsSelected"); } }
 
         public void SetConn(ConnVM c)
         {

@@ -1,4 +1,5 @@
-﻿using IFS_Editor.Model;
+﻿using GalaSoft.MvvmLight;
+using IFS_Editor.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,26 +57,26 @@ namespace IFS_Editor.ViewModel
                 _S.Back_colorR = value.R / 255.0;
                 _S.Back_colorG = value.G / 255.0;
                 _S.Back_colorB = value.B / 255.0;
-                RaisePropertyChangedEvent("BackColor");
+                RaisePropertyChanged("BackColor");
             }
         }
 
         public double Brightness
         {
             get { return _s.Brightness; }
-            set { _s.Brightness = value; RaisePropertyChangedEvent("Brightness"); }
+            set { _s.Brightness = value; RaisePropertyChanged("Brightness"); }
         }
 
         public double Gamma
         {
             get { return _s.Gamma; }
-            set { _s.Gamma = value; RaisePropertyChangedEvent("Gamma"); }
+            set { _s.Gamma = value; RaisePropertyChanged("Gamma"); }
         }
 
         public double G_threshold
         {
             get { return _s.G_threshold; }
-            set { _s.G_threshold = value; RaisePropertyChangedEvent("G_threshold"); }
+            set { _s.G_threshold = value; RaisePropertyChanged("G_threshold"); }
         }
 
 

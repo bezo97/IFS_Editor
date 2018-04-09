@@ -1,4 +1,5 @@
-﻿using IFS_Editor.Model;
+﻿using GalaSoft.MvvmLight;
+using IFS_Editor.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,8 +27,8 @@ namespace IFS_Editor.ViewModel
                 sxf = value;
                 if (sxf != null)
                     sxf.IsSelected = true;
-                RaisePropertyChangedEvent("Selection");
-                RaisePropertyChangedEvent("HasSelection");
+                RaisePropertyChanged("Selection");
+                RaisePropertyChanged("HasSelection");
             }
         }
 
@@ -46,7 +47,7 @@ namespace IFS_Editor.ViewModel
         public bool Saved
         {
             get { return saved; }
-            set { saved = value; RaisePropertyChangedEvent("Saved"); }
+            set { saved = value; RaisePropertyChanged("Saved"); }
         }
 
         /// <summary>
@@ -128,9 +129,9 @@ namespace IFS_Editor.ViewModel
             return xfs;
         }
 
-        public string Name { get => flame.name; set { flame.name = value; RaisePropertyChangedEvent("Name"); Saved = false; } }
-        public RenderSettings Render { get => flame.renderSettings; set { flame.renderSettings = value; RaisePropertyChangedEvent("Render"); Saved = false; } }
-        public CameraSettings Camera { get => flame.cameraSettings; set { flame.cameraSettings = value; RaisePropertyChangedEvent("Camera"); Saved = false; } }
-        public ImagingSettings Imaging { get => flame.imagingSettings; set { flame.imagingSettings = value; RaisePropertyChangedEvent("Imaging"); Saved = false; } }
+        public string Name { get => flame.name; set { flame.name = value; RaisePropertyChanged("Name"); Saved = false; } }
+        public RenderSettings Render { get => flame.renderSettings; set { flame.renderSettings = value; RaisePropertyChanged("Render"); Saved = false; } }
+        public CameraSettings Camera { get => flame.cameraSettings; set { flame.cameraSettings = value; RaisePropertyChanged("Camera"); Saved = false; } }
+        public ImagingSettings Imaging { get => flame.imagingSettings; set { flame.imagingSettings = value; RaisePropertyChanged("Imaging"); Saved = false; } }
     }
 }

@@ -1,4 +1,5 @@
-﻿using IFS_Editor.Model;
+﻿using GalaSoft.MvvmLight;
+using IFS_Editor.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,7 +34,7 @@ namespace IFS_Editor.ViewModel
             set
             {
                 _rs.SizeX = value;
-                RaisePropertyChangedEvent("SizeX");
+                RaisePropertyChanged("SizeX");
             }
         }
 
@@ -43,7 +44,7 @@ namespace IFS_Editor.ViewModel
             set
             {
                 _rs.SizeY = value;
-                RaisePropertyChangedEvent("SizeY");
+                RaisePropertyChanged("SizeY");
             }
         }
 
@@ -53,7 +54,7 @@ namespace IFS_Editor.ViewModel
             set
             {
                 _rs.Oversample = value;
-                RaisePropertyChangedEvent("Oversample");
+                RaisePropertyChanged("Oversample");
             }
         }
 
@@ -63,7 +64,7 @@ namespace IFS_Editor.ViewModel
             set
             {
                 _rs.Filter = value;
-                RaisePropertyChangedEvent("Filter");
+                RaisePropertyChanged("Filter");
             }
         }
 
@@ -73,7 +74,7 @@ namespace IFS_Editor.ViewModel
             set
             {
                 _rs.Quality = value;
-                RaisePropertyChangedEvent("Quality");
+                RaisePropertyChanged("Quality");
             }
         }
 

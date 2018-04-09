@@ -1,4 +1,5 @@
-﻿using IFS_Editor.Model;
+﻿using GalaSoft.MvvmLight;
+using IFS_Editor.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,6 @@ namespace IFS_Editor.ViewModel
         }
 
         public XFVM ConnTo { get => xf; }
-        public double WeightTo { get => c.WeightTo; set { c.WeightTo = value; RaisePropertyChangedEvent("WeightTo"); } }
+        public double WeightTo { get => c.WeightTo; set { c.WeightTo = value; RaisePropertyChanged("WeightTo"); } }
     }
 }

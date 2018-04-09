@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GalaSoft.MvvmLight;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,7 +29,7 @@ namespace IFS_Editor.ViewModel
         private void Hide(object sender, EventArgs e)
         {
             message = "";
-            RaisePropertyChangedEvent("Text");
+            RaisePropertyChanged("Text");
             timer.Stop();
         }
 
@@ -43,14 +44,14 @@ namespace IFS_Editor.ViewModel
         public void Show(string msg)
         {
             message = msg;
-            RaisePropertyChangedEvent("Text");
+            RaisePropertyChanged("Text");
             timer.Start();//10mp ig jelzi ki
         }
 
         public void SetPath(string p)
         {
             path = p;
-            RaisePropertyChangedEvent("Text");
+            RaisePropertyChanged("Text");
         }
 
         //TODO: StatusMessage - ikon, hogy az adott üzenet success/error/...
