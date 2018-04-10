@@ -96,6 +96,7 @@
     <Compile Include="Serialization\SerializationUtils.cs" />
     <Compile Include="Serialization\XFormSerializer.cs" />
     <Compile Include="ViewModel\ConnVM.cs" />
+    <Compile Include="ViewModel\FlameBrowserVM.cs" />
     <Compile Include="ViewModel\FLVM.cs" />
     <Compile Include="ViewModel\ImagingSettingsViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
@@ -106,6 +107,9 @@
     <Compile Include="ViewModel\BetterBooleanToVisibilityConverter.cs" />
     <Compile Include="ViewModel\BooleanConverter.cs" />
     <Compile Include="View\ConnectionArrow.cs" />
+    <Compile Include="View\EditableLabel.xaml.cs">
+      <DependentUpon>EditableLabel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\FlameBrowser.xaml.cs">
       <DependentUpon>FlameBrowser.xaml</DependentUpon>
     </Compile>
@@ -140,6 +144,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\EditableLabel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\FlameBrowser.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

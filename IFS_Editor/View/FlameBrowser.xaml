@@ -9,12 +9,12 @@
     <StackPanel.Background>
         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
     </StackPanel.Background>
-    <StackPanel Orientation="Horizontal">
-        <Frame Source="Icons/KPIBrowserView_16x.xaml" Margin="10,0,0,0"/>
+    <StackPanel Orientation="Horizontal" Margin="5,2,0,2">
+        <Frame Source="Icons/KPIBrowserView_16x.xaml" Margin="10,0,5,0"/>
         <!--<Label>Flame Browser:</Label>-->
-        <Label x:Name="FileNameLabel">Unnamed Flame Collection</Label>
+        <local:EditableLabel/>
     </StackPanel>
-    <ListBox x:Name="FlameListBox" ScrollViewer.VerticalScrollBarVisibility="auto" SelectionMode="Single" SelectionChanged="Li_Selected"/>
+    <ListBox x:Name="FlameListBox" ScrollViewer.VerticalScrollBarVisibility="auto" SelectionMode="Single" SelectionChanged="Li_Selected" MaxHeight="500"/>
     <Button Click="AddFlameButton_Click" Margin="5" ToolTip="Add new empty flame to the collection.">
         <Frame Source="Icons/Add_grey_16x.xaml"/>
     </Button>

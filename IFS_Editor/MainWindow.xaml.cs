@@ -78,7 +78,8 @@ namespace IFS_Editor
             {
                 try
                 {
-                    flamebrowser_main.UpdateAll(FLVM.FromFlameModels(FlameCollectionSerializer.LoadFile(ofd.FileName)), ofd.FileName.Split('\\').Last().Split('.')[0]);
+                    FlameBrowserVM fbvm = new FlameBrowserVM(FLVM.FromFlameModels(FlameCollectionSerializer.LoadFile(ofd.FileName)), ofd.FileName.Split('\\').Last().Split('.')[0]);
+                    flamebrowser_main.UpdateAll(fbvm);
                     StatusMessageVM.Instance.Show("Flame opened successfully");
                     StatusMessageVM.Instance.SetPath(ofd.FileName);
                 }
@@ -265,7 +266,7 @@ namespace IFS_Editor
 
             List<FLVM> fl = new List<FLVM>();
             fl.Add(new FLVM());//1db uj ures flame lesz benne
-            flamebrowser_main.UpdateAll(fl, "Unnamed Flame Collection");
+            flamebrowser_main.UpdateAll(new FlameBrowserVM(fl, "Unnamed Flame Collection"));
             StatusMessageVM.Instance.Show("New empty collection generated");
             StatusMessageVM.Instance.SetPath("");
 

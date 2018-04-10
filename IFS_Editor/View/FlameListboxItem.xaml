@@ -7,14 +7,14 @@
              mc:Ignorable="d" 
              d:DesignHeight="50" d:DesignWidth="200" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
              MouseEnter="listBoxItem_MouseEnter"
-             MouseLeave="listBoxItem_MouseLeave" Width="230" Padding="5,2">
+             MouseLeave="listBoxItem_MouseLeave" Width="225" Padding="5,2">
     <ListBoxItem.Resources>
         <local:BetterBooleanToVisibilityConverter 
         x:Key="BetterBooleanToVisibilityConverter" 
         True="Collapsed" 
         False="Visible" />
     </ListBoxItem.Resources>
-    <Grid Width="220">
+    <Grid Width="215">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
@@ -23,7 +23,10 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="50" />
         </Grid.ColumnDefinitions>
-        <Label x:Name="DisplayText" Grid.Row="0" Grid.Column="0" Padding="0" Content="{Binding Name}"/>
+        <!--<TextBox x:Name="EditText" Grid.Row="0" Grid.Column="0" Padding="0" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" KeyDown="EditText_KeyDown" Visibility="Collapsed" LostFocus="EditText_LostFocus"/>
+        <Label x:Name="DisplayText" Grid.Row="0" Grid.Column="0" Padding="0" Content="{Binding Name}" MouseDoubleClick="DisplayText_MouseDoubleClick" Visibility="Visible"/>
+        -->
+        <local:EditableLabel/>
         <Label x:Name="DisplayChanges" Grid.Row="0" Grid.Column="1" Padding="2" Visibility="{Binding Saved, Converter={StaticResource BetterBooleanToVisibilityConverter}}">*</Label>
         <Button x:Name="RemoveButton" Grid.Row="0" Grid.Column="2" Width="30" Click="RemoveButton_Click" VerticalAlignment="Center" HorizontalAlignment="Right" HorizontalContentAlignment="Center" Margin="0,0,10,0" Padding="0" Visibility="Hidden">
             <Frame Source="Icons/RemoveCommand_16x.xaml"/>

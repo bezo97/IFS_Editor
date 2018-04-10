@@ -23,30 +23,32 @@ namespace IFS_Editor.View
     public partial class FlameBrowser : StackPanel
     {
         public NodeMap Map;
-        private List<FLVM> flames = new List<FLVM>();
-        //private string filepath = "";
-        public string FlameCollectionName { set; get; }
+        public FlameBrowserVM vm;
+
+        public string FlameCollectionName { get => vm.EditableText; set => vm.EditableText = value; } 
 
         public FlameBrowser()
         {
             InitializeComponent();
+            vm = new FlameBrowserVM();
+            DataContext = vm;
         }
 
         public List<FLVM> GetFlames()
         {
-            return flames;
+            return vm.flames.ToList();//TODO
         }
 
         public FLVM GetCurrentFlame()
         {
             if (FlameListBox.SelectedIndex < 0)
                 FlameListBox.SelectedIndex = 0;
-            return flames[FlameListBox.SelectedIndex];
+            return vm.flames[FlameListBox.SelectedIndex];
         }
 
         public void AddFlame(FLVM f, bool select)
         {
-            flames.Add(f);
+            vm.flames.Add(f);
             FlameListboxItem fli = new FlameListboxItem(this,f);
             FlameListBox.Items.Add(fli);
             if (select)
@@ -58,7 +60,7 @@ namespace IFS_Editor.View
         public void RemoveFlame(FlameListboxItem fli)
         {
             int index = FlameListBox.Items.IndexOf(fli);
-            flames.RemoveAt(index);
+            vm.flames.RemoveAt(index);
             FlameListBox.Items.Remove(fli);
 
             if (FlameListBox.Items.Count == 0)
@@ -67,14 +69,14 @@ namespace IFS_Editor.View
             FlameListBox.SelectedIndex=(index<FlameListBox.Items.Count)?index:0;
         }
 
-        public void UpdateAll(List<FLVM> LoadedFlames, string name)
+        public void UpdateAll(FlameBrowserVM vm1)
         {
-            FlameCollectionName = name;
-            FileNameLabel.Content = FlameCollectionName;
-
-            flames.Clear();
+            //vm = vm1;
+            //DataContext = vm;
+            vm.EditableText = vm1.EditableText;
+            vm.flames.Clear();
             FlameListBox.Items.Clear();
-            foreach (FLVM f in LoadedFlames)
+            foreach (FLVM f in vm1.flames)
             {
                 AddFlame(f,false);
             }
@@ -93,7 +95,7 @@ namespace IFS_Editor.View
                 {
                     FlameListBox.SelectedIndex = 0;
                 }
-                flames[FlameListBox.SelectedIndex] = f;
+                vm.flames[FlameListBox.SelectedIndex] = f;
                 ((FlameListboxItem)FlameListBox.SelectedItem).UpdateFlame(f);
                 Li_Selected(null,null);//para
             }
@@ -110,7 +112,7 @@ namespace IFS_Editor.View
             if (FlameListBox.SelectedIndex >= 0)//-1 jelentese listboxnal: nincs kivalasztva semmi
             {
                 ((FlameListboxItem)FlameListBox.SelectedItem).Focus();
-                Map.Flame = flames[FlameListBox.SelectedIndex];
+                Map.Flame = vm.flames[FlameListBox.SelectedIndex];
             }
         }
 
