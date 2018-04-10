@@ -16,14 +16,16 @@ namespace IFS_Editor.Serialization
 
         public static Flame LoadString(string flamexml)
         {
+            string dummy;//itt nem szamit, mert nincs collection
             using (MemoryStream s = new MemoryStream(Encoding.UTF8.GetBytes(flamexml)))
-                return LoadStream(s)[0];//clipboard rol csak 1 flame-et tartalmazo xml-t olvasunk be
+                return LoadStream(s, out dummy)[0];//clipboard rol csak 1 flame-et tartalmazo xml-t olvasunk be
         }
 
-        public static List<Flame> LoadStream(Stream s)
+        public static List<Flame> LoadStream(Stream s, out string CollectionName)
         {
             CultureInfo tmpCulture = (CultureInfo)Thread.CurrentThread.CurrentCulture.Clone();
             Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+            CollectionName = "Unnamed Flame Collection";
 
             Flame f = null;
             List<Flame> flamek = new List<Flame>();
@@ -91,6 +93,9 @@ namespace IFS_Editor.Serialization
                                     break;
                                 case "palette":
                                     f.palette = r.ReadElementContentAsString();
+                                    break;
+                                case "flames":
+                                    CollectionName = r["name"]?? "Unnamed Flame Collection";
                                     break;
                                 default:
                                     Console.WriteLine("EZMIEZ: " + r.Name);

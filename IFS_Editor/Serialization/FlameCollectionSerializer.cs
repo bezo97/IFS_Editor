@@ -14,10 +14,10 @@ namespace IFS_Editor.Serialization
     public static class FlameCollectionSerializer
     {
 
-        public static List<Flame> LoadFile(string path)
+        public static List<Flame> LoadFile(string path, out string CollectionName)
         {
             using (StreamReader s = new StreamReader(path))
-                return FlameSerializer.LoadStream(s.BaseStream);
+                return FlameSerializer.LoadStream(s.BaseStream, out CollectionName);
         }
         
         public static void SaveFile(string name, List<Flame> flames, string path)

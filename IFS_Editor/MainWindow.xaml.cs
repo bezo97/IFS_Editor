@@ -78,7 +78,8 @@ namespace IFS_Editor
             {
                 try
                 {
-                    FlameBrowserVM fbvm = new FlameBrowserVM(FLVM.FromFlameModels(FlameCollectionSerializer.LoadFile(ofd.FileName)), ofd.FileName.Split('\\').Last().Split('.')[0]);
+                    string CollectionName = "Unnamed Flame Collection";
+                    FlameBrowserVM fbvm = new FlameBrowserVM(FLVM.FromFlameModels(FlameCollectionSerializer.LoadFile(ofd.FileName, out CollectionName)), /*ofd.FileName.Split('\\').Last().Split('.')[0]*/CollectionName);
                     flamebrowser_main.UpdateAll(fbvm);
                     StatusMessageVM.Instance.Show("Flame opened successfully");
                     StatusMessageVM.Instance.SetPath(ofd.FileName);
