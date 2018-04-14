@@ -68,6 +68,21 @@ namespace IFS_Editor
 
         private void OpenFile_Click(object sender, RoutedEventArgs e)
         {
+            bool needSave = false;
+            foreach (FLVM f in flamebrowser_main.GetFlames())
+            {
+                if (!f.Saved)
+                {
+                    needSave = true;
+                    break;
+                }
+            }
+            if (needSave)//csak akkor kerdezunk ra, ha van valtozas legalabb egy flameben
+            {
+                if (MessageBox.Show(this, "This will erase your unsaved work, continue?", "Open Flame Collection", MessageBoxButton.OKCancel, MessageBoxImage.Question, MessageBoxResult.OK, MessageBoxOptions.None) == MessageBoxResult.Cancel)
+                    return;
+            }
+
             Microsoft.Win32.OpenFileDialog ofd = new Microsoft.Win32.OpenFileDialog
             {
                 Title = "Open flame collection",
@@ -97,7 +112,7 @@ namespace IFS_Editor
             Microsoft.Win32.SaveFileDialog sfd = new Microsoft.Win32.SaveFileDialog
             {
                 Title="Save current flame",
-                FileName = flamebrowser_main.FlameCollectionName,
+                FileName = flamebrowser_main.vm.FlameCollectionName,
                 DefaultExt = ".flame",
                 Filter = "Flame files (.flame)|*.flame"
             };
@@ -105,7 +120,7 @@ namespace IFS_Editor
             {
                 try
                 {
-                    FlameCollectionSerializer.SaveFile(flamebrowser_main.FlameCollectionName, FLVM.ToFlameModels(new List<FLVM>() { nodemap_main.Flame }), sfd.FileName);
+                    FlameCollectionSerializer.SaveFile(flamebrowser_main.vm.FlameCollectionName, FLVM.ToFlameModels(new List<FLVM>() { nodemap_main.Flame }), sfd.FileName);
                     //ezt ide tettem, mert szerializálóba nem lehetett a temporary fájl írások miatt
                     nodemap_main.Flame.Saved = true;
                     StatusMessageVM.Instance.Show("Flame saved successfully");
@@ -122,7 +137,7 @@ namespace IFS_Editor
             Microsoft.Win32.SaveFileDialog sfd = new Microsoft.Win32.SaveFileDialog
             {
                 Title = "Save flame collection",
-                FileName = flamebrowser_main.FlameCollectionName,
+                FileName = flamebrowser_main.vm.FlameCollectionName,
                 DefaultExt = ".flame",
                 Filter = "Flame files (.flame)|*.flame"
             };
@@ -130,7 +145,7 @@ namespace IFS_Editor
             {
                 try
                 {
-                    FlameCollectionSerializer.SaveFile(flamebrowser_main.FlameCollectionName, FLVM.ToFlameModels(flamebrowser_main.GetFlames()), sfd.FileName);
+                    FlameCollectionSerializer.SaveFile(flamebrowser_main.vm.FlameCollectionName, FLVM.ToFlameModels(flamebrowser_main.GetFlames()), sfd.FileName);
                     foreach (FLVM f in flamebrowser_main.GetFlames())
                     {//ezt ide tettem, mert szerializálóba nem lehetett a temporary fájl írások miatt
                         f.Saved = true;
@@ -170,7 +185,7 @@ namespace IFS_Editor
         {
             Microsoft.Win32.SaveFileDialog sfd = new Microsoft.Win32.SaveFileDialog
             {
-                FileName = nodemap_main.Flame.Name + " Graph",
+                FileName = nodemap_main.Flame.FlameName + " Graph",
                 DefaultExt = ".png",
                 Filter = "Image files (.png)|*.png"
             };
@@ -354,7 +369,7 @@ namespace IFS_Editor
             //else: nem fut a process -> elinditjuk tmp fajllal
             Directory.CreateDirectory(System.IO.Path.GetTempPath() + @"Node Editor\");
             string path = System.IO.Path.GetTempPath() + @"Node Editor\" + "tmp.flame";//Guid.NewGuid().ToString()
-            FlameCollectionSerializer.SaveFile(flamebrowser_main.FlameCollectionName, FLVM.ToFlameModels(flamebrowser_main.GetFlames()), path);
+            FlameCollectionSerializer.SaveFile(flamebrowser_main.vm.FlameCollectionName, FLVM.ToFlameModels(flamebrowser_main.GetFlames()), path);
             proc = new Process();
             proc.StartInfo.FileName = exepath;
             proc.StartInfo.WorkingDirectory = System.IO.Path.GetTempPath() + @"Node Editor\";

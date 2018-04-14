@@ -25,13 +25,11 @@ namespace IFS_Editor.View
         public NodeMap Map;
         public FlameBrowserVM vm;
 
-        public string FlameCollectionName { get => vm.EditableText; set => vm.EditableText = value; } 
-
         public FlameBrowser()
         {
-            InitializeComponent();
             vm = new FlameBrowserVM();
             DataContext = vm;
+            InitializeComponent();
         }
 
         public List<FLVM> GetFlames()
@@ -73,7 +71,7 @@ namespace IFS_Editor.View
         {
             //vm = vm1;
             //DataContext = vm;
-            vm.EditableText = vm1.EditableText;
+            vm.FlameCollectionName = vm1.FlameCollectionName;
             vm.flames.Clear();
             FlameListBox.Items.Clear();
             foreach (FLVM f in vm1.flames)

@@ -15,17 +15,17 @@ namespace IFS_Editor.ViewModel
         public FlameBrowserVM()
         {
             flames = new ObservableCollection<FLVM>();
-            EditableText = "Unnamed Flame Collection";
+            FlameCollectionName = "Unnamed Flame Collection";
         }
 
         public FlameBrowserVM(List<FLVM> fls, string name1)
         {
             flames = new ObservableCollection<FLVM>(fls);
-            EditableText = name1;
+            FlameCollectionName = name1;
         }
 
-        private string FlameCollectionName = "Unnamed Flame Collection";
-        public string EditableText { get => FlameCollectionName; set { FlameCollectionName = value; RaisePropertyChanged("EditableText"); } }
+        private string fcn = "Unnamed Flame Collection";
+        public string FlameCollectionName { get => fcn; set { fcn = value; RaisePropertyChanged("FlameCollectionName"); } }
 
     }
 }

@@ -26,7 +26,7 @@
         <!--<TextBox x:Name="EditText" Grid.Row="0" Grid.Column="0" Padding="0" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" KeyDown="EditText_KeyDown" Visibility="Collapsed" LostFocus="EditText_LostFocus"/>
         <Label x:Name="DisplayText" Grid.Row="0" Grid.Column="0" Padding="0" Content="{Binding Name}" MouseDoubleClick="DisplayText_MouseDoubleClick" Visibility="Visible"/>
         -->
-        <local:EditableLabel/>
+        <local:EditableLabel EditableText="{Binding FlameName, Mode=TwoWay}"/>
         <Label x:Name="DisplayChanges" Grid.Row="0" Grid.Column="1" Padding="2" Visibility="{Binding Saved, Converter={StaticResource BetterBooleanToVisibilityConverter}}">*</Label>
         <Button x:Name="RemoveButton" Grid.Row="0" Grid.Column="2" Width="30" Click="RemoveButton_Click" VerticalAlignment="Center" HorizontalAlignment="Right" HorizontalContentAlignment="Center" Margin="0,0,10,0" Padding="0" Visibility="Hidden">
             <Frame Source="Icons/RemoveCommand_16x.xaml"/>

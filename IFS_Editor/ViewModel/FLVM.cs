@@ -129,10 +129,10 @@ namespace IFS_Editor.ViewModel
             return xfs;
         }
 
-        public string EditableText { get => Name; set { Name = value; RaisePropertyChanged("EditableText"); } }
-        public string Name {
+        //public string EditableText { get => Name; set { Name = value; RaisePropertyChanged("EditableText"); } }
+        public string FlameName {
             get => flame.name;
-            set { if (flame.name == value) return; flame.name = value; RaisePropertyChanged("Name"); Saved = false; } }
+            set { if (flame.name == value) return; flame.name = value; RaisePropertyChanged("FlameName"); Saved = false; } }
         public RenderSettings Render { get => flame.renderSettings; set { flame.renderSettings = value; RaisePropertyChanged("Render"); Saved = false; } }
         public CameraSettings Camera { get => flame.cameraSettings; set { flame.cameraSettings = value; RaisePropertyChanged("Camera"); Saved = false; } }
         public ImagingSettings Imaging { get => flame.imagingSettings; set { flame.imagingSettings = value; RaisePropertyChanged("Imaging"); Saved = false; } }

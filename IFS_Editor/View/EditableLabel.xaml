@@ -5,9 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:IFS_Editor.View"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300"
+             x:Name="EditableLabel1">
     <Grid>
-        <TextBox x:Name="EditText" Grid.Row="0" Grid.Column="0" Padding="0" Text="{Binding EditableText, UpdateSourceTrigger=PropertyChanged}" KeyDown="EditText_KeyDown" Visibility="Collapsed" LostFocus="EditText_LostFocus"/>
-        <Label x:Name="DisplayText" Grid.Row="0" Grid.Column="0" Padding="0" Content="{Binding EditableText}" MouseDoubleClick="DisplayText_MouseDoubleClick" Visibility="Visible"/>
+        <TextBox x:Name="EditText" Grid.Row="0" Grid.Column="0" Padding="0" Text="{Binding EditableText, ElementName=EditableLabel1, UpdateSourceTrigger=PropertyChanged}" KeyDown="EditText_KeyDown" Visibility="Collapsed" LostFocus="EditText_LostFocus"/>
+        <Label x:Name="DisplayText" Grid.Row="0" Grid.Column="0" Padding="0" Content="{Binding EditableText, ElementName=EditableLabel1}" MouseDoubleClick="DisplayText_MouseDoubleClick" Visibility="Visible"/>
     </Grid>
 </UserControl>

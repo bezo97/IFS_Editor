@@ -29,6 +29,18 @@ namespace IFS_Editor.View
             //DataContext = vm;
         }
 
+        public string EditableText
+        {
+            get { return (string)GetValue(EditableTextProperty); }
+            set { SetValue(EditableTextProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for EditableText.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty EditableTextProperty =
+            DependencyProperty.Register("EditableText", typeof(string), typeof(EditableLabel), new PropertyMetadata("Unnamed"));
+
+
+
         private string EscapeName = "Unnamed Flame";
 
         private void DisplayText_MouseDoubleClick(object sender, MouseButtonEventArgs e)
