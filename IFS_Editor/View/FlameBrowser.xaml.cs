@@ -22,7 +22,21 @@ namespace IFS_Editor.View
     /// </summary>
     public partial class FlameBrowser : StackPanel
     {
-        public NodeMap Map;
+        //public NodeMap Map;
+
+
+        public NodeMap Map
+        {
+            get { return (NodeMap)GetValue(MapProperty); }
+            set { SetValue(MapProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Map.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MapProperty =
+            DependencyProperty.Register("Map", typeof(NodeMap), typeof(FlameBrowser), new PropertyMetadata(null));
+
+
+
         public FlameBrowserVM vm;
 
         public FlameBrowser()
@@ -34,51 +48,46 @@ namespace IFS_Editor.View
 
         public List<FLVM> GetFlames()
         {
-            return vm.flames.ToList();//TODO
+            return vm.Flames.ToList();//TODO
         }
 
-        public FLVM GetCurrentFlame()
+        /*public FLVM GetCurrentFlame()
         {
-            if (FlameListBox.SelectedIndex < 0)
-                FlameListBox.SelectedIndex = 0;
-            return vm.flames[FlameListBox.SelectedIndex];
-        }
+            return vm.SelectedFlame;
+        }*/
 
         public void AddFlame(FLVM f, bool select)
         {
-            vm.flames.Add(f);
-            FlameListboxItem fli = new FlameListboxItem(this,f);
-            FlameListBox.Items.Add(fli);
-            if (select)
-            {
-                FlameListBox.SelectedItem = fli;
-            }
+            vm.Flames.Add(f);
+            if(select)
+                SelectFlame(f);
         }
 
-        public void RemoveFlame(FlameListboxItem fli)
+        public void RemoveFlame(FLVM f)
         {
-            int index = FlameListBox.Items.IndexOf(fli);
-            vm.flames.RemoveAt(index);
-            FlameListBox.Items.Remove(fli);
+            int index = vm.Flames.IndexOf(f);
+            vm.Flames.Remove(f);
 
-            if (FlameListBox.Items.Count == 0)
-                AddFlame(new FLVM(), true);
+            if (vm.Flames.Count == 0)
+                AddFlame(new FLVM(), false/**/);
 
-            FlameListBox.SelectedIndex=(index<FlameListBox.Items.Count)?index:0;
+            //FlameListBox.SelectedIndex = (index < FlameListBox.Items.Count) ? index : 0;
+            SelectFlame(vm.Flames[(index < FlameListBox.Items.Count) ? index : FlameListBox.Items.Count-1]);
         }
+
 
         public void UpdateAll(FlameBrowserVM vm1)
         {
             //vm = vm1;
             //DataContext = vm;
             vm.FlameCollectionName = vm1.FlameCollectionName;
-            vm.flames.Clear();
-            FlameListBox.Items.Clear();
-            foreach (FLVM f in vm1.flames)
+            vm.Flames.Clear();
+            //FlameListBox.Items.Clear();
+            foreach (FLVM f in vm1.Flames)
             {
                 AddFlame(f,false);
             }
-            FlameListBox.SelectedIndex = 0;//elsot kivalaszt            
+            SelectFlame(vm.Flames[0]);         
         }
 
         public void UpdateCurrentFlame(FLVM f)
@@ -93,30 +102,20 @@ namespace IFS_Editor.View
                 {
                     FlameListBox.SelectedIndex = 0;
                 }
-                vm.flames[FlameListBox.SelectedIndex] = f;
-                ((FlameListboxItem)FlameListBox.SelectedItem).UpdateFlame(f);
-                Li_Selected(null,null);//para
-            }
-        }
-
-        /// <summary>
-        /// Nodemapet frissiti az aktualisan kivalasztott flammel.
-        /// Automatikusan meghivodik a SelectedIndex valtozasakor
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Li_Selected(object sender, SelectionChangedEventArgs e)
-        {
-            if (FlameListBox.SelectedIndex >= 0)//-1 jelentese listboxnal: nincs kivalasztva semmi
-            {
-                ((FlameListboxItem)FlameListBox.SelectedItem).Focus();
-                Map.Flame = vm.flames[FlameListBox.SelectedIndex];
+                vm.Flames[FlameListBox.SelectedIndex] = f;
+                SelectFlame(f);
             }
         }
 
         private void AddFlameButton_Click(object sender, RoutedEventArgs e)
         {
             AddFlame(new FLVM(), true);
+        }
+
+        public void SelectFlame(FLVM f)
+        {
+            vm.SelectedFlame = f;
+            Map.Flame = f;
         }
     }
 }

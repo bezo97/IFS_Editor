@@ -21,34 +21,65 @@ namespace IFS_Editor.View
     /// </summary>
     public partial class FlameListboxItem : ListBoxItem
     {
-        private FlameBrowser _fb;
-        private FLVM _f;
+        //private FlameBrowser _fb;
+        //private FLVM _f;
+        
+        public FLVM F
+        {
+            get { return (FLVM)GetValue(FProperty); }
+            set { SetValue(FProperty, value); }
+        }
 
-        /*public FlameListboxItem()
+        // Using a DependencyProperty as the backing store for F.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty FProperty =
+            DependencyProperty.Register("F", typeof(FLVM), typeof(FlameListboxItem), new PropertyMetadata(/*new FLVM()*/null));
+
+
+
+
+
+        public FlameBrowser Fb
+        {
+            get { return (FlameBrowser)GetValue(FbProperty); }
+            set { SetValue(FbProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Fb.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty FbProperty =
+            DependencyProperty.Register("Fb", typeof(FlameBrowser), typeof(FlameListboxItem), new PropertyMetadata(null));
+
+
+
+        public FlameListboxItem()
         {
             InitializeComponent();
+        }
+
+        /*public void UpdateFlame()
+        {
+
         }*/
 
-        public FlameListboxItem(FlameBrowser fb, FLVM f)
+        /*public FlameListboxItem(FlameBrowser fb, FLVM f)
         {
             InitializeComponent();
-            _fb = fb;
-            _f = f;
+            Fb = fb;
+            F = f;
             //DisplayText.Content = f.Name;
-            DataContext = _f;
-        }
+            DataContext = F;
+        }*/
 
         public void UpdateFlame(FLVM f)
         {
-            _f = f;
+            F = f;
             //DisplayText.Content = f.Name;
-            DataContext = _f;
+            DataContext = F;
             this.Focus();
         }
 
         private void RemoveButton_Click(object sender, RoutedEventArgs e)
         {
-            _fb.RemoveFlame(this);
+            Fb.RemoveFlame(F);
         }
 
         private void listBoxItem_MouseEnter(object sender, MouseEventArgs e)
@@ -60,5 +91,13 @@ namespace IFS_Editor.View
         {
             RemoveButton.Visibility = Visibility.Hidden;
         }
+
+        private void ItemSelectedMouse(object sender, MouseButtonEventArgs e)
+        {
+            e.Handled = false;
+            Focus();
+            Fb.SelectFlame(F);
+        }
+
     }
 }

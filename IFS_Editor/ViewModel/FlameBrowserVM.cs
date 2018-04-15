@@ -10,17 +10,26 @@ namespace IFS_Editor.ViewModel
 {
     public class FlameBrowserVM : ObservableObject
     {
-        public ObservableCollection<FLVM> flames;
+        public ObservableCollection<FLVM> Flames { get; set; }
+
+        private FLVM sf;
+        public FLVM SelectedFlame {
+            get => sf;
+            set { sf = value; RaisePropertyChanged("SelectedFlame"); }
+        }
 
         public FlameBrowserVM()
         {
-            flames = new ObservableCollection<FLVM>();
+            Flames = new ObservableCollection<FLVM>();
+            Flames.Add(new FLVM());
+            SelectedFlame = Flames[0];
             FlameCollectionName = "Unnamed Flame Collection";
         }
 
         public FlameBrowserVM(List<FLVM> fls, string name1)
         {
-            flames = new ObservableCollection<FLVM>(fls);
+            Flames = new ObservableCollection<FLVM>(fls);
+            SelectedFlame = Flames[0];
             FlameCollectionName = name1;
         }
 

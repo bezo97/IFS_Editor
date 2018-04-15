@@ -24,11 +24,8 @@ namespace IFS_Editor.View
     /// </summary>
     public partial class NodeMap : Canvas
     {
-        FLVM flame;
         List<ConnectionArrow> arrows = new List<ConnectionArrow>();
         public bool weightedRs = true;//
-
-        private XFormSideBar sidebar;
 
         private Node connectingStart;
         private List<Path> ArrowToMouse;
@@ -59,12 +56,30 @@ namespace IFS_Editor.View
         public double dx;//node mozgataskor mennyivel kattintottunk felre
         public double dy;
 
-        public XFormSideBar Sidebar { get => sidebar; set => sidebar = value; }
-        public FLVM Flame { get => flame; set
-            {
-                sidebar.Close(false);
+        //public XFormSideBar Sidebar { get => sidebar; set => sidebar = value; }
+
+
+        public XFormSideBar Sidebar
+        {
+            get { return (XFormSideBar)GetValue(SidebarProperty); }
+            set { SetValue(SidebarProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Sidebar.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SidebarProperty =
+            DependencyProperty.Register("Sidebar", typeof(XFormSideBar), typeof(NodeMap), new PropertyMetadata(null));
+
+
+
+        private FLVM fl;
+        public FLVM Flame
+        {
+            get { return fl; }
+            set {
+
+                Sidebar.Close(false);
                 RemoveNodes();
-                flame = value;
+                fl = value;
                 DataContext = Flame;
                 foreach (XFVM xf in Flame.GetXForms())
                 {//osszes ViewModelhez View-t rendelunk
@@ -72,7 +87,7 @@ namespace IFS_Editor.View
                     Children.Add(node);
                 }
                 GenerateLayout(Enums.RenderingEngine.Sfdp);//TODO: Prefs - melyik a default elrendezés algo
-                flame.PropertyChanged += PropertyChanged;
+                Flame.PropertyChanged += PropertyChanged;
                 updateConnections();
             }
         }
@@ -85,14 +100,14 @@ namespace IFS_Editor.View
             XFVM.StaticPropertyChanged += PropertyChanged;
         }
 
-        public NodeMap(FLVM f)
+        /*public NodeMap(FLVM f)
         {
             InitializeComponent();
             Flame = f;
             XFVM.StaticPropertyChanged += PropertyChanged;
             //Flame.PropertyChanged += PropertyChanged;
             
-        }
+        }*/
 
         private void PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {//sender: flame vagy null (static XFVM)
@@ -101,10 +116,10 @@ namespace IFS_Editor.View
                 if (Flame.Selection != null)
                 {
                     BringNodeToFront(GetNodeFromXF(Flame.Selection));
-                    sidebar.Show(Flame.Selection);
+                    Sidebar.Show(Flame.Selection);
                 }
                 else
-                    sidebar.Close(false);
+                    Sidebar.Close(false);
                 updateConnections();
             }
             if (e.PropertyName == "WeightedSize" || e.PropertyName == "BaseSize")

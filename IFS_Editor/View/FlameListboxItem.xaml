@@ -6,8 +6,10 @@
              xmlns:local="clr-namespace:IFS_Editor.View"
              mc:Ignorable="d" 
              d:DesignHeight="50" d:DesignWidth="200" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
+             PreviewMouseDown="ItemSelectedMouse"
              MouseEnter="listBoxItem_MouseEnter"
-             MouseLeave="listBoxItem_MouseLeave" Width="225" Padding="5,2">
+             MouseLeave="listBoxItem_MouseLeave" Width="225" Padding="5,2"
+             >
     <ListBoxItem.Resources>
         <local:BetterBooleanToVisibilityConverter 
         x:Key="BetterBooleanToVisibilityConverter" 

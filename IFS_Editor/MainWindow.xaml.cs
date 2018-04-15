@@ -30,11 +30,8 @@ namespace IFS_Editor
             InitializeComponent();
 
             StatusString.DataContext = StatusMessageVM.Instance;
-            nodemap_main.Sidebar = sidebar_main;
-            sidebar_main.Map = nodemap_main;
-            flamebrowser_main.Map = nodemap_main;
 
-            flamebrowser_main.AddFlame(new FLVM(), true);
+            //flamebrowser_main.AddFlame(new FLVM(), true);
         }
 
         private void ShowRenderSettingsWindow(object sender, RoutedEventArgs e)
@@ -226,7 +223,7 @@ namespace IFS_Editor
         {
             try
             {
-                Clipboard.SetText(FlameSerializer.SerializeFlame(FLVM.ToFlameModels(new List<FLVM>() { flamebrowser_main.GetCurrentFlame() })[0]).ToString());
+                Clipboard.SetText(FlameSerializer.SerializeFlame(FLVM.ToFlameModels(new List<FLVM>() { flamebrowser_main.vm.SelectedFlame })[0]).ToString());
                 StatusMessageVM.Instance.Show("Flame copied to clipboard");
             }
             catch
@@ -354,16 +351,16 @@ namespace IFS_Editor
 
         private void LaunchProc(ref Process proc, string exepath)
         {
-            if (proc!=null)
+            /*if (proc!=null)
             {//mar fut a process -> beillesztjuk a flamet
                 if (!proc.HasExited)
                 {
-                    //procApo.Handle
+                    //proc.Handle
                     //win api: setforeground és sendkeys:
-                    //TODO: ctrl+v atadasnal
+                    //ctrl+v vel atadas
                     return;
                 }
-            }
+            }*///elvetve
             
 
             //else: nem fut a process -> elinditjuk tmp fajllal

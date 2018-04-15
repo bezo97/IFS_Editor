@@ -14,7 +14,17 @@
         <!--<Label>Flame Browser:</Label>-->
         <local:EditableLabel EditableText="{Binding FlameCollectionName, Mode=TwoWay}"/>
     </StackPanel>
-    <ListBox x:Name="FlameListBox" ScrollViewer.VerticalScrollBarVisibility="auto" SelectionMode="Single" SelectionChanged="Li_Selected" MaxHeight="500"/>
+    <ListBox x:Name="FlameListBox" ScrollViewer.VerticalScrollBarVisibility="auto" SelectionMode="Single" MaxHeight="500"
+             ItemsSource="{Binding Flames}"
+             SelectedItem="{Binding SelectedFlame, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+        <ListBox.ItemTemplate>
+            <DataTemplate>
+                <local:FlameListboxItem Fb="{Binding ElementName=FlameBrowserMain}" F="{Binding}" DataContext="{Binding}"/> <!--a lista adott elemehez bindel-->
+            </DataTemplate>
+        </ListBox.ItemTemplate>
+    </ListBox>
+
+
     <Button Click="AddFlameButton_Click" Margin="5" ToolTip="Add new empty flame to the collection.">
         <Frame Source="Icons/Add_grey_16x.xaml"/>
     </Button>

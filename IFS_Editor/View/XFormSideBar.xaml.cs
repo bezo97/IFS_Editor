@@ -22,8 +22,18 @@ namespace IFS_Editor.View
     public partial class XFormSideBar : Grid
     {
         private XFVM xf;
-        private NodeMap map;
-        public NodeMap Map { set => map = value; get => map; }
+
+        public NodeMap Map
+        {
+            get { return (NodeMap)GetValue(MapProperty); }
+            set { SetValue(MapProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Map.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MapProperty =
+            DependencyProperty.Register("Map", typeof(NodeMap), typeof(XFormSideBar), new PropertyMetadata(null));
+
+
 
         public XFormSideBar()
         {
