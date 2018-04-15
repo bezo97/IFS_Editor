@@ -23,7 +23,7 @@ namespace IFS_Editor
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Fluent.RibbonWindow
     {
         public MainWindow()
         {
@@ -160,7 +160,7 @@ namespace IFS_Editor
         private void SetLayout(object sender, SelectionChangedEventArgs e)
         {
             GraphVizWrapper.Enums.RenderingEngine sel = GraphVizWrapper.Enums.RenderingEngine.Sfdp;
-            Enum.TryParse((((ComboBoxItem)LayoutComboBox.SelectedItem).Content ?? "Sfdp").ToString(), out sel);
+            //Enum.TryParse((((ComboBoxItem)LayoutComboBox.SelectedItem).Content ?? "Sfdp").ToString(), out sel);
             try
             {
                 nodemap_main.GenerateLayout(sel);
@@ -304,7 +304,7 @@ namespace IFS_Editor
 
         private void NodeSize_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            switch (((ComboBoxItem)NodeSizeComboBox.SelectedItem).Content)
+            /*switch (((ComboBoxItem)NodeSizeComboBox.SelectedItem).Content)
             {
                 case "Tiny":
                     XFVM.BaseSize = 25;
@@ -318,7 +318,7 @@ namespace IFS_Editor
                 case "Big":
                     XFVM.BaseSize = 200;
                     break;
-            }
+            }*/
         }
 
         Process procApo;

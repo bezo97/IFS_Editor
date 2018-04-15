@@ -1,9 +1,10 @@
-﻿<Window
+﻿<Fluent:RibbonWindow
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:Fluent="urn:fluent-ribbon"
         xmlns:local="clr-namespace:IFS_Editor"
         xmlns:System="clr-namespace:System;assembly=mscorlib" xmlns:View="clr-namespace:IFS_Editor.View" x:Class="IFS_Editor.MainWindow"
         mc:Ignorable="d"
@@ -29,7 +30,8 @@
         <CommandBinding Command="Close" Executed="Close_Click"></CommandBinding>
     </Window.CommandBindings>
     <DockPanel LastChildFill="true">
-        <Menu DockPanel.Dock="Top">
+        
+        <!--<Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
                 <MenuItem Header="_New" ToolTip="Add new empty flame" InputGestureText="Ctrl+N">
                     <MenuItem.Icon>
@@ -65,13 +67,11 @@
                 </MenuItem>
                 <Separator/>
                 <MenuItem Header="Save image..." Click="SaveImageToFile" ToolTip="Save image to file" >
-                    <!--InputGestureText="Ctrl+Shift+S"-->
                     <MenuItem.Icon>
                         <Frame Source="View/Icons/WindowScreenshot_16x.xaml"/>
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Copy image" Click="CopyImageToClipboard" ToolTip="Copy image to clipboard">
-                    <!--InputGestureText="Ctrl+Shift+C"-->
                     <MenuItem.Icon>
                         <Frame Source="View/Icons/RectangularScreenshot_16x.xaml"/>
                     </MenuItem.Icon>
@@ -126,7 +126,7 @@
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator/>
-                <MenuItem Header="_User Preferences..." ><!--TODO: pl default layout, default sulyozott meretezes, external renderers: Apophysis helye, Chaotica helye-->
+                <MenuItem Header="_User Preferences..." >
                     <MenuItem.Icon>
                         <Frame Source="View/Icons/Settings_16x.xaml"/>
                     </MenuItem.Icon>
@@ -139,12 +139,246 @@
                 <Separator/>
                 <MenuItem Header="Custom..." />
             </MenuItem>
-        </Menu>
-        <StatusBar DockPanel.Dock="Bottom">
-            <ProgressBar Width="50" Height="15"></ProgressBar>
-            <Label x:Name="StatusString" Content="{Binding Text}"/>
-            <!--DataContext="{Binding Source=StatusMessageVM.Instance}"-->
-        </StatusBar>
+        </Menu>-->
+
+        <Fluent:Ribbon DockPanel.Dock="Top">
+            <!--Backstage-->
+            <Fluent:Ribbon.Menu>
+                <Fluent:Backstage>
+                    <Fluent:BackstageTabControl Background="Transparent">
+                        <!--<Fluent:BackstageTabItem Header="New" />-->
+                        <Fluent:Button Header="New Collection" Click="EmptyCollection_Click"/>
+                        <Fluent:Button Header="Add Flame" Click="NewFlame_Click"/>
+                        <Fluent:SeparatorTabItem/>
+                        <Fluent:Button Header="Open" Click="OpenFile_Click"/>
+                        <Fluent:Button Header="Save" Click="Save_Click"/>
+                        <Fluent:Button Header="Save All" Click="SaveAll_Click"/>
+                        <Fluent:SeparatorTabItem/>
+                        <Fluent:Button Header="Paste" Click="PasteClipboard_Click"/>
+                        <Fluent:Button Header="Copy" Click="CopyClipboard_Click"/>
+                        <Fluent:SeparatorTabItem/>
+                        <Fluent:Button Header="Save Image..." Click="SaveImageToFile"/>
+                        <Fluent:Button Header="Copy Image" Click="CopyImageToClipboard"/>
+                        <Fluent:SeparatorTabItem/>
+                        <Fluent:Button Header="User Preferences..." />
+                        <Fluent:Button Header="Exit" Click="Close_Click"/>
+                    </Fluent:BackstageTabControl>
+                </Fluent:Backstage>
+            </Fluent:Ribbon.Menu>
+
+            <!--Tabs-->
+            <!--Home-->
+            <Fluent:RibbonTabItem Header="Home">
+                <!--Clipboard-->
+                <Fluent:RibbonGroupBox Header="Clipboard">
+                    <Fluent:Button Header="Paste" Click="PasteClipboard_Click">
+                        <Fluent:Button.LargeIcon>
+                            <Frame Source="View/Icons/Paste_16x.xaml" />
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
+                    <Fluent:Button Header="Copy" Click="CopyClipboard_Click">
+                        <Fluent:Button.LargeIcon>
+                            <Frame Source="View/Icons/CopyToClipboard_16x.xaml" />
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
+                </Fluent:RibbonGroupBox>
+                <!--File-->
+                <Fluent:RibbonGroupBox Header="New">
+                    <Fluent:Button Header="New Flame" Click="NewFlame_Click">
+                        <Fluent:Button.LargeIcon>
+                            <Frame Source="View/Icons/NewFile_16x.xaml" />
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
+                    <Fluent:Button Header="New Collection" Click="EmptyCollection_Click">
+                        <Fluent:Button.LargeIcon>
+                            <Frame Source="View/Icons/NewFileCollection_16x.xaml" />
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
+                </Fluent:RibbonGroupBox>
+                <Fluent:RibbonGroupBox Header="File">
+                    <Fluent:Button Header="Open" Click="OpenFile_Click">
+                        <Fluent:Button.LargeIcon>
+                            <Frame Source="View/Icons/OpenFolder_16x.xaml" />
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
+                    <Fluent:Button Header="Save" Click="Save_Click">
+                        <Fluent:Button.LargeIcon>
+                            <Frame Source="View/Icons/Save_16x.xaml" />
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
+                    <Fluent:Button Header="Save Collection" Click="SaveAll_Click">
+                        <Fluent:Button.LargeIcon>
+                            <Frame Source="View/Icons/SaveAll_16x.xaml" />
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
+                </Fluent:RibbonGroupBox>
+                <!--Screenshot-->
+                <Fluent:RibbonGroupBox Header="Screenshot">
+                    <Fluent:Button Header="Save" Click="SaveImageToFile">
+                        <Fluent:Button.LargeIcon>
+                            <Frame Source="View/Icons/WindowScreenshot_16x.xaml" />
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
+                    <Fluent:Button Header="Copy" Click="CopyImageToClipboard">
+                        <Fluent:Button.LargeIcon>
+                            <Frame Source="View/Icons/RectangularScreenshot_16x.xaml" />
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
+                </Fluent:RibbonGroupBox>
+            </Fluent:RibbonTabItem>
+            <!--Insert-->
+            <Fluent:RibbonTabItem Header="Insert">
+                <!--Custom-->
+                <Fluent:RibbonGroupBox Header="Custom">
+                    <Fluent:Button Header="Grey">
+                        <Fluent:Button.LargeIcon>
+                            <Frame Source="View/Icons/NewFile_16x.xaml" />
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
+                </Fluent:RibbonGroupBox>
+                <!--Template-->
+                <Fluent:RibbonGroupBox Header="Template">
+                    <Fluent:InRibbonGallery></Fluent:InRibbonGallery>
+                    <Fluent:Button Header="Grey">
+                        <Fluent:Button.LargeIcon>
+                            <Frame Source="View/Icons/NewFile_16x.xaml" />
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
+                </Fluent:RibbonGroupBox>
+            </Fluent:RibbonTabItem>
+            <!--Layout-->
+            <Fluent:RibbonTabItem Header="Layout">
+                <!--Layout-->
+                <Fluent:RibbonGroupBox Header="Layout">
+                    <Fluent:InRibbonGallery></Fluent:InRibbonGallery>
+                    <Fluent:Button Header="Default">
+                        <Fluent:Button.LargeIcon>
+                            <Frame Source="View/Icons/NewFile_16x.xaml" />
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
+                </Fluent:RibbonGroupBox>
+            </Fluent:RibbonTabItem>
+            <!--View-->
+            <Fluent:RibbonTabItem Header="View">
+                <!--Night mode-->
+                <Fluent:RibbonGroupBox Header="Night mode">
+                    <Fluent:Button Header="Grey">
+                        <Fluent:Button.LargeIcon>
+                            <Frame Source="View/Icons/NewFile_16x.xaml" />
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
+                </Fluent:RibbonGroupBox>
+                <!--Style-->
+                <Fluent:RibbonGroupBox Header="Style">
+                    <Fluent:InRibbonGallery><!--passz, valami kozmetikak, pl arnyek--></Fluent:InRibbonGallery>
+                    <!--nyilak kiteresi szoge-->
+                </Fluent:RibbonGroupBox>
+                <!--Scale-->
+                <Fluent:RibbonGroupBox Header="Scale">
+                    <Fluent:InRibbonGallery></Fluent:InRibbonGallery>
+                    <Fluent:Button Header="Weighted">
+                        <Fluent:Button.LargeIcon>
+                            <Frame Source="View/Icons/NewFile_16x.xaml" />
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
+                </Fluent:RibbonGroupBox>
+                <!--Navigation-->
+                <Fluent:RibbonGroupBox Header="Navigation">
+                    <Fluent:Button Header="Fit to Screen, hide browser stb.">
+                        <Fluent:Button.LargeIcon>
+                            <Frame Source="View/Icons/NewFile_16x.xaml" />
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
+                </Fluent:RibbonGroupBox>
+            </Fluent:RibbonTabItem>
+            <!--Render-->
+            <Fluent:RibbonTabItem Header="Render">
+                <!--Softwares-->
+                <Fluent:RibbonGroupBox Header="Softwares">
+                    <Fluent:InRibbonGallery></Fluent:InRibbonGallery>
+                </Fluent:RibbonGroupBox>
+                <!--Configure-->
+                <Fluent:RibbonGroupBox Header="Configure">
+                    <Fluent:Button Header="Paths">
+                        <Fluent:Button.LargeIcon>
+                            <Frame Source="View/Icons/NewFile_16x.xaml" />
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
+                </Fluent:RibbonGroupBox>
+            </Fluent:RibbonTabItem>
+            <!--Contextual Tabs-->
+            <Fluent:RibbonTabItem Header="Edit" Group="{Binding Source={x:Reference Edit_tab}}">
+                <!--XForms-->
+                <Fluent:RibbonGroupBox Header="XForms">
+                    <Fluent:Button Header="Add">
+                        <Fluent:Button.LargeIcon>
+                            <Frame Source="View/Icons/NewFile_16x.xaml" />
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
+                    <Fluent:Button Header="Add Linked">
+                        <Fluent:Button.LargeIcon>
+                            <Frame Source="View/Icons/NewFile_16x.xaml" />
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
+                    <Fluent:Button Header="Delete">
+                        <Fluent:Button.LargeIcon>
+                            <Frame Source="View/Icons/NewFile_16x.xaml" />
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
+                </Fluent:RibbonGroupBox>
+                <!--Chaos-->
+                <Fluent:RibbonGroupBox Header="Chaos">
+                    <Fluent:Button Header="Paths">
+                        <Fluent:Button.LargeIcon>
+                            <Frame Source="View/Icons/NewFile_16x.xaml" />
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
+                    <Fluent:Button Header="Paths">
+                        <Fluent:Button.LargeIcon>
+                            <Frame Source="View/Icons/NewFile_16x.xaml" />
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
+                    <Fluent:Button Header="Paths">
+                        <Fluent:Button.LargeIcon>
+                            <Frame Source="View/Icons/NewFile_16x.xaml" />
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
+                    <Fluent:Button Header="Paths">
+                        <Fluent:Button.LargeIcon>
+                            <Frame Source="View/Icons/NewFile_16x.xaml" />
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
+                </Fluent:RibbonGroupBox>
+            </Fluent:RibbonTabItem>
+            <!--Social-->
+            <Fluent:RibbonTabItem Header="Social" HorizontalAlignment="Right">
+                <!--Softwares-->
+                <Fluent:RibbonGroupBox Header="Softwares">
+                    <Fluent:InRibbonGallery></Fluent:InRibbonGallery>
+                </Fluent:RibbonGroupBox>
+                <!--Configure-->
+                <Fluent:RibbonGroupBox Header="Configure">
+                    <Fluent:Button Header="Paths">
+                        <Fluent:Button.Icon>
+                            <Frame Source="View/Icons/NewFile_16x.xaml" />
+                        </Fluent:Button.Icon>
+                    </Fluent:Button>
+                </Fluent:RibbonGroupBox>
+            </Fluent:RibbonTabItem>
+
+            <!--Contextual Tab Groups-->
+            <Fluent:Ribbon.ContextualGroups>
+                <Fluent:RibbonContextualTabGroup x:Name="Edit_tab"
+                                     Header="XForm" 
+                                     Visibility="Visible"
+                                     Background="Orange" 
+                                     BorderBrush="LightBlue" >
+                </Fluent:RibbonContextualTabGroup>
+            </Fluent:Ribbon.ContextualGroups>
+
+        </Fluent:Ribbon>
+
+        <!--
         <ToolBarTray DockPanel.Dock="Top" Orientation="Horizontal">
             <ToolBar Band="0" BandIndex="0">
                 <Button Click="EmptyCollection_Click" ToolTip="New empty collection">
@@ -180,7 +414,6 @@
                 </Button>
             </ToolBar>
             <ToolBar Band="0" BandIndex="2">
-                <!--TODO csak az jelenik meg, amelyik a preferencesben be van állítva-->
                 <Button Click="LaunchApo" ToolTip="Launch current params in Apophysis">
                     <Image Source="View/Icons/apophysis.jpg" Width="16" Height="16"/>
                 </Button>
@@ -206,7 +439,6 @@
                 </Button>
             </ToolBar>
             <ToolBar Band="1" BandIndex="1">
-                <!--<Label>Connections:</Label>-->
                 <Button Content="[mindenkire rakot]"/>
                 <Button Content="[mindenkit rakot]"/>
                 <Button Content="[mindenkrol torol]"/>
@@ -217,7 +449,7 @@
             </ToolBar>
             <ToolBar Band="1" BandIndex="2">
                 <Label>Node size:</Label>
-                <ComboBox x:Name="NodeSizeComboBox" SelectionChanged="NodeSize_SelectionChanged" IsSynchronizedWithCurrentItem="True"><!--TODO: auto select on load-->
+                <ComboBox x:Name="NodeSizeComboBox" SelectionChanged="NodeSize_SelectionChanged" IsSynchronizedWithCurrentItem="True">
                     <ComboBoxItem>Tiny</ComboBoxItem>
                     <ComboBoxItem>Small</ComboBoxItem>
                     <ComboBoxItem IsSelected="True">Medium</ComboBoxItem>
@@ -229,7 +461,6 @@
                 <Separator/>
                 <Label>Layout:</Label>
                 <ComboBox x:Name="LayoutComboBox" SelectionChanged="SetLayout" IsSynchronizedWithCurrentItem="True">
-                    <!--TODO: auto select on load-->
                     <ComboBoxItem>Circo</ComboBoxItem>
                     <ComboBoxItem>Dot</ComboBoxItem>
                     <ComboBoxItem>Fdp</ComboBoxItem>
@@ -252,7 +483,13 @@
                 </Button>
             </ToolBar>
         </ToolBarTray>
-        <ToolBarTray DockPanel.Dock="Right" Orientation="Vertical"/>
+        -->
+        <!--<ToolBarTray DockPanel.Dock="Right" Orientation="Vertical"/>-->
+        <StatusBar DockPanel.Dock="Bottom">
+            <ProgressBar Width="50" Height="15"></ProgressBar>
+            <Label x:Name="StatusString" Content="{Binding Text}"/>
+            <!--DataContext="{Binding Source=StatusMessageVM.Instance}"-->
+        </StatusBar>
         <View:FlameBrowser x:Name="flamebrowser_main" Map="{Binding ElementName=nodemap_main}" DockPanel.Dock="Left"/>
         <Grid><!--ide nem kellenek cellak, mert az xform panel lebeg, ez csak a lastchildfill miatt kell-->
             <xctk:Zoombox x:Name="zoombox" IsAnimated="True" KeepContentInBounds="False" DragModifiers="None" RelativeZoomModifiers="None" Background="#FF1D1D1D" ZoomOnPreview="False" Cursor="SizeAll">
@@ -267,4 +504,4 @@
             <View:XFormSideBar x:Name="sidebar_main" Map="{Binding ElementName=nodemap_main}"/>
         </Grid>
     </DockPanel>
-</Window>
+</Fluent:RibbonWindow>
