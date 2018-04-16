@@ -1,4 +1,5 @@
-﻿using IFS_Editor.Serialization;
+﻿using Fluent;
+using IFS_Editor.Serialization;
 using IFS_Editor.View;
 using IFS_Editor.ViewModel;
 using System;
@@ -157,10 +158,11 @@ namespace IFS_Editor
             }
         }
 
-        private void SetLayout(object sender, SelectionChangedEventArgs e)
+        private void SetLayout(object sender, RoutedEventArgs e)
         {
             GraphVizWrapper.Enums.RenderingEngine sel = GraphVizWrapper.Enums.RenderingEngine.Sfdp;
-            //Enum.TryParse((((ComboBoxItem)LayoutComboBox.SelectedItem).Content ?? "Sfdp").ToString(), out sel);
+            string s = ((Fluent.Button)sender).Header.ToString();
+            Enum.TryParse( ( s ?? "Sfdp").ToString(), out sel);
             try
             {
                 nodemap_main.GenerateLayout(sel);
@@ -302,9 +304,11 @@ namespace IFS_Editor
             { XFVM.EnableWeightedSize = value; }
         }
 
-        private void NodeSize_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void SetNodeSize(object sender, RoutedEventArgs e)
         {
-            /*switch (((ComboBoxItem)NodeSizeComboBox.SelectedItem).Content)
+            string s = ((Fluent.Button)sender).Header.ToString();
+
+            switch (s)
             {
                 case "Tiny":
                     XFVM.BaseSize = 25;
@@ -315,10 +319,10 @@ namespace IFS_Editor
                 case "Medium":
                     XFVM.BaseSize = 100;
                     break;
-                case "Big":
+                case "Large":
                     XFVM.BaseSize = 200;
                     break;
-            }*/
+            }
         }
 
         Process procApo;
@@ -377,5 +381,18 @@ namespace IFS_Editor
             
         }
 
+        private void ToggleButton_Checked(object sender, RoutedEventArgs e)
+        {
+            ThemeManager.ChangeAppStyle(this, ThemeManager.GetAccent("Orange"), ThemeManager.GetAppTheme("BaseDark"));
+
+            //ribbonon kivüli dolgok
+        }
+
+        private void ToggleButton_Unchecked(object sender, RoutedEventArgs e)
+        {
+            ThemeManager.ChangeAppStyle(this, ThemeManager.GetAccent("Blue"), ThemeManager.GetAppTheme("BaseLight"));
+
+            //ribbonon kivüli dolgok
+        }
     }
 }

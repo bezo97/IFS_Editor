@@ -225,6 +225,24 @@
                         </Fluent:Button.LargeIcon>
                     </Fluent:Button>
                 </Fluent:RibbonGroupBox>
+                <!--Current Flame-->
+                <Fluent:RibbonGroupBox Header="Current Flame">
+                    <Fluent:Button Header="Add" Click="AddXForm_Click">
+                        <Fluent:Button.LargeIcon>
+                            <Frame Source="View/Icons/AddMemberFormula_16x.xaml" />
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
+                    <Fluent:Button Header="Render Settings" Click="ShowRenderSettingsWindow" SizeDefinition="Middle">
+                        <Fluent:Button.LargeIcon>
+                            <Frame Source="View/Icons/LibrarySetting_16x.xaml" />
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
+                    <Fluent:Button Header="Imaging Settings" Click="ShowImagingSettingsWindow" SizeDefinition="Middle">
+                        <Fluent:Button.LargeIcon>
+                            <Frame Source="View/Icons/ColorPalette_16x.xaml" />
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
+                </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
             <!--Insert-->
             <Fluent:RibbonTabItem Header="Insert">
@@ -250,23 +268,84 @@
             <Fluent:RibbonTabItem Header="Layout">
                 <!--Layout-->
                 <Fluent:RibbonGroupBox Header="Layout">
-                    <Fluent:InRibbonGallery></Fluent:InRibbonGallery>
-                    <Fluent:Button Header="Default">
-                        <Fluent:Button.LargeIcon>
-                            <Frame Source="View/Icons/NewFile_16x.xaml" />
-                        </Fluent:Button.LargeIcon>
-                    </Fluent:Button>
+                    <Fluent:InRibbonGallery x:Name="LayoutGallery">
+                        <Fluent:GalleryItem Margin="10">
+                            <Fluent:Button Header="Circo" Click="SetLayout">
+                                <Fluent:Button.LargeIcon>
+                                    <Frame Source="View/Icons/NewFile_16x.xaml" />
+                                </Fluent:Button.LargeIcon>
+                            </Fluent:Button>
+                        </Fluent:GalleryItem>
+                        <Fluent:GalleryItem Margin="10">
+                            <Fluent:Button Header="Dot" Click="SetLayout">
+                                <Fluent:Button.LargeIcon>
+                                    <Frame Source="View/Icons/NewFile_16x.xaml" />
+                                </Fluent:Button.LargeIcon>
+                            </Fluent:Button>
+                        </Fluent:GalleryItem>
+                        <Fluent:GalleryItem Margin="10">
+                            <Fluent:Button Header="Fdp" Click="SetLayout">
+                                <Fluent:Button.LargeIcon>
+                                    <Frame Source="View/Icons/NewFile_16x.xaml" />
+                                </Fluent:Button.LargeIcon>
+                            </Fluent:Button>
+                        </Fluent:GalleryItem>
+                        <Fluent:GalleryItem Margin="10">
+                            <Fluent:Button Header="Neato" Click="SetLayout">
+                                <Fluent:Button.LargeIcon>
+                                    <Frame Source="View/Icons/NewFile_16x.xaml" />
+                                </Fluent:Button.LargeIcon>
+                            </Fluent:Button>
+                        </Fluent:GalleryItem>
+                        <Fluent:GalleryItem Margin="10">
+                            <Fluent:Button Header="Osage" Click="SetLayout">
+                                <Fluent:Button.LargeIcon>
+                                    <Frame Source="View/Icons/NewFile_16x.xaml" />
+                                </Fluent:Button.LargeIcon>
+                            </Fluent:Button>
+                        </Fluent:GalleryItem>
+                        <Fluent:GalleryItem Margin="10">
+                            <Fluent:Button Header="Patchwork" Click="SetLayout">
+                                <Fluent:Button.LargeIcon>
+                                    <Frame Source="View/Icons/NewFile_16x.xaml" />
+                                </Fluent:Button.LargeIcon>
+                            </Fluent:Button>
+                        </Fluent:GalleryItem>
+                        <Fluent:GalleryItem Margin="10">
+                            <Fluent:Button Header="Sfdp" Click="SetLayout">
+                                <Fluent:Button.LargeIcon>
+                                    <Frame Source="View/Icons/NewFile_16x.xaml" />
+                                </Fluent:Button.LargeIcon>
+                            </Fluent:Button>
+                        </Fluent:GalleryItem>
+                        <Fluent:GalleryItem Margin="10">
+                            <Fluent:Button Header="Twopi" Click="SetLayout">
+                                <Fluent:Button.LargeIcon>
+                                    <Frame Source="View/Icons/NewFile_16x.xaml" />
+                                </Fluent:Button.LargeIcon>
+                            </Fluent:Button>
+                        </Fluent:GalleryItem>
+                    </Fluent:InRibbonGallery>
+                    <Fluent:DropDownButton Header="Default" SizeDefinition="Small">
+                        <Fluent:DropDownButton.Icon>
+                            <Frame Source="View/Icons/Settings_16x.xaml" />
+                        </Fluent:DropDownButton.Icon>
+                        <Fluent:Gallery>
+                            <Fluent:GalleryItem>Circo</Fluent:GalleryItem>
+                            <Fluent:GalleryItem>...</Fluent:GalleryItem>
+                        </Fluent:Gallery>
+                    </Fluent:DropDownButton>
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
             <!--View-->
             <Fluent:RibbonTabItem Header="View">
                 <!--Night mode-->
-                <Fluent:RibbonGroupBox Header="Night mode">
-                    <Fluent:Button Header="Grey">
-                        <Fluent:Button.LargeIcon>
+                <Fluent:RibbonGroupBox Header="Theme">
+                    <Fluent:ToggleButton Header="Night mode" Checked="ToggleButton_Checked" Unchecked="ToggleButton_Unchecked">
+                        <Fluent:ToggleButton.LargeIcon>
                             <Frame Source="View/Icons/NewFile_16x.xaml" />
-                        </Fluent:Button.LargeIcon>
-                    </Fluent:Button>
+                        </Fluent:ToggleButton.LargeIcon>
+                    </Fluent:ToggleButton>
                 </Fluent:RibbonGroupBox>
                 <!--Style-->
                 <Fluent:RibbonGroupBox Header="Style">
@@ -275,12 +354,41 @@
                 </Fluent:RibbonGroupBox>
                 <!--Scale-->
                 <Fluent:RibbonGroupBox Header="Scale">
-                    <Fluent:InRibbonGallery></Fluent:InRibbonGallery>
-                    <Fluent:Button Header="Weighted">
-                        <Fluent:Button.LargeIcon>
-                            <Frame Source="View/Icons/NewFile_16x.xaml" />
-                        </Fluent:Button.LargeIcon>
-                    </Fluent:Button>
+                    <Fluent:InRibbonGallery>
+                        <Fluent:GalleryItem Margin="10">
+                            <Fluent:Button Header="Tiny" Click="SetNodeSize">
+                                <Fluent:Button.LargeIcon>
+                                    <Frame Source="View/Icons/NewFile_16x.xaml" />
+                                </Fluent:Button.LargeIcon>
+                            </Fluent:Button>
+                        </Fluent:GalleryItem>
+                        <Fluent:GalleryItem Margin="10">
+                            <Fluent:Button Header="Small" Click="SetNodeSize">
+                                <Fluent:Button.LargeIcon>
+                                    <Frame Source="View/Icons/NewFile_16x.xaml" />
+                                </Fluent:Button.LargeIcon>
+                            </Fluent:Button>
+                        </Fluent:GalleryItem>
+                        <Fluent:GalleryItem Margin="10">
+                            <Fluent:Button Header="Medium" Click="SetNodeSize">
+                                <Fluent:Button.LargeIcon>
+                                    <Frame Source="View/Icons/NewFile_16x.xaml" />
+                                </Fluent:Button.LargeIcon>
+                            </Fluent:Button>
+                        </Fluent:GalleryItem>
+                        <Fluent:GalleryItem Margin="10">
+                            <Fluent:Button Header="Large" Click="SetNodeSize">
+                                <Fluent:Button.LargeIcon>
+                                    <Frame Source="View/Icons/NewFile_16x.xaml" />
+                                </Fluent:Button.LargeIcon>
+                            </Fluent:Button>
+                        </Fluent:GalleryItem>
+                    </Fluent:InRibbonGallery>
+                    <Fluent:ToggleButton Header="Weighted" IsChecked="{Binding Path=WeightedRs, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}">
+                        <Fluent:ToggleButton.LargeIcon>
+                            <Frame Source="View/Icons/WeightMember_16x.xaml" />
+                        </Fluent:ToggleButton.LargeIcon>
+                    </Fluent:ToggleButton>
                 </Fluent:RibbonGroupBox>
                 <!--Navigation-->
                 <Fluent:RibbonGroupBox Header="Navigation">
@@ -295,34 +403,64 @@
             <Fluent:RibbonTabItem Header="Render">
                 <!--Softwares-->
                 <Fluent:RibbonGroupBox Header="Softwares">
-                    <Fluent:InRibbonGallery></Fluent:InRibbonGallery>
+                    <Fluent:InRibbonGallery>
+                        <Fluent:GalleryItem>
+                            <Fluent:Button Header="Apophysis" Click="LaunchApo" LargeIcon="View/Icons/apophysis.jpg"/>
+                        </Fluent:GalleryItem>
+                        <Fluent:GalleryItem>
+                            <Fluent:Button Header="Chaotica" Click="LaunchCha" LargeIcon="View/Icons/chaotica.png"/>
+                        </Fluent:GalleryItem>
+                        <Fluent:GalleryItem>
+                            <Fluent:Button Header="Fractorium" Click="LaunchFra" LargeIcon="View/Icons/fractorium.png"/>
+                        </Fluent:GalleryItem>
+                        <Fluent:GalleryItem>
+                            <Fluent:Button Header="JWildfire" Click="LaunchJwf" LargeIcon="View/Icons/jwf.png"/>
+                        </Fluent:GalleryItem>
+                    </Fluent:InRibbonGallery>
                 </Fluent:RibbonGroupBox>
                 <!--Configure-->
                 <Fluent:RibbonGroupBox Header="Configure">
-                    <Fluent:Button Header="Paths">
-                        <Fluent:Button.LargeIcon>
-                            <Frame Source="View/Icons/NewFile_16x.xaml" />
-                        </Fluent:Button.LargeIcon>
-                    </Fluent:Button>
+                    <Fluent:DropDownButton Header="Paths" SizeDefinition="Small">
+                        <Fluent:DropDownButton.Icon>
+                            <Frame Source="View/Icons/Settings_16x.xaml" />
+                        </Fluent:DropDownButton.Icon>
+                        <Fluent:Gallery>
+                            <Fluent:GalleryItem>Apophisys</Fluent:GalleryItem>
+                            <Fluent:GalleryItem>...</Fluent:GalleryItem>
+                        </Fluent:Gallery>
+                    </Fluent:DropDownButton>
+                </Fluent:RibbonGroupBox>
+                <!--Flame Settings-->
+                <Fluent:RibbonGroupBox Header="Flame Settings">
+                <Fluent:Button Header="Render Settings" Click="ShowRenderSettingsWindow">
+                    <Fluent:Button.LargeIcon>
+                        <Frame Source="View/Icons/LibrarySetting_16x.xaml" />
+                    </Fluent:Button.LargeIcon>
+                </Fluent:Button>
+                <Fluent:Button Header="Imaging Settings" Click="ShowImagingSettingsWindow">
+                    <Fluent:Button.LargeIcon>
+                        <Frame Source="View/Icons/ColorPalette_16x.xaml" />
+                    </Fluent:Button.LargeIcon>
+                </Fluent:Button>
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
             <!--Contextual Tabs-->
             <Fluent:RibbonTabItem Header="Edit" Group="{Binding Source={x:Reference Edit_tab}}">
                 <!--XForms-->
                 <Fluent:RibbonGroupBox Header="XForms">
-                    <Fluent:Button Header="Add">
+                    <Fluent:Button Header="Add" Click="AddXForm_Click">
                         <Fluent:Button.LargeIcon>
-                            <Frame Source="View/Icons/NewFile_16x.xaml" />
+                            <Frame Source="View/Icons/AddMemberFormula_16x.xaml" />
                         </Fluent:Button.LargeIcon>
                     </Fluent:Button>
-                    <Fluent:Button Header="Add Linked">
+                    <Fluent:Button Header="Add Linked" Click="AddLinked_Click">
                         <Fluent:Button.LargeIcon>
-                            <Frame Source="View/Icons/NewFile_16x.xaml" />
+                            <Frame Source="View/Icons/AddLink_16x.xaml" />
                         </Fluent:Button.LargeIcon>
                     </Fluent:Button>
-                    <Fluent:Button Header="Delete">
+                    <Fluent:Button Header="Delete" Click="DeleteXForm_Click">
                         <Fluent:Button.LargeIcon>
-                            <Frame Source="View/Icons/NewFile_16x.xaml" />
+                            <Frame Source="View/Icons/SubtractMemberFormula_16x.xaml" />
                         </Fluent:Button.LargeIcon>
                     </Fluent:Button>
                 </Fluent:RibbonGroupBox>
@@ -352,16 +490,63 @@
             </Fluent:RibbonTabItem>
             <!--Social-->
             <Fluent:RibbonTabItem Header="Social" HorizontalAlignment="Right">
-                <!--Softwares-->
-                <Fluent:RibbonGroupBox Header="Softwares">
-                    <Fluent:InRibbonGallery></Fluent:InRibbonGallery>
-                </Fluent:RibbonGroupBox>
-                <!--Configure-->
-                <Fluent:RibbonGroupBox Header="Configure">
-                    <Fluent:Button Header="Paths">
-                        <Fluent:Button.Icon>
+                <!--Sharing-->
+                <Fluent:RibbonGroupBox Header="Sharing">
+                    <Fluent:Button Header="Copy" Click="CopyClipboard_Click">
+                        <Fluent:Button.LargeIcon>
+                            <Frame Source="View/Icons/CopyToClipboard_16x.xaml" />
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
+                    <Fluent:Button Header="Copy Image" Click="CopyImageToClipboard">
+                        <Fluent:Button.LargeIcon>
+                            <Frame Source="View/Icons/RectangularScreenshot_16x.xaml" />
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
+                    <Fluent:Button Header="Pastebin">
+                        <Fluent:Button.LargeIcon>
                             <Frame Source="View/Icons/NewFile_16x.xaml" />
-                        </Fluent:Button.Icon>
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
+                </Fluent:RibbonGroupBox>
+                <!--Community-->
+                <Fluent:RibbonGroupBox Header="Community">
+                    <Fluent:Button Header="FractalForums">
+                        <Fluent:Button.LargeIcon>
+                            <Frame Source="View/Icons/NewFile_16x.xaml" />
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
+                    <Fluent:DropDownButton Header="Facebook">
+                        <Fluent:DropDownButton.LargeIcon>
+                            <Frame Source="View/Icons/NewFile_16x.xaml" />
+                        </Fluent:DropDownButton.LargeIcon>
+                    </Fluent:DropDownButton>
+                    <Fluent:DropDownButton Header="DeviantArt">
+                        <Fluent:DropDownButton.LargeIcon>
+                            <Frame Source="View/Icons/NewFile_16x.xaml" />
+                        </Fluent:DropDownButton.LargeIcon>
+                    </Fluent:DropDownButton>
+                    <Fluent:DropDownButton Header="Discord">
+                        <Fluent:DropDownButton.LargeIcon>
+                            <Frame Source="View/Icons/NewFile_16x.xaml" />
+                        </Fluent:DropDownButton.LargeIcon>
+                    </Fluent:DropDownButton>
+                </Fluent:RibbonGroupBox>
+                <!--Support-->
+                <Fluent:RibbonGroupBox Header="Support">
+                    <Fluent:DropDownButton Header="Website">
+                        <Fluent:DropDownButton.LargeIcon>
+                            <Frame Source="View/Icons/NewFile_16x.xaml" />
+                        </Fluent:DropDownButton.LargeIcon>
+                    </Fluent:DropDownButton>
+                    <Fluent:Button Header="Feedback, Bugreport">
+                        <Fluent:Button.LargeIcon>
+                            <Frame Source="View/Icons/NewFile_16x.xaml" />
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
+                    <Fluent:Button Header="Tutorials">
+                        <Fluent:Button.LargeIcon>
+                            <Frame Source="View/Icons/NewFile_16x.xaml" />
+                        </Fluent:Button.LargeIcon>
                     </Fluent:Button>
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
