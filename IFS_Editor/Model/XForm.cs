@@ -22,6 +22,28 @@ namespace IFS_Editor.Model
         public List<Variation> Variations = new List<Variation>();
         public List<Variable> Variables = new List<Variable>();
 
+        public XForm()
+        {
+
+        }
+
+        public XForm(XForm a)
+        {
+            name = a.name;
+            color = a.color;
+            opacity = a.opacity;
+            baseWeight = a.baseWeight;
+            symmetry = a.symmetry;
+            var_color = a.var_color;
+            PreCoefs = new List<double>(a.PreCoefs);
+            PostCoefs = new List<double>(a.PostCoefs);
+
+            Conns = new List<Conn>(a.Conns);
+
+            Variations = new List<Variation>(a.Variations);
+            Variables = new List<Variable>(a.Variables);
+        }
+
         public void SetConn(Conn cn)
         {
             foreach (Conn ci in Conns)
@@ -40,7 +62,7 @@ namespace IFS_Editor.Model
                 Conns.Add(cn);
         }
 
-        internal void ClearConns()
+        public void ClearConns()
         {
             Conns.Clear();
         }

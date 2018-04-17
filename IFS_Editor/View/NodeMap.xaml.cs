@@ -364,6 +364,16 @@ namespace IFS_Editor.View
             //Cursor = Cursors.Default;
         }
 
+        public Node DuplicateXForm()
+        {
+            XFVM newxf = Flame.DuplicateXForm(Flame.Selection);
+            Node node = new Node(newxf, this);
+            Children.Add(node);
+            Flame.Selection = newxf;
+            updateConnections();
+            return node;
+        }
+
         /// <summary>
         /// képet készít a Contentjéből
         /// </summary>

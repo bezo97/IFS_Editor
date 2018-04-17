@@ -31,8 +31,6 @@ namespace IFS_Editor
             InitializeComponent();
 
             StatusString.DataContext = StatusMessageVM.Instance;
-
-            //flamebrowser_main.AddFlame(new FLVM(), true);
         }
 
         private void ShowRenderSettingsWindow(object sender, RoutedEventArgs e)
@@ -297,6 +295,11 @@ namespace IFS_Editor
             nodemap_main.AddLinkedXForm();
         }
 
+        private void Duplicate_Click(object sender, RoutedEventArgs e)
+        {
+            nodemap_main.DuplicateXForm();
+        }
+
         public bool WeightedRs
         {//toggle toolbar gomb kezeli
             get { return XFVM.EnableWeightedSize; }
@@ -393,6 +396,12 @@ namespace IFS_Editor
             ThemeManager.ChangeAppStyle(this, ThemeManager.GetAccent("Blue"), ThemeManager.GetAppTheme("BaseLight"));
 
             //ribbonon kivüli dolgok
+        }
+
+        private void Edit_tab_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if(Edit_Contextual.Visibility==Visibility.Visible)
+                Edit_tab.IsSelected = true;
         }
     }
 }

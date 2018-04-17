@@ -445,7 +445,7 @@
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
             <!--Contextual Tabs-->
-            <Fluent:RibbonTabItem Header="Edit" Group="{Binding Source={x:Reference Edit_tab}}">
+            <Fluent:RibbonTabItem Header="Edit" Group="{Binding Source={x:Reference Edit_Contextual}}" x:Name="Edit_tab">
                 <!--XForms-->
                 <Fluent:RibbonGroupBox Header="XForms">
                     <Fluent:Button Header="Add" Click="AddXForm_Click">
@@ -454,6 +454,11 @@
                         </Fluent:Button.LargeIcon>
                     </Fluent:Button>
                     <Fluent:Button Header="Add Linked" Click="AddLinked_Click">
+                        <Fluent:Button.LargeIcon>
+                            <Frame Source="View/Icons/AddLink_16x.xaml" />
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
+                    <Fluent:Button Header="Duplicate" Click="Duplicate_Click">
                         <Fluent:Button.LargeIcon>
                             <Frame Source="View/Icons/AddLink_16x.xaml" />
                         </Fluent:Button.LargeIcon>
@@ -553,11 +558,14 @@
 
             <!--Contextual Tab Groups-->
             <Fluent:Ribbon.ContextualGroups>
-                <Fluent:RibbonContextualTabGroup x:Name="Edit_tab"
+                <Fluent:RibbonContextualTabGroup x:Name="Edit_Contextual"
+                                     DataContext="{Binding Path=DataContext, ElementName=nodemap_main, Mode=OneWay}"
                                      Header="XForm" 
-                                     Visibility="Visible"
+                                     Visibility="{Binding HasSelection}"
+                                     IsVisibleChanged="Edit_tab_IsVisibleChanged"
                                      Background="Orange" 
-                                     BorderBrush="LightBlue" >
+                                     BorderBrush="LightBlue"
+                                     >
                 </Fluent:RibbonContextualTabGroup>
             </Fluent:Ribbon.ContextualGroups>
 

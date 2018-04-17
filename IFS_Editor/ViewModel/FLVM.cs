@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace IFS_Editor.ViewModel
 {
@@ -32,14 +33,14 @@ namespace IFS_Editor.ViewModel
             }
         }
 
-        public bool HasSelection
+        public Visibility HasSelection
         {
             get
             {
                 if (Selection == null)
-                    return false;
+                    return Visibility.Collapsed;
                 else
-                    return true;
+                    return Visibility.Visible;
             }
         }
 
@@ -136,5 +137,13 @@ namespace IFS_Editor.ViewModel
         public RenderSettings Render { get => flame.renderSettings; set { flame.renderSettings = value; RaisePropertyChanged("Render"); Saved = false; } }
         public CameraSettings Camera { get => flame.cameraSettings; set { flame.cameraSettings = value; RaisePropertyChanged("Camera"); Saved = false; } }
         public ImagingSettings Imaging { get => flame.imagingSettings; set { flame.imagingSettings = value; RaisePropertyChanged("Imaging"); Saved = false; } }
+
+        internal XFVM DuplicateXForm(XFVM d)
+        {
+            XFVM newxf = new XFVM(flame.DuplicateXForm(d.GetXF()), this);//modelhez hozzaad
+            xfs.Add(newxf);//viewmodelhez hozzaad
+            Saved = false;
+            return newxf;
+        }
     }
 }
