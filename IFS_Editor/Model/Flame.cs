@@ -54,7 +54,7 @@ namespace IFS_Editor.Model
 
         public XForm AddXForm(bool osszekot)
         {
-            XForm ujxf = new XForm();
+            XForm ujxf = new XForm(true);
             XForms.Add(ujxf);
             if (osszekot)
                 foreach (XForm f in XForms)

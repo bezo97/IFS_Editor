@@ -64,7 +64,7 @@ namespace IFS_Editor.Serialization
 
         public static XForm DeserXForm(XmlReader r)
         {
-            XForm xf = new XForm
+            XForm xf = new XForm(false)
             {
                 name = r["name"] ?? "",//kesobb replace variation nevekkel
                 color = double.Parse(r["color"] ?? "0"),

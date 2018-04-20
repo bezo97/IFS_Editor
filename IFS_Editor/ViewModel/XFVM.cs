@@ -2,6 +2,7 @@
 using IFS_Editor.Model;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -109,17 +110,37 @@ namespace IFS_Editor.ViewModel
             }*/
         }
 
-        public double Opacity
+        public double XFOpacity
         {
-            get
-            {
-                return xf.opacity;
-            }
+            get => xf.opacity;
             set {
                 xf.opacity = value;
-                RaisePropertyChanged("Opacity");
+                RaisePropertyChanged("XFOpacity");
                 //node szin update
                 RaisePropertyChanged("OpacityColor");
+                AttachedFlame.Saved = false;
+            }
+        }
+
+        public double XFColor
+        {
+            get => xf.color;
+            set
+            {
+                xf.color = value;
+                RaisePropertyChanged("XFColor");
+                AttachedFlame.Saved = false;
+            }
+        }
+
+
+        public double XFColorSpeed
+        {
+            get => xf.symmetry;
+            set
+            {
+                xf.symmetry = value;
+                RaisePropertyChanged("XFColorSpeed");
                 AttachedFlame.Saved = false;
             }
         }
@@ -140,6 +161,32 @@ namespace IFS_Editor.ViewModel
                 AttachedFlame.Saved = false;
             }
         }
+
+        public ObservableCollection<Double> PreAffines
+        {
+            get => new ObservableCollection<Double>(xf.PreCoefs);//ez valid?
+            set { xf.PreCoefs = value.ToList(); RaisePropertyChanged("PreAffines"); AttachedFlame.Saved = false; }
+        }
+        public ObservableCollection<Double> PostAffines
+        {
+            get => new ObservableCollection<Double>(xf.PostCoefs);//ez valid?
+            set { xf.PostCoefs = value.ToList(); RaisePropertyChanged("PostAffines"); AttachedFlame.Saved = false; }
+        }
+        public void RandomizeAffines()
+        {//TODO: ehelyett lehetne egy affine editor ablak, új projekt keretében
+            Random r = new Random();
+            /*xf.PreCoefs.ForEach(e => e += r.NextDouble()-0.5);
+            xf.PostCoefs.ForEach(e => e += r.NextDouble()-0.5);*/ //TODO: ez miért nem jó
+            for (int i = 0; i < 6; i++)
+            {
+                xf.PreCoefs[i] = (r.NextDouble() - 0.5)*3;
+                xf.PostCoefs[i] = (r.NextDouble() - 0.5)*3;
+            }
+            RaisePropertyChanged("PreAffines");
+            RaisePropertyChanged("PostAffines");
+            AttachedFlame.Saved = false;
+        }
+
 
         public bool IsSelected { get => isselected; set { isselected = value; RaisePropertyChanged("IsSelected"); } }
 

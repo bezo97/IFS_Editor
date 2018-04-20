@@ -304,7 +304,7 @@ namespace IFS_Editor
         {//toggle toolbar gomb kezeli
             get { return XFVM.EnableWeightedSize; }
             set
-            { XFVM.EnableWeightedSize = value; }
+            { XFVM.EnableWeightedSize = value; nodemap_main.updateConnections(); }
         }
 
         private void SetNodeSize(object sender, RoutedEventArgs e)
@@ -402,6 +402,11 @@ namespace IFS_Editor
         {
             if(Edit_Contextual.Visibility==Visibility.Visible)
                 Edit_tab.IsSelected = true;
+        }
+
+        private void Randomize(object sender, RoutedEventArgs e)
+        {
+            nodemap_main.Flame.Selection.RandomizeAffines();
         }
     }
 }

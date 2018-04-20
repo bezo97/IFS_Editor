@@ -122,7 +122,7 @@ namespace IFS_Editor.View
                     Sidebar.Close(false);
                 updateConnections();
             }
-            if (e.PropertyName == "WeightedSize" || e.PropertyName == "BaseSize")
+            if (e.PropertyName == "Saved")
                 updateConnections();
         }
 
@@ -163,7 +163,7 @@ namespace IFS_Editor.View
             xf.Name = "linked";
             Children.Add(node);
             //linkeles
-            Flame.Selection.Opacity = 0.0;
+            Flame.Selection.XFOpacity = 0.0;
             foreach (ConnVM c in Flame.Selection.GetConns())
             {
                 xf.SetConn(c);

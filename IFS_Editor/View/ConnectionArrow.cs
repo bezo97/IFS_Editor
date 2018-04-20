@@ -66,6 +66,8 @@ namespace IFS_Editor.View
                 foreach (ConnVM c in e1.GetXF().GetConns())
                 {
                     Node Toa = e1.Map.GetNodeFromXF(c.ConnTo);
+                    if (Toa == null)
+                        continue;//tmp fix, ezt debugolni
                     if (e1.GetXF() != c.ConnTo)
                     {
                         dirx += Toa.PosX - e1.PosX;

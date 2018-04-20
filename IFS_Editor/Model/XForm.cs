@@ -22,9 +22,10 @@ namespace IFS_Editor.Model
         public List<Variation> Variations = new List<Variation>();
         public List<Variable> Variables = new List<Variable>();
 
-        public XForm()
+        public XForm(bool addLinear)
         {
-
+            if(addLinear)
+                Variations.Add(new Variation("linear", 1.0));//default
         }
 
         public XForm(XForm a)
@@ -35,8 +36,8 @@ namespace IFS_Editor.Model
             baseWeight = a.baseWeight;
             symmetry = a.symmetry;
             var_color = a.var_color;
-            PreCoefs = new List<double>(a.PreCoefs);
-            PostCoefs = new List<double>(a.PostCoefs);
+            PreCoefs = new List<Double>(a.PreCoefs);
+            PostCoefs = new List<Double>(a.PostCoefs);
 
             Conns = new List<Conn>(a.Conns);
 

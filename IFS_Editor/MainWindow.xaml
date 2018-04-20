@@ -232,12 +232,23 @@
                             <Frame Source="View/Icons/AddMemberFormula_16x.xaml" />
                         </Fluent:Button.LargeIcon>
                     </Fluent:Button>
+                    <Fluent:ToggleButton Header="Final XForm">
+                        <Fluent:ToggleButton.LargeIcon>
+                            <Frame Source="View/Icons/AddMemberFormula_16x.xaml" />
+                        </Fluent:ToggleButton.LargeIcon>
+                    </Fluent:ToggleButton>
                     <Fluent:Button Header="Render Settings" Click="ShowRenderSettingsWindow" SizeDefinition="Middle">
                         <Fluent:Button.LargeIcon>
                             <Frame Source="View/Icons/LibrarySetting_16x.xaml" />
                         </Fluent:Button.LargeIcon>
                     </Fluent:Button>
                     <Fluent:Button Header="Imaging Settings" Click="ShowImagingSettingsWindow" SizeDefinition="Middle">
+                        <Fluent:Button.LargeIcon>
+                            <Frame Source="View/Icons/ColorPalette_16x.xaml" />
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
+                    <!--TODO: Randomization-->
+                    <Fluent:Button Header="Randomize" SizeDefinition="Middle">
                         <Fluent:Button.LargeIcon>
                             <Frame Source="View/Icons/ColorPalette_16x.xaml" />
                         </Fluent:Button.LargeIcon>
@@ -445,7 +456,9 @@
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
             <!--Contextual Tabs-->
-            <Fluent:RibbonTabItem Header="Edit" Group="{Binding Source={x:Reference Edit_Contextual}}" x:Name="Edit_tab">
+            <Fluent:RibbonTabItem Header="Edit" 
+                                  Group="{Binding Source={x:Reference Edit_Contextual}}" x:Name="Edit_tab"
+                                  DataContext="{Binding Path=DataContext.Selection, ElementName=nodemap_main, Mode=TwoWay}">
                 <!--XForms-->
                 <Fluent:RibbonGroupBox Header="XForms">
                     <Fluent:Button Header="Add" Click="AddXForm_Click">
@@ -491,6 +504,21 @@
                             <Frame Source="View/Icons/NewFile_16x.xaml" />
                         </Fluent:Button.LargeIcon>
                     </Fluent:Button>
+                </Fluent:RibbonGroupBox>
+                <!--Properties-->
+                <Fluent:RibbonGroupBox Header="Properties">
+                    <!--<Fluent:TwoLineLabel>Name:</Fluent:TwoLineLabel>
+                    <View:EditableLabel EditableText="{Binding Name}"/>-->
+                    <Fluent:TextBox Header="Name" Text="{Binding Name}"/>
+                    <Fluent:Spinner Minimum="0.0" Maximum="1.0" Value="{Binding XFColor}" Increment="0.001" Header="Color" Format="F3"/>
+                    <Fluent:Spinner Minimum="-1.0" Maximum="1.0" Value="{Binding XFColorSpeed}" Increment="0.001" Header="Color speed" Format="F3"/>
+                    <Fluent:Spinner Minimum="0.0" Maximum="1.0" Value="{Binding XFOpacity}" Increment="0.001" Header="Opacity" Format="F3"/>
+                    <Fluent:Spinner Minimum="0.0" Value="{Binding BaseWeight}" Increment="0.001" Header="Weight" Format="F3"/>
+                </Fluent:RibbonGroupBox>
+                <!--Affines-->
+                <Fluent:RibbonGroupBox Header="Affines">
+                    <Fluent:Button SizeDefinition="Medium" Click="Randomize">(Randomize) Pre-affine</Fluent:Button>
+                    <Fluent:Button SizeDefinition="Medium" Click="Randomize">(Randomize) Post-affine</Fluent:Button>
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
             <!--Social-->
