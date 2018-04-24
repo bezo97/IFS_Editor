@@ -59,7 +59,7 @@ namespace IFS_Editor
 
         private void AddXForm_Click(object sender, RoutedEventArgs e)
         {
-            nodemap_main.AddXForm();
+            nodemap_main.AddXForm(-zoombox.Position.X/zoombox.Scale + nodemap_main.Width/ 2 / zoombox.Scale, -zoombox.Position.Y / zoombox.Scale + nodemap_main.Height/ 2 / zoombox.Scale);
         }
 
         private void OpenFile_Click(object sender, RoutedEventArgs e)
@@ -326,6 +326,7 @@ namespace IFS_Editor
                     XFVM.BaseSize = 200;
                     break;
             }
+            nodemap_main.updateConnections();
         }
 
         Process procApo;
@@ -408,5 +409,31 @@ namespace IFS_Editor
         {
             nodemap_main.Flame.Selection.RandomizeAffines();
         }
+
+        private void OpenPastebin(object sender, RoutedEventArgs e)
+        {
+            Process.Start("https://www.pastebin.com");
+        }
+
+        private void OpenFF(object sender, RoutedEventArgs e)
+        {
+            Process.Start("https://www.fractalforums.org");
+        }
+
+        private void OpenGallery(object sender, RoutedEventArgs e)
+        {
+            Process.Start("https://www.deviantart.com/digitalart/fractals/");
+        }
+
+        private void OpenDaTuts(object sender, RoutedEventArgs e)
+        {
+            Process.Start("https://fractal-resources.deviantart.com/gallery/");
+        }
+
+        private void OpenDiscord(object sender, RoutedEventArgs e)
+        {
+            Process.Start("https://discordapp.com/invite/zEbYqtp");
+        }
+
     }
 }

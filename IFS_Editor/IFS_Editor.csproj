@@ -120,6 +120,10 @@
     <Compile Include="View\RenderSettingsWindow.xaml.cs">
       <DependentUpon>RenderSettingsWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\VariationListboxItem.xaml.cs">
+      <DependentUpon>VariationListboxItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\VariationVM.cs" />
     <Compile Include="View\XFormSideBar.xaml.cs">
       <DependentUpon>XFormSideBar.xaml</DependentUpon>
     </Compile>
@@ -248,6 +252,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\RenderSettingsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\VariationListboxItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -569,6 +577,9 @@
     <Content Include="GraphViz\neato.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="View\Icons\discord.png" />
+    <Resource Include="View\Icons\da.png" />
+    <Resource Include="View\Icons\pastebin.png" />
     <Resource Include="GraphViz\New Text Document.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>

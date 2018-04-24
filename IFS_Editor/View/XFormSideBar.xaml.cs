@@ -21,7 +21,19 @@ namespace IFS_Editor.View
     /// </summary>
     public partial class XFormSideBar : Grid
     {
-        private XFVM xf;
+
+
+        public XFVM xf
+        {
+            get { return (XFVM)GetValue(xfProperty); }
+            set { SetValue(xfProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for xf.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty xfProperty =
+            DependencyProperty.Register("xf", typeof(XFVM), typeof(XFormSideBar), new PropertyMetadata(null));
+
+
 
         public NodeMap Map
         {
@@ -33,12 +45,10 @@ namespace IFS_Editor.View
         public static readonly DependencyProperty MapProperty =
             DependencyProperty.Register("Map", typeof(NodeMap), typeof(XFormSideBar), new PropertyMetadata(null));
 
-
-
         public XFormSideBar()
         {
             InitializeComponent();
-            xf = null;
+            xf = (XFVM)DataContext;
             Visibility = Visibility.Collapsed;
         }
 

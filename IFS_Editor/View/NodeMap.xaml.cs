@@ -83,7 +83,7 @@ namespace IFS_Editor.View
                 DataContext = Flame;
                 foreach (XFVM xf in Flame.GetXForms())
                 {//osszes ViewModelhez View-t rendelunk
-                    Node node = new Node(xf, this);
+                    Node node = new Node(0,0,xf, this);
                     Children.Add(node);
                 }
                 GenerateLayout(Enums.RenderingEngine.Sfdp);//TODO: Prefs - melyik a default elrendezés algo
@@ -137,19 +137,19 @@ namespace IFS_Editor.View
             
         }
 
-        public Node AddXForm()
+        public Node AddXForm(double px, double py)
         {
             XFVM newxf = Flame.AddXForm(true);
-            Node node = new Node(newxf, this);
+            Node node = new Node(px, py, newxf, this);
             Children.Add(node);
             Flame.Selection = newxf;
             updateConnections();
             return node;
         }
 
-        public Node AddXForm(XFVM xf)
+        public Node AddXForm(double px, double py, XFVM xf)
         {
-            Node node = new Node(xf, this);
+            Node node = new Node(px,py,xf, this);
             Children.Add(node);
             Flame.Selection = xf;
             updateConnections();
@@ -159,7 +159,7 @@ namespace IFS_Editor.View
         public Node AddLinkedXForm()
         {
             XFVM xf = Flame.AddXForm(false);
-            Node node = new Node(xf, this);
+            Node node = new Node(GetNodeFromXF(Flame.Selection).PosX + XFVM.BaseSize*2, GetNodeFromXF(Flame.Selection).PosY, xf, this);
             xf.Name = "linked";
             Children.Add(node);
             //linkeles
@@ -367,7 +367,7 @@ namespace IFS_Editor.View
         public Node DuplicateXForm()
         {
             XFVM newxf = Flame.DuplicateXForm(Flame.Selection);
-            Node node = new Node(newxf, this);
+            Node node = new Node(GetNodeFromXF(Flame.Selection).PosX + XFVM.BaseSize * 2, GetNodeFromXF(Flame.Selection).PosY, newxf, this);
             Children.Add(node);
             Flame.Selection = newxf;
             updateConnections();

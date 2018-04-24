@@ -535,34 +535,21 @@
                             <Frame Source="View/Icons/RectangularScreenshot_16x.xaml" />
                         </Fluent:Button.LargeIcon>
                     </Fluent:Button>
-                    <Fluent:Button Header="Pastebin">
-                        <Fluent:Button.LargeIcon>
-                            <Frame Source="View/Icons/NewFile_16x.xaml" />
-                        </Fluent:Button.LargeIcon>
-                    </Fluent:Button>
+                    <Fluent:Button Header="Pastebin" Click="OpenPastebin" LargeIcon="View/Icons/pastebin.png"/>
                 </Fluent:RibbonGroupBox>
-                <!--Community-->
+                    <!--Community-->
                 <Fluent:RibbonGroupBox Header="Community">
-                    <Fluent:Button Header="FractalForums">
-                        <Fluent:Button.LargeIcon>
-                            <Frame Source="View/Icons/NewFile_16x.xaml" />
-                        </Fluent:Button.LargeIcon>
-                    </Fluent:Button>
+                    <Fluent:Button Header="FractalForums" Click="OpenFF"/>
                     <Fluent:DropDownButton Header="Facebook">
                         <Fluent:DropDownButton.LargeIcon>
                             <Frame Source="View/Icons/NewFile_16x.xaml" />
                         </Fluent:DropDownButton.LargeIcon>
                     </Fluent:DropDownButton>
-                    <Fluent:DropDownButton Header="DeviantArt">
-                        <Fluent:DropDownButton.LargeIcon>
-                            <Frame Source="View/Icons/NewFile_16x.xaml" />
-                        </Fluent:DropDownButton.LargeIcon>
+                    <Fluent:DropDownButton Header="DeviantArt" LargeIcon="View/Icons/da.png">
+                        <Fluent:Button Header="Fractal gallery" LargeIcon="View/Icons/da.png" Click="OpenGallery"/>
+                        <Fluent:Button Header="Fractal tutorials" LargeIcon="View/Icons/da.png" Click="OpenDaTuts"/>
                     </Fluent:DropDownButton>
-                    <Fluent:DropDownButton Header="Discord">
-                        <Fluent:DropDownButton.LargeIcon>
-                            <Frame Source="View/Icons/NewFile_16x.xaml" />
-                        </Fluent:DropDownButton.LargeIcon>
-                    </Fluent:DropDownButton>
+                    <Fluent:Button Header="Discord fractal chat" LargeIcon="View/Icons/discord.png" Click="OpenDiscord"/>
                 </Fluent:RibbonGroupBox>
                 <!--Support-->
                 <Fluent:RibbonGroupBox Header="Support">
@@ -713,16 +700,18 @@
         </StatusBar>
         <View:FlameBrowser x:Name="flamebrowser_main" Map="{Binding ElementName=nodemap_main}" DockPanel.Dock="Left"/>
         <Grid><!--ide nem kellenek cellak, mert az xform panel lebeg, ez csak a lastchildfill miatt kell-->
-            <xctk:Zoombox x:Name="zoombox" IsAnimated="True" KeepContentInBounds="False" DragModifiers="None" RelativeZoomModifiers="None" Background="#FF1D1D1D" ZoomOnPreview="False" Cursor="SizeAll">
+            <xctk:Zoombox x:Name="zoombox" IsAnimated="True" KeepContentInBounds="False" DragModifiers="None" RelativeZoomModifiers="None" Background="#FF1D1D1D" ZoomOnPreview="False" Cursor="SizeAll" Position="0,0" Scale="1">
                 <View:NodeMap 
                     DataContext="{Binding Path=DataContext.SelectedFlame, ElementName=flamebrowser_main, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    x:Name="nodemap_main" Width="{Binding ActualWidth, ElementName=zoombox, Mode=OneWay}" 
+                    x:Name="nodemap_main" 
+                    Width="{Binding ActualWidth, ElementName=zoombox, Mode=OneWay}" 
                     Height="{Binding ActualHeight, ElementName=zoombox, Mode=OneWay}" 
                     Background="#FF969696" 
                     Sidebar="{Binding ElementName=sidebar_main}"/>
                 <!--Flame="{Binding Path=DataContext.SelectedFlame, ElementName=flamebrowser_main, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"-->
             </xctk:Zoombox>
-            <View:XFormSideBar x:Name="sidebar_main" Map="{Binding ElementName=nodemap_main}"/>
+            <View:XFormSideBar x:Name="sidebar_main" Map="{Binding ElementName=nodemap_main}"
+                DataContext="{Binding Path=DataContext.SelectedFlame.Selection, ElementName=flamebrowser_main, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
     </DockPanel>
 </Fluent:RibbonWindow>

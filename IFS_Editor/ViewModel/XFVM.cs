@@ -187,6 +187,11 @@ namespace IFS_Editor.ViewModel
             AttachedFlame.Saved = false;
         }
 
+        public ObservableCollection<VariationVM> Variations
+        {
+            get => VariationVM.FromList(xf.Variations);//ez valid?
+            set { xf.Variations = VariationVM.ToList(value); RaisePropertyChanged("Variations"); AttachedFlame.Saved = false; }
+        }
 
         public bool IsSelected { get => isselected; set { isselected = value; RaisePropertyChanged("IsSelected"); } }
 

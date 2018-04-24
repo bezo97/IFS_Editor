@@ -51,7 +51,7 @@ namespace IFS_Editor.View
             }
         }
 
-        public Node(XFVM _xform, NodeMap parent)
+        public Node(double px, double py, XFVM _xform, NodeMap parent)
         {
             map = parent;
             xf = _xform;
@@ -61,8 +61,8 @@ namespace IFS_Editor.View
             InitializeComponent();
 
             Random r = new Random();
-            PosX = r.NextDouble() * 600;
-            PosY = r.NextDouble() * 600;
+            PosX = px;
+            PosY = py;
             //size: bindelve
 
         }

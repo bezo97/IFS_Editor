@@ -14,7 +14,7 @@
         <!--<Label>Flame Browser:</Label>-->
         <local:EditableLabel EditableText="{Binding FlameCollectionName, Mode=TwoWay}"/>
     </StackPanel>
-    <ListBox x:Name="FlameListBox" ScrollViewer.VerticalScrollBarVisibility="auto" SelectionMode="Single" MaxHeight="500"
+    <ListBox x:Name="FlameListBox" ScrollViewer.VerticalScrollBarVisibility="Visible" SelectionMode="Single" MaxHeight="500"
              ItemsSource="{Binding Flames}"
              SelectedItem="{Binding SelectedFlame, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
         <ListBox.ItemTemplate>
