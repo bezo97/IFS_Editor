@@ -435,5 +435,9 @@ namespace IFS_Editor
             Process.Start("https://discordapp.com/invite/zEbYqtp");
         }
 
+        private void FinalEdit(object sender, RoutedEventArgs e)
+        {
+            nodemap_main.Flame.Selection = nodemap_main.Flame.GetFinalXForm();
+        }
     }
 }

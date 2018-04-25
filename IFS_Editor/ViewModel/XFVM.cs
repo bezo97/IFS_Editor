@@ -97,7 +97,7 @@ namespace IFS_Editor.ViewModel
             return xf;
         }
 
-        public string Name { get => xf.name; set { xf.name = value; RaisePropertyChanged("Name"); AttachedFlame.Saved = false; } }
+        public string XFName { get => xf.name; set { xf.name = value; RaisePropertyChanged("XFName"); AttachedFlame.Saved = false; } }
         public Color OpacityColor {
             get {
                 byte o = (byte)(100 + xf.opacity*255*0.6);
@@ -188,10 +188,26 @@ namespace IFS_Editor.ViewModel
         }
 
         public ObservableCollection<VariationVM> Variations
-        {
-            get => VariationVM.FromList(xf.Variations);//ez valid?
-            set { xf.Variations = VariationVM.ToList(value); RaisePropertyChanged("Variations"); AttachedFlame.Saved = false; }
+        {//Lista View-nak OneWay
+            get => VariationVM.FromList(xf.Variations);
         }
+        public void AddVariation(/*VariationVM vvm*/)
+        {
+            xf.Variations.Add(new Variation("linear",1.0));
+            RaisePropertyChanged("Variations");
+            AttachedFlame.Saved = false;
+        }
+
+        public ObservableCollection<VariableVM> Variables
+        {//Lista View-nak OneWay
+            get => VariableVM.FromList(xf.Variables);
+        }
+        /*public void AddVariable()//VariableVM vvm)
+        {
+            xf.Variables.Add(new Variable("linear", 1.0));
+            RaisePropertyChanged("Variables");
+            AttachedFlame.Saved = false;
+        }*/
 
         public bool IsSelected { get => isselected; set { isselected = value; RaisePropertyChanged("IsSelected"); } }
 

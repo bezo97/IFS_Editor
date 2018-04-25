@@ -115,7 +115,8 @@ namespace IFS_Editor.View
             {
                 if (Flame.Selection != null)
                 {
-                    BringNodeToFront(GetNodeFromXF(Flame.Selection));
+                    if(Flame.Selection != Flame.GetFinalXForm())
+                        BringNodeToFront(GetNodeFromXF(Flame.Selection));
                     Sidebar.Show(Flame.Selection);
                 }
                 else
@@ -160,7 +161,7 @@ namespace IFS_Editor.View
         {
             XFVM xf = Flame.AddXForm(false);
             Node node = new Node(GetNodeFromXF(Flame.Selection).PosX + XFVM.BaseSize*2, GetNodeFromXF(Flame.Selection).PosY, xf, this);
-            xf.Name = "linked";
+            xf.XFName = "linked";
             Children.Add(node);
             //linkeles
             Flame.Selection.XFOpacity = 0.0;

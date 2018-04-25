@@ -14,7 +14,11 @@ namespace IFS_Editor.Model
         public RenderSettings renderSettings = new RenderSettings();
         public ImagingSettings imagingSettings = new ImagingSettings();
         List<XForm> xforms = new List<XForm>();
-        public XForm finalxf/* = new XForm()*/;
+
+        private XForm finalxf;
+        public XForm Finalxf { get { return finalxf ?? new XForm(true); } set => finalxf = value; }
+        public bool HasFinalxf() { return finalxf != null; }
+
         public string palette = @"
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF

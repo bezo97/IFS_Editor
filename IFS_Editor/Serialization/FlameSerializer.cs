@@ -89,7 +89,7 @@ namespace IFS_Editor.Serialization
                                     break;
                                 case "finalxform":
                                     XForm fxf = XFormSerializer.DeserXForm(r);
-                                    f.finalxf = fxf;
+                                    f.Finalxf = fxf;
                                     break;
                                 case "palette":
                                     f.palette = r.ReadElementContentAsString();
@@ -167,8 +167,8 @@ namespace IFS_Editor.Serialization
                 {
                     XFormSerializer.SerXForm(w, xf, xfs);
                 }
-                if(f.finalxf!=null)
-                    XFormSerializer.SerXForm(w, f.finalxf, null/* => final*/);
+                if(f.HasFinalxf())
+                    XFormSerializer.SerXForm(w, f.Finalxf, null/* => final*/);
                 w.WriteStartElement("palette");
                 w.WriteAttributeString("count", "256");
                 w.WriteAttributeString("format", "RGB");

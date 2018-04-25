@@ -130,6 +130,14 @@ namespace IFS_Editor.ViewModel
             return xfs;
         }
 
+        XFVM fxf;
+        public XFVM GetFinalXForm()
+        {
+            if(fxf==null)
+                fxf = new XFVM(flame.Finalxf, this);
+            return fxf;
+        }
+
         //public string EditableText { get => Name; set { Name = value; RaisePropertyChanged("EditableText"); } }
         public string FlameName {
             get => flame.name;

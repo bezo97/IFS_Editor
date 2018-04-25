@@ -70,5 +70,11 @@ namespace IFS_Editor.View
         {
             Close(true);
         }
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            xf.AddVariation();
+        }
+
     }
 }

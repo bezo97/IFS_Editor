@@ -16,7 +16,7 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <local:EditableLabel Grid.Column="0" EditableText="{Binding VariationName, Mode=TwoWay}"/>
-        <xctk:DoubleUpDown Grid.Column="1" Value="{Binding VariationValue, Mode=TwoWay}" Increment="0.001"/>
+        <local:EditableLabel Grid.Column="0" EditableText="{Binding VName, Mode=TwoWay}"/>
+        <xctk:DoubleUpDown Grid.Column="1" Value="{Binding VValue, Mode=TwoWay}" Increment="0.001"/>
     </Grid>
 </ListBoxItem>

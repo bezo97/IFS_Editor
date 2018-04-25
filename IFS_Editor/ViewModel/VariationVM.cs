@@ -17,8 +17,8 @@ namespace IFS_Editor.ViewModel
             v = v1;
         }
 
-        public string VariationName { get => v.Name; set { v.Name = value; RaisePropertyChanged("VariationName"); } }
-        public Double VariationValue { get => v.Value; set { v.Value = value; RaisePropertyChanged("VariationValue"); } }
+        public string VName { get => v.Name; set { v.Name = value; RaisePropertyChanged("VName"); } }
+        public Double VValue { get => v.Value; set { v.Value = value; RaisePropertyChanged("VValue"); } }
 
         public static ObservableCollection<VariationVM> FromList(List<Variation> vs)
         {
@@ -30,7 +30,7 @@ namespace IFS_Editor.ViewModel
             return vms;
         }
 
-        public static List<Variation> ToList(ObservableCollection<VariationVM> vms)
+        /*public static List<Variation> ToList(ObservableCollection<VariationVM> vms)
         {
             List<Variation> vs = new List<Variation>();
             foreach (VariationVM iv in vms)
@@ -38,6 +38,6 @@ namespace IFS_Editor.ViewModel
                 vs.Add(iv.v);
             }
             return vs;
-        }
+        }*/
     }
 }

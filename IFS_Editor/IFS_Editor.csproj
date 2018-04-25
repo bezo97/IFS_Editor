@@ -92,6 +92,7 @@
     <Compile Include="ViewModel\ImagingSettingsViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\StatusMessageVM.cs" />
+    <Compile Include="ViewModel\VariableVM.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="ViewModel\XFVM.cs" />
     <Compile Include="ViewModel\RenderSettingsViewModel.cs" />

@@ -8,7 +8,7 @@
              d:DesignHeight="300" d:DesignWidth="300" 
               Visibility="Visible"
               Background="White"
-              Width="auto" 
+              Width="auto"
               HorizontalAlignment="Right"
       >
     <Grid.ColumnDefinitions>
@@ -17,13 +17,32 @@
     <Grid.RowDefinitions>
         <RowDefinition Height="auto" />
         <RowDefinition Height="auto" />
+        <RowDefinition Height="auto" />
+        <RowDefinition Height="auto" />
+        <RowDefinition Height="auto" />
+        <RowDefinition Height="auto" />
     </Grid.RowDefinitions>
-    <Label Grid.Column="0" Grid.Row="0">Variations</Label>
+    <local:EditableLabel Grid.Column="0" Grid.Row="0" EditableText="{Binding XFName, Mode=TwoWay}"/>
     <Button x:Name="CloseButton" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5" Width="20" Height="20" Click="CloseButton_Click">
         <Frame Source="Icons/CloseSolution_16x.xaml"/>
     </Button>
-    <ListBox Grid.Column="0" Grid.Row="1" ScrollViewer.VerticalScrollBarVisibility="auto" SelectionMode="Single" MaxHeight="500"
+    <Label Grid.Column="0" Grid.Row="1">Variations</Label>
+    <ListBox Grid.Column="0" Grid.Row="2" ScrollViewer.VerticalScrollBarVisibility="auto" SelectionMode="Single" MaxHeight="400"
              ItemsSource="{Binding Variations}">
+        <ListBox.ItemTemplate>
+            <DataTemplate>
+                <local:VariationListboxItem DataContext="{Binding}"/>
+                <!--a lista adott elemehez bindel-->
+            </DataTemplate>
+        </ListBox.ItemTemplate>
+    </ListBox>
+    <Button Grid.Column="0" Grid.Row="3" Click="AddButton_Click" Margin="5" ToolTip="Add new variation to the xform." HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center">
+        <Frame Source="Icons/Add_grey_16x.xaml"/>
+    </Button>
+    
+    <Label Grid.Column="0" Grid.Row="4">Variables</Label>
+    <ListBox Grid.Column="0" Grid.Row="5" ScrollViewer.VerticalScrollBarVisibility="auto" SelectionMode="Single" MaxHeight="400"
+             ItemsSource="{Binding Variables}">
         <ListBox.ItemTemplate>
             <DataTemplate>
                 <local:VariationListboxItem DataContext="{Binding}"/>

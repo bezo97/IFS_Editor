@@ -232,11 +232,11 @@
                             <Frame Source="View/Icons/AddMemberFormula_16x.xaml" />
                         </Fluent:Button.LargeIcon>
                     </Fluent:Button>
-                    <Fluent:ToggleButton Header="Final XForm">
-                        <Fluent:ToggleButton.LargeIcon>
+                    <Fluent:Button Header="Final XForm" Click="FinalEdit">
+                        <Fluent:Button.LargeIcon>
                             <Frame Source="View/Icons/AddMemberFormula_16x.xaml" />
-                        </Fluent:ToggleButton.LargeIcon>
-                    </Fluent:ToggleButton>
+                        </Fluent:Button.LargeIcon>
+                    </Fluent:Button>
                     <Fluent:Button Header="Render Settings" Click="ShowRenderSettingsWindow" SizeDefinition="Middle">
                         <Fluent:Button.LargeIcon>
                             <Frame Source="View/Icons/LibrarySetting_16x.xaml" />
@@ -509,7 +509,7 @@
                 <Fluent:RibbonGroupBox Header="Properties">
                     <!--<Fluent:TwoLineLabel>Name:</Fluent:TwoLineLabel>
                     <View:EditableLabel EditableText="{Binding Name}"/>-->
-                    <Fluent:TextBox Header="Name" Text="{Binding Name}"/>
+                    <Fluent:TextBox Header="Name" Text="{Binding XFName, UpdateSourceTrigger=PropertyChanged}"/>
                     <Fluent:Spinner Minimum="0.0" Maximum="1.0" Value="{Binding XFColor}" Increment="0.001" Header="Color" Format="F3"/>
                     <Fluent:Spinner Minimum="-1.0" Maximum="1.0" Value="{Binding XFColorSpeed}" Increment="0.001" Header="Color speed" Format="F3"/>
                     <Fluent:Spinner Minimum="0.0" Maximum="1.0" Value="{Binding XFOpacity}" Increment="0.001" Header="Opacity" Format="F3"/>
